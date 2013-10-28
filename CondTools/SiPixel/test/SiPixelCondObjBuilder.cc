@@ -72,9 +72,12 @@ SiPixelCondObjBuilder::analyze(const edm::Event& iEvent, const edm::EventSetup& 
        // Get the module sizes.
        int nrows = topol.nrows();      // rows in x
        int ncols = topol.ncolumns();   // cols in y
+       int numROCX = topol.rocsX();
+       int numROCY = topol.rocsY();
+       int rowsPerROC=topol.rowsperroc();
        //std::cout << " ---> PIXEL DETID " << detid << " Cols " << ncols << " Rows " << nrows << std::endl;
 
-       PixelIndices pIndexConverter( ncols , nrows );
+       PixelIndices pIndexConverter( ncols , nrows , numROCX, numROCY );
 
        std::vector<char> theSiPixelGainCalibration;
 
@@ -118,7 +121,7 @@ SiPixelCondObjBuilder::analyze(const edm::Event& iEvent, const edm::EventSetup& 
 	   }
 
            //if in the second row of rocs (i.e. a 2xN plaquette) add an offset (if desired) for testing
-           if (j >= 80) 
+           if (j >= rowsPerROC) 
            {
               ped += secondRocRowPedOffset_;
               gain += secondRocRowGainOffset_;

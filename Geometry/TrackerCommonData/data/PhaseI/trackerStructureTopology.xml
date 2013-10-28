@@ -317,7 +317,7 @@ July 2009
 
   <SpecPar name="PixelROCRowsPar_L0">
       <PartSelector path="//PixelBarrelActiveFull0" />
-      <Parameter name="PixelROCRows" value="80"/>
+      <Parameter name="PixelROCRows" value="160"/>
   </SpecPar>
   <SpecPar name="PixelROCRowsPar_L1">
       <PartSelector path="//PixelBarrelActiveFull1" />
@@ -347,7 +347,7 @@ July 2009
 
   <SpecPar name="PixelROCColsPar_L0">
       <PartSelector path="//PixelBarrelActiveFull0" />
-      <Parameter name="PixelROCCols" value="52"/>
+      <Parameter name="PixelROCCols" value="104"/>
   </SpecPar>
   <SpecPar name="PixelROCColsPar_L1">
       <PartSelector path="//PixelBarrelActiveFull1" />

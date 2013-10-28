@@ -86,6 +86,9 @@ SiPixelCondObjForHLTBuilder::analyze(const edm::Event& iEvent, const edm::EventS
        // Get the module sizes.
        int nrows = topol.nrows();      // rows in x
        int ncols = topol.ncolumns();   // cols in y
+       int numROCX = topol.rocsX();
+       int numROCY = topol.rocsY();
+       int rowsPerROC=topol.rowsperroc();
        //std::cout << " ---> PIXEL DETID " << detid << " Cols " << ncols << " Rows " << nrows << std::endl;
        
        double meanPedWork = meanPed_;
@@ -100,7 +103,7 @@ SiPixelCondObjForHLTBuilder::analyze(const edm::Event& iEvent, const edm::EventS
 	 rmsGainWork = rmsGainFPix_;
        }
        
-       PixelIndices pIndexConverter( ncols , nrows );
+       PixelIndices pIndexConverter( ncols , nrows , numROCX, numROCY );
 
        std::vector<char> theSiPixelGainCalibration;
 
@@ -167,7 +170,7 @@ SiPixelCondObjForHLTBuilder::analyze(const edm::Event& iEvent, const edm::EventS
 // 	   ped  = 28.2;
 
            //if in the second row of rocs (i.e. a 2xN plaquette) add an offset (if desired) for testing
-           if (j >= 80) 
+           if (j >= rowsPerROC) 
            {
               ped += secondRocRowPedOffset_;
               gain += secondRocRowGainOffset_;
@@ -186,11 +189,11 @@ SiPixelCondObjForHLTBuilder::analyze(const edm::Event& iEvent, const edm::EventS
            totalPed     += ped;
            totalGain    += gain;
 
-           if ((j + 1) % 80 == 0)  
+           if ((j + 1) % rowsPerROC == 0)  
            {
 	      //std::cout << "Filling   Col "<<i<<" Row "<<j<<" Ped "<<totalPed<<" Gain "<<totalGain<<std::endl;
-              float averagePed       = totalPed/static_cast<float>(80);
-              float averageGain      = totalGain/static_cast<float>(80);
+              float averagePed       = totalPed/static_cast<float>(rowsPerROC);
+              float averageGain      = totalGain/static_cast<float>(rowsPerROC);
 	      
 	      if(generateColumns_){
 	        averagePed=ped;
@@ -200,9 +203,9 @@ SiPixelCondObjForHLTBuilder::analyze(const edm::Event& iEvent, const edm::EventS
 	      if(!isDead && !isNoisy)
                 SiPixelGainCalibration_->setData( averagePed , averageGain , theSiPixelGainCalibration);
               else if(isDead)
-                SiPixelGainCalibration_->setDeadColumn(  80, theSiPixelGainCalibration);
+                SiPixelGainCalibration_->setDeadColumn(  rowsPerROC, theSiPixelGainCalibration);
               else if(isNoisy)
-                SiPixelGainCalibration_->setNoisyColumn( 80, theSiPixelGainCalibration);
+                SiPixelGainCalibration_->setNoisyColumn( rowsPerROC, theSiPixelGainCalibration);
 	        
               totalPed = 0;
               totalGain = 0;
