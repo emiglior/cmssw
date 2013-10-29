@@ -24,7 +24,7 @@ namespace {  //--Hec: [Sep 09] (removed numbers from here and added privates var
   const int DColsPerROC = 26; 
   
   // Check the limits
-  const bool TP_CHECK_LIMITS = true;
+  const bool TP_CHECK_LIMITS = false;
 }
 
 class PixelIndices {
