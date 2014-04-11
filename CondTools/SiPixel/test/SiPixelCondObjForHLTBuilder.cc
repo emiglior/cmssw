@@ -122,9 +122,9 @@ SiPixelCondObjForHLTBuilder::analyze(const edm::Event& iEvent, const edm::EventS
 
 	     // Use calibration from a file
 	     int chipIndex=0, colROC=0, rowROC=0;
-	     
+	     std::cout << " PixelIndices called by SiPixelCondObjForHLTBuilder::analyze() #2" << std::endl;   	     
 	     pIndexConverter.transformToROC( i , j ,chipIndex,colROC,rowROC);
-	     std::cout << " PixelIndices called by SiPixelCondObjForHLTBuilder::analyze() #2" << std::endl;       
+	     std::cout << " PixelIndices called by SiPixelCondObjForHLTBuilder::analyze() #3" << std::endl;       
 	     int chanROC = PixelIndices::pixelToChannelROC(rowROC,colROC); // use ROC coordinates
 	     //	     float pp0=0, pp1=0;
 	     std::map<int,CalParameters,std::less<int> >::const_iterator it=calmap_.find(chanROC);

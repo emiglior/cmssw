@@ -1372,7 +1372,7 @@ void SiPhase2DigitizerAlgorithm::pixel_inefficiency(const PixelEfficiencies& eff
 
   // Initilize the index converter
   //PixelIndices indexConverter(numColumns,numRows);
-  std::cout << " PixelIndices called by SiPhase2DigitizerAlgorithm::pixel_inefficiency()" << std::endl;       
+  std::cout << " PixelIndices called by SiPhase2DigitizerAlgorithm::pixel_inefficiency() #1" << std::endl;       
   std::auto_ptr<PixelIndices> pIndexConverter(new PixelIndices(numColumns,numRows));
 
   int chipIndex = 0;
@@ -1390,6 +1390,7 @@ void SiPhase2DigitizerAlgorithm::pixel_inefficiency(const PixelEfficiencies& eff
     int row = ip.first;  // X in row
     int col = ip.second; // Y is in col
     //transform to ROC index coordinates
+    std::cout << " PixelIndices called by SiPhase2DigitizerAlgorithm::pixel_inefficiency() #2" << std::endl;       
     pIndexConverter->transformToROC(col,row,chipIndex,colROC,rowROC);
     int dColInChip = pIndexConverter->DColumn(colROC); // get ROC dcol from ROC col
     //dcol in mod
@@ -1422,6 +1423,7 @@ void SiPhase2DigitizerAlgorithm::pixel_inefficiency(const PixelEfficiencies& eff
     int row = ip.first;  // X in row
     int col = ip.second; // Y is in col
     //transform to ROC index coordinates
+    std::cout << " PixelIndices called by SiPhase2DigitizerAlgorithm::pixel_inefficiency() #3" << std::endl;       
     pIndexConverter->transformToROC(col,row,chipIndex,colROC,rowROC);
     int dColInChip = pIndexConverter->DColumn(colROC); //get ROC dcol from ROC col
     //dcol in mod
