@@ -102,6 +102,7 @@ SiPixelCondObjOfflineBuilder::analyze(const edm::Event& iEvent, const edm::Event
 	 rmsGainWork = rmsGainFPix_;
        }
        
+       std::cout << " PixelIndices called by SiPixelCondObjOfflineBuilder::analyze() #1" << std::endl;
        PixelIndices pIndexConverter( ncols , nrows , numROCX, numROCY);
 
        std::vector<char> theSiPixelGainCalibration;
@@ -121,6 +122,7 @@ SiPixelCondObjOfflineBuilder::analyze(const edm::Event& iEvent, const edm::Event
 	     int chipIndex=0, colROC=0, rowROC=0;
 	     
 	     pIndexConverter.transformToROC( i , j ,chipIndex,colROC,rowROC);
+	     std::cout << " PixelIndices called by SiPixelCondObjOfflineBuilder::analyze() #2" << std::endl;
 	     int chanROC = PixelIndices::pixelToChannelROC(rowROC,colROC); // use ROC coordinates
 	     //	     float pp0=0, pp1=0;
 	     std::map<int,CalParameters,std::less<int> >::const_iterator it=calmap_.find(chanROC);
@@ -321,6 +323,7 @@ bool SiPixelCondObjOfflineBuilder::loadFromFile() {
     onePix.p1=par1;
     
     // Convert ROC pixel index to channel 
+    std::cout << " PixelIndices called by SiPixelCondObjOfflineBuilder::loadFromFile()" << std::endl;
     int chan = PixelIndices::pixelToChannelROC(rowid,colid);
     calmap_.insert(std::pair<int,CalParameters>(chan,onePix));
   }

@@ -333,10 +333,12 @@ SiPhase2DigitizerAlgorithm::initCal() const {
       onePix.p3=par3;
 
       // Convert ROC pixel index to channel
+      std::cout << " PixelIndices called by SiPhase2DigitizerAlgorithm::initCal() #1" << std::endl;       
       int chan = PixelIndices::pixelToChannelROC(rowid,colid);
       calmap.insert(std::pair<int,CalParameters>(chan,onePix));
 
       // Testing the index conversion, can be skipped
+      std::cout << " PixelIndices called by SiPhase2DigitizerAlgorithm::initCal() #2" << std::endl;       
       std::pair<int,int> p = PixelIndices::channelToPixelROC(chan);
       if(rowid!=p.first) cout<<" wrong channel row "<<rowid<<" "<<p.first<<endl;
       if(colid!=p.second) cout<<" wrong channel col "<<colid<<" "<<p.second<<endl;
@@ -1370,6 +1372,7 @@ void SiPhase2DigitizerAlgorithm::pixel_inefficiency(const PixelEfficiencies& eff
 
   // Initilize the index converter
   //PixelIndices indexConverter(numColumns,numRows);
+  std::cout << " PixelIndices called by SiPhase2DigitizerAlgorithm::pixel_inefficiency()" << std::endl;       
   std::auto_ptr<PixelIndices> pIndexConverter(new PixelIndices(numColumns,numRows));
 
   int chipIndex = 0;
