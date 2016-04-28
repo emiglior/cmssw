@@ -89,10 +89,14 @@ def _modifyRecoMuonPPonlyForPhase2( object ):
     object.STATrajBuilderParameters.BWFilterParameters.EnableGEMMeasurement = cms.bool(True)
     object.STATrajBuilderParameters.FilterParameters.EnableME0Measurement = cms.bool(True)
     object.STATrajBuilderParameters.BWFilterParameters.EnableME0Measurement = cms.bool(True)
+    
+def _modifyMuonIDForPhase2( object ):
+    object.doME0 = cms.bool(True)
 
 from Configuration.StandardSequences.Eras import eras
 eras.phase2_muon.toModify( standAloneMuons, func=_modifyRecoMuonPPonlyForPhase2 )
 eras.phase2_muon.toModify( refittedStandAloneMuons, func=_modifyRecoMuonPPonlyForPhase2 )
+eras.phase2_muon.toModify( muons1stStep, func=_modifyMuonIDForPhase2 )
 
 def _modifyRecoMuonPPonlyForPhase2_addME0Muon( theProcess ):
     theProcess.load("RecoMuon.MuonIdentification.me0MuonReco_cff")
