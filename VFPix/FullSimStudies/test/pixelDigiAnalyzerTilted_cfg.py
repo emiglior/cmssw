@@ -48,7 +48,8 @@ process.TFileService = cms.Service ("TFileService",
 )
 
 process.pixelDigiAnalyzer = cms.EDAnalyzer ("PixelDigiAnalyzer",
-    pixelDigis  =  cms.InputTag  ("simSiPixelDigis",  "Pixel")
+    pixelDigis          =  cms.InputTag  ("simSiPixelDigis",  "Pixel"),
+    phase2TrackerDigis  =  cms.InputTag  ("mix",  "Tracker")
 )
 
 process.myPath = cms.Path (process.pixelDigiAnalyzer)

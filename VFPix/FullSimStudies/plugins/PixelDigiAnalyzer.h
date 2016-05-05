@@ -19,6 +19,7 @@
 using namespace std;
 
 class PixelDigi;
+class Phase2TrackerDigi;
 
 typedef TH1F* TH1Fptr;
 typedef TH2F* TH2Fptr;
@@ -37,16 +38,25 @@ class PixelDigiAnalyzer : public edm::EDAnalyzer
     edm::InputTag simSiPixelDigis_src_;
     edm::EDGetTokenT<edm::DetSetVector<PixelDigi> > pixelDigiToken_;
 
-    TFileDirectory BPIXdir_;
-    TFileDirectory FPIXnegdir_;
-    TFileDirectory FPIXposdir_;
+    edm::InputTag simPhase2TrackerDigis_src_;
+    edm::EDGetTokenT<edm::DetSetVector<Phase2TrackerDigi> > phase2TrackerDigiToken_;
+
+    TFileDirectory BPIXdir_;     // InnerPixel barrel
+    TFileDirectory OTPIXdir_;    // OutreTracker pixel (PS)
+    TFileDirectory FPIXnegdir_;  // InnerPixel forward z-
+    TFileDirectory FPIXposdir_;  // InnerPixel forward z+
 
     const int MAX_BPIX=4;
+    const int MAX_OTPIX=3;
     const int MAX_FPIX=10;
+
     TH2Fptr * h2_colrowHitMap_BPIX_;
+    TH2Fptr * h2_colrowHitMap_OTPIX_;
     TH2Fptr * h2_colrowHitMap_FPIXneg_;
     TH2Fptr * h2_colrowHitMap_FPIXpos_;
+
     TH1Fptr * h1_adc_BPIX_;
+    TH1Fptr * h1_adc_OTPIX_;
     TH1Fptr * h1_adc_FPIXneg_;
     TH1Fptr * h1_adc_FPIXpos_;
 
