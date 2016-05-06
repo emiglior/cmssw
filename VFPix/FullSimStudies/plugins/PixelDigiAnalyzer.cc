@@ -132,6 +132,7 @@ PixelDigiAnalyzer::analyze (const edm::Event &event, const edm::EventSetup &setu
   setup.get<TrackerTopologyRcd> ().get(theTrackerTopologyHandle);
   const TrackerTopology* const theTrackerTopology = theTrackerTopologyHandle.product();
 
+  //  TrackerTopology::side(), TrackerTopology::layer() methods explained in Geometry/TrackerNumberingBuilder/README.md
 
   // InnerPixel
   //-----------
@@ -147,15 +148,15 @@ PixelDigiAnalyzer::analyze (const edm::Event &event, const edm::EventSetup &setu
     for ( pixelDigi= DSViter->begin(); pixelDigi != DSViter->end(); pixelDigi++) {
       //       std::cout << pixelDigi->adc() << std::endl; // adc = 255 (always!)
       if ( theTracker.geomDetSubDetector(theDetUnitId.subdetId()) == GeomDetEnumerators::P1PXB ) {                    // old-style PixelSubdetector::PixelBarrel
-	int layer = theTrackerTopology->pxbLayer(theDetUnitId);
+	int layer = theTrackerTopology->layer(theDetUnitId);
 	h2_colrowHitMap_BPIX_[layer-1]->Fill(pixelDigi->column(),pixelDigi->row());
 	h1_adc_BPIX_[layer-1]->Fill(pixelDigi->adc());
       } else if ( theTracker.geomDetSubDetector(theDetUnitId.subdetId()) == GeomDetEnumerators::P2PXEC ) {             // old-style PixelSubdetector::PixelEndcap
-	int layer = theTrackerTopology->pxfDisk(theDetUnitId);
-	if ( theTrackerTopology->pxfSide(theDetUnitId) == 1 ) { 
+	int layer = theTrackerTopology->layer(theDetUnitId);
+	if ( theTrackerTopology->side(theDetUnitId) == 1 ) { 
 	  h2_colrowHitMap_FPIXneg_[layer-1]->Fill(pixelDigi->column(),pixelDigi->row());
 	  h1_adc_FPIXneg_[layer-1]->Fill(pixelDigi->adc());
-	} else if ( theTrackerTopology->pxfSide(theDetUnitId) == 2 ) { 
+	} else if ( theTrackerTopology->side(theDetUnitId) == 2 ) { 
 	  h2_colrowHitMap_FPIXpos_[layer-1]->Fill(pixelDigi->column(),pixelDigi->row());
 	  h1_adc_FPIXpos_[layer-1]->Fill(pixelDigi->adc());
 	}
@@ -177,7 +178,6 @@ PixelDigiAnalyzer::analyze (const edm::Event &event, const edm::EventSetup &setu
     for ( phase2TrackerDigi= DSViter2->begin(); phase2TrackerDigi != DSViter2->end(); phase2TrackerDigi++) {
       if ( theTracker.geomDetSubDetector(theDetUnitId.subdetId()) == GeomDetEnumerators::P2OTB ) { 
 	if ( theTracker.getDetectorType(theDetUnitId) == TrackerGeometry::ModuleType::Ph2PSP ) {
-	  //  layer() method explained in Geometry/TrackerNumberingBuilder/README.md
 	  int layer = theTrackerTopology->layer(theDetUnitId);
 	  h2_colrowHitMap_OTPIX_[layer-1]->Fill(phase2TrackerDigi->column(),phase2TrackerDigi->row());
 	  //	  h1_adc_OTPIX_[layer-1]->Fill(phase2TrackerDigi->adc());	
