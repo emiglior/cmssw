@@ -105,8 +105,9 @@ upgradeSteps=['GenSimFull','GenSimHLBeamSpotFull','DigiFull','DigiFulllocalreco'
 upgradeScenToRun={ '2017':['GenSimFull','DigiFull','RecoFull','HARVESTFull'],
                    #'2017':['GenSimFull'],
 		   '2017PU':['GenSimFull','DigiFullPU','RecoFullPU','HARVESTFullPU'],#full sequence
-		   '2023':['GenSimFull','DigiFull','RecoFull'],#full sequence
-		   '2023tilted':['GenSimFull','DigiFull','RecoFull'],#dev scenario
+                   '2023':['GenSimFull','DigiFull','RecoFull'],#full sequence
+                   '2023tilted':['GenSimFull','DigiFulllocalreco'],#dev scenario
+#		   '2023tilted':['GenSimFull','DigiFull','RecoFull'],#dev scenario
 		   '2023sim':['GenSimFull'],#sim scenario
 		   '2023LReco':['GenSimFull','DigiFulllocalreco'],#local reco scneario
 		   '2023Reco':['GenSimFull','DigiFull','RecoFull']#full reco scenario
