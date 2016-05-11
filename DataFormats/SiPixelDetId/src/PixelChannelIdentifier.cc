@@ -30,4 +30,4 @@
 */
 
 // Initialization of static data members - DEFINES DIGI PACKING !
-const PixelChannelIdentifier::Packing PixelChannelIdentifier::thePacking( 11, 11, 1, 9); // It was row=8, col=9, time=4, adc=11
+const PixelChannelIdentifier::Packing PixelChannelIdentifier::thePacking( 11, 11, 0, 10); // It was row=8, col=9, time=4, adc=11
