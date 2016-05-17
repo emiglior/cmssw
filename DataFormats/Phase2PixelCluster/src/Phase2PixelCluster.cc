@@ -15,7 +15,7 @@
 //---------------------------------------------------------------------------
 
 
-Phase2PixelCluster::Phase2PixelCluster( const Phase2PixelCluster::PixelPos& pix, int adc) :
+Phase2PixelCluster::Phase2PixelCluster( const Phase2PixelCluster::PixelPos& pix, uint32_t adc) :
   thePixelRow(pix.row()),
   thePixelCol(pix.col()),
     // ggiurgiu@fnal.gov, 01/05/12
@@ -32,14 +32,14 @@ Phase2PixelCluster::Phase2PixelCluster( const Phase2PixelCluster::PixelPos& pix,
   thePixelOffset.push_back(0 );
 }
 
-void Phase2PixelCluster::add( const Phase2PixelCluster::PixelPos& pix, int adc) {
+void Phase2PixelCluster::add( const Phase2PixelCluster::PixelPos& pix, uint32_t adc) {
   
-  int ominRow = minPixelRow();
-  int ominCol = minPixelCol();
+  uint32_t ominRow = minPixelRow();
+  uint32_t ominCol = minPixelCol();
   bool recalculate = false;
   
-  int minRow = ominRow;
-  int minCol = ominCol;
+  uint32_t minRow = ominRow;
+  uint32_t minCol = ominCol;
   
   if (pix.row() < minRow) {
     minRow = pix.row();
@@ -73,6 +73,6 @@ void Phase2PixelCluster::add( const Phase2PixelCluster::PixelPos& pix, int adc) 
     packCol(minCol,pix.col()-minCol);
   
   thePixelADC.push_back( adc );
-  thePixelOffset.push_back( std::min(int(MAXSPAN),pix.row() - minRow) );
-  thePixelOffset.push_back( std::min(int(MAXSPAN),pix.col() - minCol) );
+  thePixelOffset.push_back( std::min(MAXSPAN,pix.row() - minRow) );
+  thePixelOffset.push_back( std::min(MAXSPAN,pix.col() - minCol) );
 }

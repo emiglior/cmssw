@@ -36,9 +36,9 @@ public:
   class Pixel {
   public:
     constexpr Pixel() : x(0), y(0), adc(0){} // for root
-    constexpr Pixel(int pix_x, int pix_y, int pix_adc) :
+    constexpr Pixel(uint32_t pix_x, uint32_t pix_y, uint32_t pix_adc) :
       x(pix_x), y(pix_y), adc(pix_adc) {}
-    uint32_t  x;
+    uint32_t x;
     uint32_t y;
     uint32_t adc;
   };
@@ -60,14 +60,14 @@ public:
   public:
     constexpr PixelPos() : row_(0), col_(0) {}
     constexpr PixelPos(int row, int col) : row_(row) , col_(col) {}
-    constexpr int row() const { return row_;}
-    constexpr int col() const { return col_;}
+    constexpr uint32_t row() const { return row_;}
+    constexpr uint32_t col() const { return col_;}
     constexpr PixelPos operator+( const Shift& shift) const {
       return PixelPos( row() + shift.dx(), col() + shift.dy());
     }
   private:
-    int row_;
-    int col_;
+    uint32_t row_;
+    uint32_t col_;
   };
   
   typedef std::vector<PixelDigi>::const_iterator   PixelDigiIter;
@@ -112,8 +112,8 @@ public:
   
   
   // obsolete (only for regression tests)
-  Phase2PixelCluster( const PixelPos& pix, int adc);
-  void add( const PixelPos& pix, int adc);
+  Phase2PixelCluster( const PixelPos& pix, uint32_t adc);
+  void add( const PixelPos& pix, uint32_t adc);
   
   // Analog linear average position (barycenter) 
   float x() const {
@@ -150,10 +150,10 @@ public:
     return qm;
   } // Return total cluster charge.
   
-  inline int minPixelRow() const { return thePixelRow&MAXPOS;} // The min x index.
-  inline int maxPixelRow() const { verifyVersion(); return minPixelRow() + rowSpan();} // The max x index.
-  inline int minPixelCol() const { return thePixelCol&MAXPOS;} // The min y index.
-  inline int maxPixelCol() const { verifyVersion(); return minPixelCol() + colSpan();} // The max y index.
+  inline uint32_t minPixelRow() const { return thePixelRow&MAXPOS;} // The min x index.
+  inline uint32_t maxPixelRow() const { verifyVersion(); return minPixelRow() + rowSpan();} // The max x index.
+  inline uint32_t minPixelCol() const { return thePixelCol&MAXPOS;} // The min y index.
+  inline uint32_t maxPixelCol() const { verifyVersion(); return minPixelCol() + colSpan();} // The max y index.
   
   
   const std::vector<uint16_t> & pixelOffset() const { return thePixelOffset;}
@@ -226,9 +226,9 @@ public:
       if (ysize > maxCol) maxCol = ysize;
     }
     // assume minimum is correct
-    int minCol= minPixelCol();
+    uint32_t minCol= minPixelCol();
     packCol(minCol,maxCol);
-    int minRow= minPixelRow();
+    uint32_t minRow= minPixelRow();
     packRow(minRow,maxRow);
   }
   
