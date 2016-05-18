@@ -1,8 +1,8 @@
 import FWCore.ParameterSet.Config as cms
 
 phase2PixelRecHits = cms.EDProducer("Phase2PixelRecHitConverter",
-    src = cms.InputTag("Phase2PixelClusters"),
-    CPE = cms.string('PixelCPEGeneric'),
+    src = cms.InputTag("phase2PixelClusters"),
+    CPE = cms.string('Phase2PixelCPEGeneric'),
     VerboseLevel = cms.untracked.int32(0),
 
 )
