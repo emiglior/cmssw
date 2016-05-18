@@ -61,15 +61,6 @@ Phase2PixelCPEBase::Phase2PixelCPEBase(edm::ParameterSet const & conf,
   //-- Switch on/off E.B 
   alpha2Order = conf.getParameter<bool>("Alpha2Order");
   
-  //--- A flag that could be used to change the behavior of
-  //--- clusterProbability() in TSiPixelRecHit (the *transient* one).  
-  //--- The problem is that the transient hits are made after the CPE runs
-  //--- and they don't get the access to the PSet, so we pass it via the
-  //--- CPE itself...
-  //
-  clusterProbComputationFlag_ 
-    = (unsigned int) conf.getParameter<int>("ClusterProbComputationFlag");
-
   // This LA related parameters are only relevant for the Generic algo
   // They still have to be used in Base since the LA computation is in Base
 
