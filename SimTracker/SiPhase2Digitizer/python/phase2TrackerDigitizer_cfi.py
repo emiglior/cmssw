@@ -22,13 +22,13 @@ phase2TrackerDigitizer = cms.PSet(
     PixelDigitizerAlgorithm = cms.PSet(
       makeDigiSimLinks = cms.untracked.bool(True),
       ReadoutNoiseInElec = cms.double(350.0),
-      ThresholdInElectrons_Barrel = cms.double(2000.0),
-      ThresholdInElectrons_Endcap = cms.double(2000.0),
+      ThresholdInElectrons_Barrel = cms.double(1500.0),
+      ThresholdInElectrons_Endcap = cms.double(1500.0),
       AddThresholdSmearing = cms.bool(True),
       ThresholdSmearing_Barrel = cms.double(245.0),
       ThresholdSmearing_Endcap = cms.double(210.0),
       NoiseInElectrons = cms.double(175.0),
-      DigitalReadout           = cms.bool(True), # Flag to decide analog or digital readout 
+      DigitalReadout           = cms.bool(False), # Flag to decide analog or digital readout 
       TofUpperCut = cms.double(12.5),
       TofLowerCut = cms.double(-12.5),
       AddNoisyPixels = cms.bool(True),
@@ -50,11 +50,7 @@ phase2TrackerDigitizer = cms.PSet(
       EfficiencyFactors_Barrel = cms.vdouble(0.999, 0.999, 0.999, 0.999, 0.999, 0.999, 0.999, 0.999, 0.999, 0.999 ),
       EfficiencyFactors_Endcap = cms.vdouble(0.999, 0.999, 0.999, 0.999, 0.999, 0.999, 0.999, 0.999, 0.999, 0.999, 0.999, 0.999, 0.999, 0.999, 
       0.999, 0.999 ),#Efficiencies kept as Side2Disk1,Side1Disk1 and so on
-      CellsToKill = cms.VPSet(cms.PSet(row = cms.int32(39),col = cms.int32(26)), 
-			    cms.PSet(row = cms.int32(40),col = cms.int32(26)), 
-			    cms.PSet(row = cms.int32(80),col = cms.int32(26)), 
-			    cms.PSet(row = cms.int32(119),col = cms.int32(26)), 
-			    cms.PSet(row = cms.int32(120),col = cms.int32(26))) 
+      CellsToKill = cms.VPSet()
     ),
 #Pixel in PS Module
     PSPDigitizerAlgorithm = cms.PSet(
