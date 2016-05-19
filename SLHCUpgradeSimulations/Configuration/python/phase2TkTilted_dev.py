@@ -347,7 +347,7 @@ def customise_Reco(process,pileup):
 
 def customise_condOverRides(process):
     process.load('SLHCUpgradeSimulations.Geometry.fakeConditions_phase2TkTilted_cff')
-    siPixelFakeLorentzAngleESSource.file = cms.FileInPath('SLHCUpgradeSimulations/Geometry/data/PhaseII/Tilted/PixelSkimmedGeometry_GeometryExtended2023Tilted.txt'))
+    process.siPixelFakeLorentzAngleESSource.file = cms.FileInPath('SLHCUpgradeSimulations/Geometry/data/PhaseII/Tilted/PixelSkimmedGeometry_GeometryExtended2023Tilted.txt')
 
     return process
 
