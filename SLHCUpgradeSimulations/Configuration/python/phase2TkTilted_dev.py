@@ -252,12 +252,12 @@ def customise_Reco(process,pileup):
     # To be enabled later together with or after the jet core step is enabled
     # This snippet must be after the loading of recoFromSimDigis_cff    
     process.pixeltrackerlocalreco = cms.Sequence(
-        process.siPhase2Clusters +
-        process.phase2PixelClusters +
-        process.phase2PixelRecHits +
-        process.siPixelClusters +
-        process.siPixelRecHits
-    )
+        process.siPhase2Clusters 
+        + process.phase2PixelClusters 
+        + process.phase2PixelRecHits 
+        + process.siPixelClusters 
+        + process.siPixelRecHits
+        )
     process.clusterSummaryProducer.pixelClusters = "siPixelClusters"
     process.globalreco_tracking.replace(process.MeasurementTrackerEventPreSplitting, process.MeasurementTrackerEvent)
     process.globalreco_tracking.replace(process.siPixelClusterShapeCachePreSplitting, process.siPixelClusterShapeCache)
@@ -292,6 +292,7 @@ def customise_Reco(process,pileup):
     process.PixelCPEGenericESProducer.TruncatePixelCharge = cms.bool(False)
     process.PixelCPEGenericESProducer.IrradiationBiasCorrection = False
     process.PixelCPEGenericESProducer.DoCosmics = False
+    process.PixelCPEGenericESProducer.useLAWidthFromDB = cms.bool(False)
     # CPE for other steps
     process.siPixelRecHits.CPE = cms.string('PixelCPEGeneric')
 
@@ -346,6 +347,8 @@ def customise_Reco(process,pileup):
 
 def customise_condOverRides(process):
     process.load('SLHCUpgradeSimulations.Geometry.fakeConditions_phase2TkTilted_cff')
+    siPixelFakeLorentzAngleESSource.file = cms.FileInPath('SLHCUpgradeSimulations/Geometry/data/PhaseII/Tilted/PixelSkimmedGeometry_GeometryExtended2023Tilted.txt'))
+
     return process
 
 
