@@ -10,6 +10,8 @@
 #include "Geometry/TrackerGeometryBuilder/interface/RectangularPixelTopology.h"
 #include "Geometry/TrackerGeometryBuilder/interface/ProxyPixelTopology.h"
 
+#include "Geometry/TrackerNumberingBuilder/interface/GeometricDet.h"
+
 #include "RecoLocalTracker/Phase2PixelRecHits/interface/Phase2PixelCPEBase.h"
 
 #define CORRECT_FOR_BIG_PIXELS
@@ -41,7 +43,7 @@ Phase2PixelCPEBase::Phase2PixelCPEBase(edm::ParameterSet const & conf,
     useLAWidthFromConfig_(false), useLAWidthFromDB_(false), theFlag_(flag),
     magfield_(mag), geom_(geom), ttopo_(ttopo)  
 {
-   m_DetParams=DetParams(1440); //2016.05.17  EM "1440" should be taken from topology!
+   m_DetParams=DetParams(3316); //2016.05.17  EM "3316" (previously 1440) should be taken from somewhere
 #ifdef EDM_ML_DEBUG
   nRecHitsTotal_=0;
   nRecHitsUsedEdge_=0,
@@ -107,19 +109,16 @@ void Phase2PixelCPEBase::fillDetParams()
   //cout<<" in fillDetParams "<<theFlag_<<endl;
 
   auto const & dus = geom_.detUnits();
-  unsigned m_detectors = dus.size();
-  for(unsigned int i=1;i<7;++i) {
-    LogDebug("LookingForFirstStrip") << "Subdetector " << i 
-				     << " GeomDetEnumerator " << GeomDetEnumerators::tkDetEnum[i] 
-				     << " offset " << geom_.offsetDU(GeomDetEnumerators::tkDetEnum[i]) 
-				     << " is it strip? " << (geom_.offsetDU(GeomDetEnumerators::tkDetEnum[i]) != dus.size() ? 
-							     dus[geom_.offsetDU(GeomDetEnumerators::tkDetEnum[i])]->type().isTrackerStrip() : false);
-    if(geom_.offsetDU(GeomDetEnumerators::tkDetEnum[i]) != dus.size() && 
-       dus[geom_.offsetDU(GeomDetEnumerators::tkDetEnum[i])]->type().isTrackerStrip()) {
-      if(geom_.offsetDU(GeomDetEnumerators::tkDetEnum[i]) < m_detectors) m_detectors = geom_.offsetDU(GeomDetEnumerators::tkDetEnum[i]);
-    }
-  } 
-  LogDebug("LookingForFirstStrip") << " Chosen offset: " << m_detectors;
+  unsigned m_detectors = 0; 
+
+  // EM likely not very efficient
+  for (unsigned int i=0; i!=dus.size(); ++i) {
+    if ( dus[i]->subDetector() == GeomDetEnumerators::SubDetector::P1PXB || 
+	 dus[i]->subDetector() == GeomDetEnumerators::SubDetector::P2PXEC ) 
+      m_detectors++;
+  }
+
+  LogDebug("LookingForPixel") << " Chosen offset: " << m_detectors;
 
 
   m_DetParams.resize(m_detectors);

@@ -92,7 +92,7 @@ Phase2PixelCPEGeneric::localPosition(DetParam const & theDetParam, ClusterParam 
 
   ClusterParamGeneric & theClusterParam = static_cast<ClusterParamGeneric &>(theClusterParamBase);
 
-  std::cout<<" in Phase2PixelCPEGeneric:localPosition - "<< theDetParam.lorentzShiftInCmY << " " << theDetParam.widthLAFractionY << std::endl;
+  //  std::cout<<" in Phase2PixelCPEGeneric:localPosition - "<< theDetParam.lorentzShiftInCmY << " " << theDetParam.widthLAFractionY << std::endl;
 
   float chargeWidthX = (theDetParam.lorentzShiftInCmX * theDetParam.widthLAFractionX);
   float chargeWidthY = (theDetParam.lorentzShiftInCmY * theDetParam.widthLAFractionY);
@@ -201,7 +201,7 @@ Phase2PixelCPEGeneric::localPosition(DetParam const & theDetParam, ClusterParam 
     cout << "\t >>> Generic:: processing X" << endl;
 #endif
 
-  std::cout<<" generic_position_formula_X LWid/LShift "<< chargeWidthX/micronsToCm << " " << shiftX/micronsToCm <<std::endl;
+  //  std::cout<<" generic_position_formula_X LWid/LShift "<< chargeWidthX/micronsToCm << " " << shiftX/micronsToCm <<std::endl;
   float xPos = 
     generic_position_formula( theClusterParam.theCluster->sizeX(),
 			      Q_f_X, Q_l_X, 
@@ -225,7 +225,7 @@ Phase2PixelCPEGeneric::localPosition(DetParam const & theDetParam, ClusterParam 
     cout << "\t >>> Generic:: processing Y" << endl;
 #endif
 
-  std::cout<<" generic_position_formula_Y LWid/LShift "<< chargeWidthY/micronsToCm << " " << shiftY/micronsToCm <<std::endl;
+  //  std::cout<<" generic_position_formula_Y LWid/LShift "<< chargeWidthY/micronsToCm << " " << shiftY/micronsToCm <<std::endl;
   float yPos = 
     generic_position_formula( theClusterParam.theCluster->sizeY(),
 			      Q_f_Y, Q_l_Y, 
@@ -277,7 +277,7 @@ generic_position_formula( int size,                //!< Size of this projection.
 			 ) const
 {
 
-  std::cout<<" in Phase2PixelCPEGeneric:generic_position_formula - T/P/LS"<< theThickness << "/"<< pitch <<"/"<< lorentz_shift<<std::endl;
+  //  std::cout<<" in Phase2PixelCPEGeneric:generic_position_formula - T/P/LS"<< theThickness << "/"<< pitch <<"/"<< lorentz_shift<<std::endl;
 
   float geom_center = 0.5f * ( upper_edge_first_pix + lower_edge_last_pix );
 
