@@ -38,7 +38,7 @@
 //--- Geometry + DataFormats
 #include "Geometry/TrackerGeometryBuilder/interface/TrackerGeometry.h"
 #include "DataFormats/Phase2PixelCluster/interface/Phase2PixelCluster.h"
-#include "DataFormats/Phase2PixelRecHit/interface/Phase2PixelRecHitCollection.h"
+#include "DataFormats/TrackerRecHit2D/interface/Phase2PixelRecHitCollection.h"
 #include "DataFormats/Common/interface/DetSetVector.h"
 
 //--- Framework
