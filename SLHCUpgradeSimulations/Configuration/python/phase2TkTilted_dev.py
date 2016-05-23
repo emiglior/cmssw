@@ -29,6 +29,10 @@ def customise_Digi(process):
     process.digitisation_step.remove(process.mix.digitizers.pixel)
     process.load('SimTracker.SiPhase2Digitizer.phase2TrackerDigitizer_cfi')
     process.mix.digitizers.pixel=process.phase2TrackerDigitizer
+    process.mix.digitizers.pixel.PixelDigitizerAlgorithm.AddNoisyPixels = cms.bool(False) 
+    process.mix.digitizers.pixel.PixelDigitizerAlgorithm.AddThresholdSmearing = cms.bool(False)
+    process.mix.digitizers.pixel.PixelDigitizerAlgorithm.AddNoise = cms.bool(False)
+    process.mix.digitizers.pixel.PixelDigitizerAlgorithm.AddXTalk = cms.bool(False) 
     process.mix.digitizers.strip.ROUList = cms.vstring("g4SimHitsTrackerHitsPixelBarrelLowTof",
                          'g4SimHitsTrackerHitsPixelEndcapLowTof')
     #Check if mergedtruth is in the sequence first, could be taken out depending on cmsDriver options
