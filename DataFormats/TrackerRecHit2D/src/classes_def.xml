@@ -59,8 +59,8 @@
    <version ClassVersion="10" checksum="414205262"/>
   </class>
 
-  <class name="Phase2PixelRecHit" ClassVersion="10">
-    <version ClassVersion="10" checksum="1889843542"/>
+  <class name="Phase2ITPixelRecHit" ClassVersion="10">
+    <version ClassVersion="10" checksum="988491914"/>
   </class>
 
   <class name="std::vector<SiStripRecHit2D*>"/>
@@ -99,13 +99,13 @@
   <class name="edm::RangeMap<DetId, edm::OwnVector<SiPixelRecHit, edm::ClonePolicy<SiPixelRecHit> >, edm::ClonePolicy<SiPixelRecHit> >::id_iterator"/>
   <class name="edm::Wrapper<edm::RangeMap<DetId, edm::OwnVector<SiPixelRecHit, edm::ClonePolicy<SiPixelRecHit> >, edm::ClonePolicy<SiPixelRecHit> > >"/>
 
-  <class name="std::vector<Phase2PixelRecHit*>"/>
-  <class name="std::vector<Phase2PixelRecHit>"/>
-  <class name="edm::OwnVector<Phase2PixelRecHit,edm::ClonePolicy<Phase2PixelRecHit> >"/>
-  <class name="edm::OwnVector<Phase2PixelRecHit,edm::ClonePolicy<Phase2PixelRecHit> >::const_iterator"/>
-  <class name="edm::RangeMap<DetId, edm::OwnVector<Phase2PixelRecHit, edm::ClonePolicy<Phase2PixelRecHit> >, edm::ClonePolicy<Phase2PixelRecHit> >"/>
-  <class name="edm::RangeMap<DetId, edm::OwnVector<Phase2PixelRecHit, edm::ClonePolicy<Phase2PixelRecHit> >, edm::ClonePolicy<Phase2PixelRecHit> >::id_iterator"/>
-  <class name="edm::Wrapper<edm::RangeMap<DetId, edm::OwnVector<Phase2PixelRecHit, edm::ClonePolicy<Phase2PixelRecHit> >, edm::ClonePolicy<Phase2PixelRecHit> > >"/>
+  <class name="std::vector<Phase2ITPixelRecHit*>"/>
+  <class name="std::vector<Phase2ITPixelRecHit>"/>
+  <class name="edm::OwnVector<Phase2ITPixelRecHit,edm::ClonePolicy<Phase2ITPixelRecHit> >"/>
+  <class name="edm::OwnVector<Phase2ITPixelRecHit,edm::ClonePolicy<Phase2ITPixelRecHit> >::const_iterator"/>
+  <class name="edm::RangeMap<DetId, edm::OwnVector<Phase2ITPixelRecHit, edm::ClonePolicy<Phase2ITPixelRecHit> >, edm::ClonePolicy<Phase2ITPixelRecHit> >"/>
+  <class name="edm::RangeMap<DetId, edm::OwnVector<Phase2ITPixelRecHit, edm::ClonePolicy<Phase2ITPixelRecHit> >, edm::ClonePolicy<Phase2ITPixelRecHit> >::id_iterator"/>
+  <class name="edm::Wrapper<edm::RangeMap<DetId, edm::OwnVector<Phase2ITPixelRecHit, edm::ClonePolicy<Phase2ITPixelRecHit> >, edm::ClonePolicy<Phase2ITPixelRecHit> > >"/>
 
   <class name="edm::Ref<edm::RangeMap<DetId,edm::OwnVector<SiStripRecHit2D,edm::ClonePolicy<SiStripRecHit2D> >,edm::ClonePolicy<SiStripRecHit2D> >,SiStripRecHit2D,edm::refhelper::FindUsingAdvance<edm::RangeMap<DetId,edm::OwnVector<SiStripRecHit2D,edm::ClonePolicy<SiStripRecHit2D> >,edm::ClonePolicy<SiStripRecHit2D> >,SiStripRecHit2D> >"/>
   <class name="edm::Ref<edm::RangeMap<DetId,edm::OwnVector<SiStripRecHit1D,edm::ClonePolicy<SiStripRecHit1D> >,edm::ClonePolicy<SiStripRecHit1D> >,SiStripRecHit1D,edm::refhelper::FindUsingAdvance<edm::RangeMap<DetId,edm::OwnVector<SiStripRecHit1D,edm::ClonePolicy<SiStripRecHit1D> >,edm::ClonePolicy<SiStripRecHit1D> >,SiStripRecHit1D> >"/>
@@ -130,16 +130,16 @@
  <class name="edmNew::DetSetVector<SiPixelRecHit>"/>
  <class name="edm::Wrapper<edmNew::DetSetVector<SiPixelRecHit> >"/>
 
- <class name="edmNew::DetSet<Phase2PixelRecHit>"/>
- <class name="edmNew::DetSetVector<Phase2PixelRecHit>"/>
- <class name="edm::Wrapper<edmNew::DetSetVector<Phase2PixelRecHit> >"/>
+ <class name="edmNew::DetSet<Phase2ITPixelRecHit>"/>
+ <class name="edmNew::DetSetVector<Phase2ITPixelRecHit>"/>
+ <class name="edm::Wrapper<edmNew::DetSetVector<Phase2ITPixelRecHit> >"/>
 
   <class name="reco::ClusterRemovalInfo"  ClassVersion="10">
    <version ClassVersion="10" checksum="529080197"/>
   </class>
   <class name="reco::ClusterRemovalInfo::SiPixelClusterRefProd" />
   <class name="reco::ClusterRemovalInfo::SiStripClusterRefProd" />
-  <class name="reco::ClusterRemovalInfo::Phase2PixelClusterRefProd" />
+  <class name="reco::ClusterRemovalInfo::Phase2ITPixelClusterRefProd" />
   <class name="edm::Wrapper<reco::ClusterRemovalInfo>" />
 
   // fastsim containers
