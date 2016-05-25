@@ -10,6 +10,8 @@
 #include "DataFormats/TrackingRecHit/interface/TrackingRecHitFwd.h" 
 #include "DataFormats/TrackerRecHit2D/interface/SiStripMatchedRecHit2DCollection.h"
 #include "DataFormats/TrackerRecHit2D/interface/SiPixelRecHitCollection.h"
+#include "DataFormats/TrackerRecHit2D/interface/Phase2ITPixelRecHitCollection.h"
+#include "DataFormats/TrackerRecHit2D/interface/Phase2ITPixelRecHit.h" 
 #include "DataFormats/Common/interface/RefProd.h" 
 #include "DataFormats/SiStripCluster/interface/SiStripCluster.h" 
 #include "DataFormats/Common/interface/DetSetVector.h" 
@@ -34,11 +36,13 @@ namespace DataFormats_TrackerRecHit2D {
     SiStripRecHit1D a11;
     SiStripMatchedRecHit2D a2;
     SiPixelRecHit b1;
+    Phase2ITPixelRecHit b1_ph2;
 
     edm::ClonePolicy<SiStripRecHit2D>  a4;
     edm::ClonePolicy<SiStripRecHit1D>  a44;
     edm::ClonePolicy<SiStripMatchedRecHit2D > a5;
     edm::ClonePolicy<SiPixelRecHit> b2;
+    edm::ClonePolicy<Phase2ITPixelRecHit> b2_ph2;
     edm::ClonePolicy<SiTrackerMultiRecHit>  e2;
 
     edm::OwnVector<SiStripRecHit2D,
@@ -57,6 +61,10 @@ namespace DataFormats_TrackerRecHit2D {
       edm::ClonePolicy<SiPixelRecHit> > b3;
     edm::OwnVector<SiPixelRecHit,
       edm::ClonePolicy<SiPixelRecHit> >::const_iterator it3;
+    edm::OwnVector<Phase2ITPixelRecHit,
+      edm::ClonePolicy<Phase2ITPixelRecHit> > b3_ph2;
+    edm::OwnVector<Phase2ITPixelRecHit,
+      edm::ClonePolicy<Phase2ITPixelRecHit> >::const_iterator it3_ph2;
     edm::OwnVector<SiTrackerMultiRecHit,
       edm::ClonePolicy<SiTrackerMultiRecHit> > e3;
     edm::OwnVector<SiTrackerMultiRecHit,
@@ -99,6 +107,15 @@ namespace DataFormats_TrackerRecHit2D {
       edm::ClonePolicy<SiPixelRecHit> >, 
       edm::ClonePolicy<SiPixelRecHit> >::id_iterator itpix;
 
+    edm::Wrapper< edm::RangeMap<DetId,
+      edm::OwnVector<Phase2ITPixelRecHit,
+      edm::ClonePolicy<Phase2ITPixelRecHit> >, 
+      edm::ClonePolicy<Phase2ITPixelRecHit> > >  Phase2ITPixelRecHitCollectionWrapper;
+    edm::RangeMap<DetId,
+      edm::OwnVector<Phase2ITPixelRecHit,
+      edm::ClonePolicy<Phase2ITPixelRecHit> >, 
+      edm::ClonePolicy<Phase2ITPixelRecHit> >::id_iterator itpix_ph2;
+
     edm::Ref<edm::RangeMap<DetId,edm::OwnVector<SiStripRecHit2D,edm::ClonePolicy<SiStripRecHit2D> >,edm::ClonePolicy<SiStripRecHit2D> >,SiStripRecHit2D,edm::refhelper::FindUsingAdvance<edm::RangeMap<DetId,edm::OwnVector<SiStripRecHit2D,edm::ClonePolicy<SiStripRecHit2D> >,edm::ClonePolicy<SiStripRecHit2D> >,SiStripRecHit2D> > refRangeMapDetIdOwnVectorSiStripRecHit2D;
     edm::RefVector<edm::RangeMap<DetId,edm::OwnVector<SiStripRecHit2D,edm::ClonePolicy<SiStripRecHit2D> >,edm::ClonePolicy<SiStripRecHit2D> >,SiStripRecHit2D,edm::refhelper::FindUsingAdvance<edm::RangeMap<DetId,edm::OwnVector<SiStripRecHit2D,edm::ClonePolicy<SiStripRecHit2D> >,edm::ClonePolicy<SiStripRecHit2D> >,SiStripRecHit2D> > refVectorRangeMapDetIdOwnVectorSiStripRecHit2D;
 
@@ -110,6 +127,7 @@ namespace DataFormats_TrackerRecHit2D {
     edm::Wrapper<edmNew::DetSetVector<SiStripRecHit1D> > wdstvDummy11;
     edm::Wrapper<edmNew::DetSetVector<SiStripMatchedRecHit2D> > wdstvDummy2;
     edm::Wrapper<edmNew::DetSetVector<SiPixelRecHit> > wdstvDummy3;
+    edm::Wrapper<edmNew::DetSetVector<Phase2ITPixelRecHit> > wdstvDummy3_ph2;
 
     edm::Wrapper<reco::ClusterRemovalInfo> clusterRemovalInfo;
 

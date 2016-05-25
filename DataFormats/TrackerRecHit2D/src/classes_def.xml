@@ -32,7 +32,6 @@
    <version ClassVersion="10" checksum="4057204970"/>
   </class>
 
-
   <class name="ProjectedSiStripRecHit2D" ClassVersion="13">
    <version ClassVersion="13" checksum="1225510999"/>
    <version ClassVersion="12" checksum="3025653452"/>
@@ -58,6 +57,10 @@
    <version ClassVersion="12" checksum="1051928582"/>
    <version ClassVersion="11" checksum="790601993"/>
    <version ClassVersion="10" checksum="414205262"/>
+  </class>
+
+  <class name="Phase2ITPixelRecHit" ClassVersion="10">
+    <version ClassVersion="10" checksum="988491914"/>
   </class>
 
   <class name="std::vector<SiStripRecHit2D*>"/>
@@ -95,6 +98,15 @@
   <class name="edm::RangeMap<DetId, edm::OwnVector<SiPixelRecHit, edm::ClonePolicy<SiPixelRecHit> >, edm::ClonePolicy<SiPixelRecHit> >"/>
   <class name="edm::RangeMap<DetId, edm::OwnVector<SiPixelRecHit, edm::ClonePolicy<SiPixelRecHit> >, edm::ClonePolicy<SiPixelRecHit> >::id_iterator"/>
   <class name="edm::Wrapper<edm::RangeMap<DetId, edm::OwnVector<SiPixelRecHit, edm::ClonePolicy<SiPixelRecHit> >, edm::ClonePolicy<SiPixelRecHit> > >"/>
+
+  <class name="std::vector<Phase2ITPixelRecHit*>"/>
+  <class name="std::vector<Phase2ITPixelRecHit>"/>
+  <class name="edm::OwnVector<Phase2ITPixelRecHit,edm::ClonePolicy<Phase2ITPixelRecHit> >"/>
+  <class name="edm::OwnVector<Phase2ITPixelRecHit,edm::ClonePolicy<Phase2ITPixelRecHit> >::const_iterator"/>
+  <class name="edm::RangeMap<DetId, edm::OwnVector<Phase2ITPixelRecHit, edm::ClonePolicy<Phase2ITPixelRecHit> >, edm::ClonePolicy<Phase2ITPixelRecHit> >"/>
+  <class name="edm::RangeMap<DetId, edm::OwnVector<Phase2ITPixelRecHit, edm::ClonePolicy<Phase2ITPixelRecHit> >, edm::ClonePolicy<Phase2ITPixelRecHit> >::id_iterator"/>
+  <class name="edm::Wrapper<edm::RangeMap<DetId, edm::OwnVector<Phase2ITPixelRecHit, edm::ClonePolicy<Phase2ITPixelRecHit> >, edm::ClonePolicy<Phase2ITPixelRecHit> > >"/>
+
   <class name="edm::Ref<edm::RangeMap<DetId,edm::OwnVector<SiStripRecHit2D,edm::ClonePolicy<SiStripRecHit2D> >,edm::ClonePolicy<SiStripRecHit2D> >,SiStripRecHit2D,edm::refhelper::FindUsingAdvance<edm::RangeMap<DetId,edm::OwnVector<SiStripRecHit2D,edm::ClonePolicy<SiStripRecHit2D> >,edm::ClonePolicy<SiStripRecHit2D> >,SiStripRecHit2D> >"/>
   <class name="edm::Ref<edm::RangeMap<DetId,edm::OwnVector<SiStripRecHit1D,edm::ClonePolicy<SiStripRecHit1D> >,edm::ClonePolicy<SiStripRecHit1D> >,SiStripRecHit1D,edm::refhelper::FindUsingAdvance<edm::RangeMap<DetId,edm::OwnVector<SiStripRecHit1D,edm::ClonePolicy<SiStripRecHit1D> >,edm::ClonePolicy<SiStripRecHit1D> >,SiStripRecHit1D> >"/>
 
@@ -104,7 +116,6 @@
  <class name="std::vector<SiStripRecHit2D>"/>
  <class name="std::vector<SiStripRecHit1D>"/>
 
- <class name="edmNew::DetSet<SiPixelRecHit>"/>
  <class name="edmNew::DetSetVector<SiStripRecHit2D>"/>
  <class name="edmNew::DetSetVector<SiStripRecHit1D>"/>
 
@@ -114,14 +125,21 @@
  <class name="std::vector<SiStripMatchedRecHit2D>"/>
  <class name="edmNew::DetSetVector<SiStripMatchedRecHit2D>"/>
  <class name="edm::Wrapper<edmNew::DetSetVector<SiStripMatchedRecHit2D> >"/>
+
+ <class name="edmNew::DetSet<SiPixelRecHit>"/>
  <class name="edmNew::DetSetVector<SiPixelRecHit>"/>
  <class name="edm::Wrapper<edmNew::DetSetVector<SiPixelRecHit> >"/>
+
+ <class name="edmNew::DetSet<Phase2ITPixelRecHit>"/>
+ <class name="edmNew::DetSetVector<Phase2ITPixelRecHit>"/>
+ <class name="edm::Wrapper<edmNew::DetSetVector<Phase2ITPixelRecHit> >"/>
 
   <class name="reco::ClusterRemovalInfo"  ClassVersion="10">
    <version ClassVersion="10" checksum="529080197"/>
   </class>
   <class name="reco::ClusterRemovalInfo::SiPixelClusterRefProd" />
   <class name="reco::ClusterRemovalInfo::SiStripClusterRefProd" />
+  <class name="reco::ClusterRemovalInfo::Phase2ITPixelClusterRefProd" />
   <class name="edm::Wrapper<reco::ClusterRemovalInfo>" />
 
   // fastsim containers
