@@ -47,7 +47,7 @@ def customise_Digi(process):
         process.mix.digitizers.mergedtruth.simHitCollections.tracker.remove( cms.InputTag("g4SimHits","TrackerHitsTIDHighTof"))
 
     # keep new digis
-    alist=['FEVTDEBUG','FEVTDEBUGHLT','FEVT']
+    alist=['FEVTDEBUG','FEVTDEBUGHLT','FEVT','RECOSIM']
     for a in alist:
         b=a+'output'
         if hasattr(process,b):
@@ -117,9 +117,10 @@ def customise_Reco(process,pileup):
         + process.phase2ITPixelRecHitsPreSplitting 
         )
     process.trackerlocalreco.remove(process.clusterSummaryProducer)
+    process.reconstruction_trackingOnly.remove(process.globalreco_tracking)
 
     # keep new clusters
-    alist=['RAWSIM','FEVTDEBUG','FEVTDEBUGHLT','GENRAW','RAWSIMHLT','FEVT']
+    alist=['RAWSIM','FEVTDEBUG','FEVTDEBUGHLT','GENRAW','RAWSIMHLT','FEVT','RECOSIM']
     for a in alist:
         b=a+'output'
         if hasattr(process,b):

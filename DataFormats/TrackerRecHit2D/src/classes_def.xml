@@ -60,7 +60,7 @@
   </class>
 
   <class name="Phase2ITPixelRecHit" ClassVersion="10">
-    <version ClassVersion="10" checksum="988491914"/>
+    <version ClassVersion="10" checksum="1421569043"/>
   </class>
 
   <class name="std::vector<SiStripRecHit2D*>"/>
