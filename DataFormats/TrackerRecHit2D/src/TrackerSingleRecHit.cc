@@ -6,6 +6,7 @@
 #include "DataFormats/TrackerRecHit2D/interface/SiStripMatchedRecHit2D.h"
 #include "DataFormats/TrackerRecHit2D/interface/SiStripRecHit1D.h"
 #include "DataFormats/TrackerRecHit2D/interface/SiStripRecHit2D.h"
+#include "DataFormats/TrackerRecHit2D/interface/Phase2ITPixelRecHit.h"
 
 namespace {
   
@@ -17,7 +18,9 @@ namespace {
       ref.isStrip()  << " " <<
 //      ref.isRegional() << " " <<
       ref.cluster_strip().isNull() << " " <<
-      ref.cluster_pixel().isNull()  << " " << std::endl;
+      ref.cluster_pixel().isNull()  << " " << 
+      ref.cluster_phase2OT().isNull()  << " " << 
+      ref.cluster_phase2IT().isNull()  << " " << std::endl;
   }
   
   void verify(TrackingRecHit const * thit) {
@@ -46,6 +49,15 @@ namespace {
 	verify(hit->omniCluster());
       }
     }
+
+    if (dynamic_cast<Phase2ITPixelRecHit const *>(hit)) {
+      static int n=0;
+      if (++n<5) {
+	std::cout << "Phase2ITPixel:" << subd << " " << bhit->isSingle() << ". ";
+	verify(hit->omniCluster());
+      }
+    }
+
     if (dynamic_cast<SiStripRecHit1D const *>(hit)) {
       static int n=0;
       if (++n<5) {

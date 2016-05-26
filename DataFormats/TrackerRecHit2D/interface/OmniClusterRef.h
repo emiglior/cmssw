@@ -5,12 +5,16 @@
 
 #include "DataFormats/SiStripCluster/interface/SiStripCluster.h"
 #include "DataFormats/SiPixelCluster/interface/SiPixelCluster.h"
+#include "DataFormats/Phase2TrackerCluster/interface/Phase2TrackerCluster1D.h"
+#include "DataFormats/Phase2ITPixelCluster/interface/Phase2ITPixelCluster.h"
 #include "DataFormats/Common/interface/DetSetVectorNew.h"
 
 class OmniClusterRef {
 
   static const unsigned int kInvalid = 0x80000000; // bit 31 on
   static const unsigned int kIsStrip = 0x20000000; // bit 29 on
+  // FIXME:: need to check when introducing phase2 pixel 
+  static const unsigned int kIsPhase2 = 0x40000000; // bit 30 on
   static const unsigned int kIsRegional = 0x60000000; // bit 30 and 29 on  (will become fastsim???)
 
   static const unsigned int indexMask = 0xFFFFFF;
@@ -20,10 +24,14 @@ class OmniClusterRef {
 public:
   typedef edm::Ref<edmNew::DetSetVector<SiPixelCluster>,SiPixelCluster > ClusterPixelRef;
   typedef edm::Ref<edmNew::DetSetVector<SiStripCluster>,SiStripCluster > ClusterStripRef;
+  typedef edm::Ref<edmNew::DetSetVector<Phase2TrackerCluster1D>, Phase2TrackerCluster1D> Phase2Cluster1DRef;
+  typedef edm::Ref<edmNew::DetSetVector<Phase2ITPixelCluster>, Phase2ITPixelCluster> Phase2ITPixelClusterRef;
   
   OmniClusterRef() : me(edm::RefCore(),kInvalid) {}
-  explicit OmniClusterRef(ClusterPixelRef const & ref, unsigned int subClus=0) : me(ref.refCore(), (ref.isNonnull() ? ref.key()               | (subClus<<subClusShift)   : kInvalid) ){  }
-  explicit OmniClusterRef(ClusterStripRef const & ref, unsigned int subClus=0) : me(ref.refCore(), (ref.isNonnull() ? (ref.key() | kIsStrip ) | (subClus<<subClusShift) : kInvalid) ){ }
+  explicit OmniClusterRef(ClusterPixelRef const & ref, unsigned int subClus=0) : me(ref.refCore(), (ref.isNonnull() ? ref.key()                  | (subClus<<subClusShift) : kInvalid) ){  }
+  explicit OmniClusterRef(ClusterStripRef const & ref, unsigned int subClus=0) : me(ref.refCore(), (ref.isNonnull() ? (ref.key()   | kIsStrip  ) | (subClus<<subClusShift) : kInvalid) ){ }
+  explicit OmniClusterRef(Phase2Cluster1DRef const & ref, unsigned int subClus=0) : me(ref.refCore(), (ref.isNonnull() ? (ref.key() | kIsPhase2) | (subClus<<subClusShift) : kInvalid) ){ }
+  explicit OmniClusterRef(Phase2ITPixelClusterRef const & ref, unsigned int subClus=0) : me(ref.refCore(), (ref.isNonnull() ? (ref.key() | kIsPhase2) | (subClus<<subClusShift) : kInvalid) ){ } // EM ??
   
   ClusterPixelRef cluster_pixel()  const { 
     return (isPixel() && isValid()) ?  ClusterPixelRef(me.toRefCore(),index()) : ClusterPixelRef();
@@ -32,12 +40,27 @@ public:
   ClusterStripRef cluster_strip()  const { 
     return isStrip() ? ClusterStripRef(me.toRefCore(),index()) : ClusterStripRef();
   }
-  
+
+  Phase2Cluster1DRef cluster_phase2OT()  const { 
+    return isPhase2() ? Phase2Cluster1DRef(me.toRefCore(),index()) : Phase2Cluster1DRef();
+  }
+
+  Phase2ITPixelClusterRef cluster_phase2IT()  const { 
+    return isPhase2() ? Phase2ITPixelClusterRef(me.toRefCore(),index()) : Phase2ITPixelClusterRef();
+  }
+ 
   SiPixelCluster const & pixelCluster() const {
     return *ClusterPixelRef(me.toRefCore(),index());
   }
   SiStripCluster const & stripCluster() const {
     return *ClusterStripRef(me.toRefCore(),index());
+  }
+  Phase2TrackerCluster1D const & phase2OTCluster() const {
+    return *Phase2Cluster1DRef(me.toRefCore(),index());
+  }
+
+  Phase2ITPixelCluster const & phase2ITPixelCluster() const {
+    return *Phase2ITPixelClusterRef(me.toRefCore(),index());
   }
   
   bool operator==(OmniClusterRef const & lh) const { 
@@ -61,8 +84,9 @@ public:
   unsigned int subCluster() const { return (rawIndex() & subClusMask)>>subClusShift; }
 
   bool isValid() const { return !(rawIndex() & kInvalid); }
-  bool isPixel() const { return !isStrip(); } //NOTE: non-valid will also show up as a pixel
-  bool isStrip() const { return rawIndex() & kIsStrip; }
+  bool isPixel() const { return !isStrip() && !isPhase2(); } //NOTE: non-valid will also show up as a pixel
+  bool isStrip() const { return  rawIndex() & kIsStrip; }
+  bool isPhase2() const { return rawIndex() & kIsPhase2; }
   // bool isRegional() const { return (rawIndex() & kIsRegional)==kIsRegional; }
   // bool isNonRegionalStrip() const {return (rawIndex() & kIsRegional)==kIsStrip;}
 
