@@ -48,7 +48,7 @@ Phase2PixelCPEBase::Phase2PixelCPEBase(edm::ParameterSet const & conf,
   nRecHitsTotal_=0;
   nRecHitsUsedEdge_=0,
 #endif 
-    
+
   //--- Lorentz angle tangent per Tesla
   lorentzAngle_ = lorentzAngle;
   lorentzAngleWidth_ = lorentzAngleWidth;
