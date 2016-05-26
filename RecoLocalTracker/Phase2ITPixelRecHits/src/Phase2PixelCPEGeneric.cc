@@ -31,6 +31,8 @@ Phase2PixelCPEGeneric::Phase2PixelCPEGeneric(edm::ParameterSet const & conf,
 				 const SiPixelLorentzAngle * lorentzAngleWidth=0) 
   : Phase2PixelCPEBase(conf, mag, geom, ttopo, lorentzAngle, lorentzAngleWidth,0) {
 
+  std::cout << "Phase2PixelCPEGeneric CTOR " <<std::endl;
+
   if (theVerboseLevel > 0) 
     LogDebug("Phase2PixelCPEGeneric") 
       << " constructing a generic algorithm for ideal pixel detector.\n"
@@ -90,6 +92,7 @@ LocalPoint
 Phase2PixelCPEGeneric::localPosition(DetParam const & theDetParam, ClusterParam & theClusterParamBase) const 
 {
 
+  //  std::cout << "Phase2PixelCPEGeneric::localPosition() " <<std::endl;
   ClusterParamGeneric & theClusterParam = static_cast<ClusterParamGeneric &>(theClusterParamBase);
 
   //  std::cout<<" in Phase2PixelCPEGeneric:localPosition - "<< theDetParam.lorentzShiftInCmY << " " << theDetParam.widthLAFractionY << std::endl;
@@ -243,7 +246,7 @@ Phase2PixelCPEGeneric::localPosition(DetParam const & theDetParam, ClusterParam 
   // apply the lorentz offset correction 			     
   yPos = yPos + shiftY;
 	
-  //cout<<" in Phase2PixelCPEGeneric:localPosition - pos = "<<xPos<<" "<<yPos<<endl; //dk
+  cout<<" in Phase2PixelCPEGeneric:localPosition - pos = "<<xPos<<" "<<yPos<<endl; //dk
 
   //--- Now put the two together
   LocalPoint pos_in_local( xPos, yPos );
