@@ -58,7 +58,6 @@ public:
   Phase2TrackerCluster1D const & phase2OTCluster() const {
     return *Phase2Cluster1DRef(me.toRefCore(),index());
   }
-
   Phase2ITPixelCluster const & phase2ITPixelCluster() const {
     return *Phase2ITPixelClusterRef(me.toRefCore(),index());
   }

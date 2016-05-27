@@ -11,14 +11,9 @@ namespace DataFormats_Phase2ITPixelCluster {
     std::vector<Phase2ITPixelCluster> v1;
     edm::DetSet<Phase2ITPixelCluster> ds1;
     std::vector<edm::DetSet<Phase2ITPixelCluster> > vds1;
-    Phase2ITPixelClusterCollection c1;
     Phase2ITPixelClusterCollectionNew c1_new;
-    edm::Wrapper<Phase2ITPixelClusterCollection> w1;
     edm::Wrapper<Phase2ITPixelClusterCollectionNew> w1_new;
-    Phase2ITPixelClusterRef r1;
     Phase2ITPixelClusterRefNew r1_new;
-    Phase2ITPixelClusterRefVector rv1;
-    Phase2ITPixelClusterRefProd rp1;
     edm::Ref<edm::DetSetVector<Phase2ITPixelCluster>,edm::DetSet<Phase2ITPixelCluster>,edm::refhelper::FindDetSetForDetSetVector<Phase2ITPixelCluster,edm::DetSetVector<Phase2ITPixelCluster> > > boguscrap;
 
     std::vector<edm::Ref<edmNew::DetSetVector<Phase2ITPixelCluster>,Phase2ITPixelCluster,edmNew::DetSetVector<Phase2ITPixelCluster>::FindForDetSetVector> > dsvr_v;

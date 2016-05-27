@@ -281,11 +281,7 @@ inline bool operator<( const Phase2ITPixelCluster& one, const Phase2ITPixelClust
 #include "DataFormats/Common/interface/Ref.h"
 #include "DataFormats/Common/interface/DetSetRefVector.h"
 
-typedef edm::DetSetVector<Phase2ITPixelCluster> Phase2ITPixelClusterCollection;
-typedef edm::Ref<Phase2ITPixelClusterCollection, Phase2ITPixelCluster> Phase2ITPixelClusterRef;
-typedef edm::DetSetRefVector<Phase2ITPixelCluster> Phase2ITPixelClusterRefVector;
-typedef edm::RefProd<Phase2ITPixelClusterCollection> Phase2ITPixelClusterRefProd;
-
 typedef edmNew::DetSetVector<Phase2ITPixelCluster> Phase2ITPixelClusterCollectionNew;
 typedef edm::Ref<Phase2ITPixelClusterCollectionNew, Phase2ITPixelCluster> Phase2ITPixelClusterRefNew;
+
 #endif 
