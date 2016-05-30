@@ -52,6 +52,7 @@ def customise_Digi(process):
         b=a+'output'
         if hasattr(process,b):
             getattr(process,b).outputCommands.append('keep Phase2TrackerDigiedmDetSetVector_*_*_*')
+            getattr(process,b).outputCommands.append('keep *_simSiPixelDigis_*_*')
     return process
 
 
@@ -114,12 +115,12 @@ def customise_Reco(process,pileup):
     process.pixeltrackerlocalreco = cms.Sequence(
         process.siPhase2Clusters 
         + process.phase2ITPixelClustersPreSplitting 
-        + process.phase2ITPixelRecHitsPreSplitting 
+        #+ process.phase2ITPixelRecHitsPreSplitting 
         )
     process.trackerlocalreco.remove(process.clusterSummaryProducer)
     process.reconstruction_trackingOnly.remove(process.globalreco_tracking)
 
-    # keep new clusters
+    # keep digis and new clusters
     alist=['RAWSIM','FEVTDEBUG','FEVTDEBUGHLT','GENRAW','RAWSIMHLT','FEVT','RECOSIM']
     for a in alist:
         b=a+'output'
@@ -129,7 +130,7 @@ def customise_Reco(process,pileup):
             getattr(process,b).outputCommands.append('keep *_phase2ITPixelClustersPreSplitting_*_*')
             getattr(process,b).outputCommands.append('keep *_phase2ITPixelRecHits_*_*')               
             getattr(process,b).outputCommands.append('keep *_phase2ITPixelRecHitsPreSplitting_*_*')               
-
+            getattr(process,b).outputCommands.append('keep *_simSiPixelDigis_*_*')
  
     return process
 

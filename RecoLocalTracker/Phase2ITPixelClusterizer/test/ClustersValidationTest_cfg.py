@@ -26,7 +26,8 @@ process.maxEvents = cms.untracked.PSet(
 
 # Input file
 process.source = cms.Source('PoolSource',
-    fileNames = cms.untracked.vstring('root://eoscms//eos/cms/store/caf/user/emiglior/SLHCSimPhase2/phase2/out81Xpre3/step2_2023tilted_v2.root')
+    fileNames = cms.untracked.vstring('file:/tmp/emiglior/CMSSW_8_1_X_2016-05-29-0000/src/10606.0_SingleMuPt1+SingleMuPt1_2023tilted_GenSimFull+DigiFull_2023tilted+RecoFullTracking_2023tilted/step3.root'),
+    secondaryFileNames = cms.untracked.vstring('file:/tmp/emiglior/CMSSW_8_1_X_2016-05-29-0000/src/10606.0_SingleMuPt1+SingleMuPt1_2023tilted_GenSimFull+DigiFull_2023tilted+RecoFullTracking_2023tilted/step2.root')
 )
 
 # TAG
@@ -49,7 +50,7 @@ process.MessageLogger = cms.Service('MessageLogger',
 
 # Analyzer
 process.analysis = cms.EDAnalyzer('Phase2TrackerClusterizerValidation',
-    src = cms.InputTag("phase2ITPixelClusters"),
+    src = cms.InputTag("phase2ITPixelClustersPreSplitting"),
     links = cms.InputTag("simSiPixelDigis","Pixel")
 )
 
