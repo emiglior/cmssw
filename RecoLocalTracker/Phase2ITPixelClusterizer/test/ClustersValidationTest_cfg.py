@@ -49,7 +49,7 @@ process.MessageLogger = cms.Service('MessageLogger',
 
 # Analyzer
 process.analysis = cms.EDAnalyzer('Phase2TrackerClusterizerValidation',
-    src = cms.InputTag("phase2PixelClusters"),
+    src = cms.InputTag("phase2ITPixelClusters"),
     links = cms.InputTag("simSiPixelDigis","Pixel")
 )
 

@@ -1,8 +1,8 @@
 //----------------------------------------------------------------------------
-//! \class Phase2PixelThresholdClusterizer
+//! \class Phase2ITPixelThresholdClusterizer
 //! \brief A specific threshold-based pixel clustering algorithm
 //!
-//! General logic of Phase2PixelThresholdClusterizer:
+//! General logic of Phase2ITPixelThresholdClusterizer:
 //!
 //! The clusterization is performed on a matrix with size
 //! equal to the size of the pixel detector, each cell containing 
@@ -11,7 +11,7 @@
 //!
 //! The search starts from seed pixels, i.e. pixels with sufficiently
 //! large amplitudes, found at the time of filling of the matrix
-//! and stored in a Phase2PixelArrayBuffer.
+//! and stored in a Phase2ITPixelArrayBuffer.
 //! 
 //! Translate the pixel charge to electrons, we are suppose to
 //! do the calibrations ADC->electrons here.
@@ -20,8 +20,8 @@
 //----------------------------------------------------------------------------
 
 // Our own includes
-#include "Phase2PixelThresholdClusterizer.h"
-#include "Phase2PixelArrayBuffer.h"
+#include "Phase2ITPixelThresholdClusterizer.h"
+#include "Phase2ITPixelArrayBuffer.h"
 #include "CondFormats/SiPixelObjects/interface/SiPixelGainCalibrationOffline.h"
 // Geometry
 #include "Geometry/TrackerGeometryBuilder/interface/PixelGeomDetUnit.h"
@@ -41,7 +41,7 @@ using namespace std;
 //!  Initilize the buffer to hold pixels from a detector module.
 //!  This is a vector of 44k ints, stays valid all the time.  
 //----------------------------------------------------------------------------
-Phase2PixelThresholdClusterizer::Phase2PixelThresholdClusterizer
+Phase2ITPixelThresholdClusterizer::Phase2ITPixelThresholdClusterizer
   (edm::ParameterSet const& conf) :
     conf_(conf), bufferAlreadySet(false), theNumOfRows(0), theNumOfCols(0), detid_(0) 
 {
@@ -69,13 +69,13 @@ Phase2PixelThresholdClusterizer::Phase2PixelThresholdClusterizer
   theBuffer.setSize( theNumOfRows, theNumOfCols );
 }
 /////////////////////////////////////////////////////////////////////////////
-Phase2PixelThresholdClusterizer::~Phase2PixelThresholdClusterizer() {}
+Phase2ITPixelThresholdClusterizer::~Phase2ITPixelThresholdClusterizer() {}
 
 //----------------------------------------------------------------------------
 //!  Prepare the Clusterizer to work on a particular DetUnit.  Re-init the
 //!  size of the panel/plaquette (so update nrows and ncols), 
 //----------------------------------------------------------------------------
-bool Phase2PixelThresholdClusterizer::setup(const PixelGeomDetUnit * pixDet) 
+bool Phase2ITPixelThresholdClusterizer::setup(const PixelGeomDetUnit * pixDet) 
 {
   // Cache the topology.
   const PixelTopology & topol = pixDet->specificTopology();
@@ -91,7 +91,7 @@ bool Phase2PixelThresholdClusterizer::setup(const PixelGeomDetUnit * pixDet)
        ncols > theBuffer.columns() ) 
     { // change only when a larger is needed
       //if( nrows != theNumOfRows || ncols != theNumOfCols ) {
-      //cout << " Phase2PixelThresholdClusterizer: pixel buffer redefined to " 
+      //cout << " Phase2ITPixelThresholdClusterizer: pixel buffer redefined to " 
       // << nrows << " * " << ncols << endl;      
       //theNumOfRows = nrows;  // Set new sizes
       //theNumOfCols = ncols;
@@ -109,7 +109,7 @@ bool Phase2PixelThresholdClusterizer::setup(const PixelGeomDetUnit * pixDet)
 //!  each seed pixel.
 //!  Input and output data stored in DetSet
 //----------------------------------------------------------------------------
-void Phase2PixelThresholdClusterizer::clusterizeDetUnit( const edm::DetSet<PixelDigi> & input,
+void Phase2ITPixelThresholdClusterizer::clusterizeDetUnit( const edm::DetSet<PixelDigi> & input,
 						   const PixelGeomDetUnit * pixDet,
 						   const std::vector<short>& badChannels,
                                                    edmNew::DetSetVector<Phase2PixelCluster>::FastFiller& output) {
@@ -118,7 +118,7 @@ void Phase2PixelThresholdClusterizer::clusterizeDetUnit( const edm::DetSet<Pixel
   DigiIterator end   = input.end();
   
   // Do not bother for empty detectors
-  //if (begin == end) cout << " Phase2PixelThresholdClusterizer::clusterizeDetUnit - No digis to clusterize";
+  //if (begin == end) cout << " Phase2ITPixelThresholdClusterizer::clusterizeDetUnit - No digis to clusterize";
   
   //  Set up the clusterization on this DetId.
   if ( !setup(pixDet) ) 
@@ -131,7 +131,7 @@ void Phase2PixelThresholdClusterizer::clusterizeDetUnit( const edm::DetSet<Pixel
   copy_to_buffer(begin, end);
   
   //  Loop over all seeds.  TO DO: wouldn't using iterators be faster?
-  //  edm::LogError("Phase2PixelThresholdClusterizer") <<  "Starting clusterizing" << endl;
+  //  edm::LogError("Phase2ITPixelThresholdClusterizer") <<  "Starting clusterizing" << endl;
   for (unsigned int i = 0; i < theSeeds.size(); i++) 
     {
       
@@ -169,7 +169,7 @@ void Phase2PixelThresholdClusterizer::clusterizeDetUnit( const edm::DetSet<Pixel
 //!  TO DO: ask Danek... wouldn't it be faster to simply memcopy() zeros into
 //!  the whole buffer array?
 //----------------------------------------------------------------------------
-void Phase2PixelThresholdClusterizer::clear_buffer( DigiIterator begin, DigiIterator end ) 
+void Phase2ITPixelThresholdClusterizer::clear_buffer( DigiIterator begin, DigiIterator end ) 
 {
   for(DigiIterator di = begin; di != end; ++di ) 
     {
@@ -180,7 +180,7 @@ void Phase2PixelThresholdClusterizer::clear_buffer( DigiIterator begin, DigiIter
 //----------------------------------------------------------------------------
 //! \brief Copy adc counts from PixelDigis into the buffer, identify seeds.
 //----------------------------------------------------------------------------
-void Phase2PixelThresholdClusterizer::copy_to_buffer( DigiIterator begin, DigiIterator end ) 
+void Phase2ITPixelThresholdClusterizer::copy_to_buffer( DigiIterator begin, DigiIterator end ) 
 {
 #ifdef PIXELREGRESSION
   static std::atomic<int> s_ic=0;
@@ -239,7 +239,7 @@ void Phase2PixelThresholdClusterizer::copy_to_buffer( DigiIterator begin, DigiIt
 //----------------------------------------------------------------------------
 // Calibrate adc counts to electrons
 //-----------------------------------------------------------------
-int Phase2PixelThresholdClusterizer::calibrate(int adc, int col, int row) 
+int Phase2ITPixelThresholdClusterizer::calibrate(int adc, int col, int row) 
 {
   int electrons = 0;
   int layer= 0;
@@ -345,7 +345,7 @@ namespace {
 //!  \brief The actual clustering algorithm: group the neighboring pixels around the seed.
 //----------------------------------------------------------------------------
 Phase2PixelCluster 
-Phase2PixelThresholdClusterizer::make_cluster( const Phase2PixelCluster::PixelPos& pix, 
+Phase2ITPixelThresholdClusterizer::make_cluster( const Phase2PixelCluster::PixelPos& pix, 
 					 edmNew::DetSetVector<Phase2PixelCluster>::FastFiller& output) 
 {
   

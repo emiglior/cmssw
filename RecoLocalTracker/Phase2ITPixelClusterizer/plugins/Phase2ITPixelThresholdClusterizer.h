@@ -1,8 +1,8 @@
-#ifndef RecoLocalTracker_Phase2PixelClusterizer_Phase2PixelThresholdClusterizer_H
-#define RecoLocalTracker_Phase2PixelClusterizer_Phase2PixelThresholdClusterizer_H
+#ifndef RecoLocalTracker_Phase2ITPixelClusterizer_Phase2ITPixelThresholdClusterizer_H
+#define RecoLocalTracker_Phase2ITPixelClusterizer_Phase2ITPixelThresholdClusterizer_H
 
 //-----------------------------------------------------------------------
-//! \class Phase2PixelThresholdClusterizer
+//! \class Phase2ITPixelThresholdClusterizer
 //! \brief An explicit threshold-based clustering algorithm.
 //!
 //! A threshold-based clustering algorithm which clusters SiPixelDigis 
@@ -33,7 +33,7 @@
 //!     Danek Kotlinski (PSI).   Ported to CMSSW by Petar Maksimovic (JHU).
 //!     DetSetVector data container implemented by V.Chiochia (Uni Zurich)
 //!
-//! Sets the Phase2PixelArrayBuffer dimensions and pixel thresholds.
+//! Sets the Phase2ITPixelArrayBuffer dimensions and pixel thresholds.
 //! Makes clusters and stores them in theCache if the option
 //! useCache has been set.
 //-----------------------------------------------------------------------
@@ -42,10 +42,10 @@
 // Pixel, PixelPos and Shift as inner classes.
 //
 #include "DataFormats/Common/interface/DetSetVector.h"
-#include "Phase2PixelClusterizerBase.h"
+#include "Phase2ITPixelClusterizerBase.h"
 
 // The private pixel buffer
-#include "Phase2PixelArrayBuffer.h"
+#include "Phase2ITPixelArrayBuffer.h"
 
 // Parameter Set:
 #include "FWCore/ParameterSet/interface/ParameterSet.h"
@@ -53,11 +53,11 @@
 #include <vector>
 
 
-class dso_hidden Phase2PixelThresholdClusterizer final : public Phase2PixelClusterizerBase {
+class dso_hidden Phase2ITPixelThresholdClusterizer final : public Phase2ITPixelClusterizerBase {
  public:
 
-  Phase2PixelThresholdClusterizer(edm::ParameterSet const& conf);
-  ~Phase2PixelThresholdClusterizer();
+  Phase2ITPixelThresholdClusterizer(edm::ParameterSet const& conf);
+  ~Phase2ITPixelThresholdClusterizer();
 
   // Full I/O in DetSet
   void clusterizeDetUnit( const edm::DetSet<PixelDigi> & input,	
@@ -72,7 +72,7 @@ class dso_hidden Phase2PixelThresholdClusterizer final : public Phase2PixelClust
   edm::ParameterSet conf_;
 
   //! Data storage
-  Phase2PixelArrayBuffer           theBuffer;         // internal nrow * ncol matrix
+  Phase2ITPixelArrayBuffer           theBuffer;         // internal nrow * ncol matrix
   bool                             bufferAlreadySet;  // status of the buffer array
   std::vector<Phase2PixelCluster::PixelPos>  theSeeds;          // cached seed pixels
   std::vector<Phase2PixelCluster>            theClusters;       // resulting clusters  

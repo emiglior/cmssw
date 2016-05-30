@@ -4,6 +4,6 @@
 <use   name="DataFormats/Phase2PixelCluster"/>
 <use   name="boost_serialization"/>
 <use   name="CalibTracker/SiPixelESProducers"/>
-<library   file="*.cc" name="RecoLocalTrackerPhase2PixelClusterizerPlugins">
+<library   file="*.cc" name="RecoLocalTrackerITPhase2PixelClusterizerPlugins">
   <flags   EDM_PLUGIN="1"/>
 </library>

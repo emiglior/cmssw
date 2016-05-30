@@ -3,7 +3,7 @@ import FWCore.ParameterSet.Config as cms
 
 #
 from CondTools.SiPixel.SiPixelGainCalibrationService_cfi import *
-phase2PixelClusters = cms.EDProducer("Phase2PixelClusterProducer",
+phase2ITPixelClusters = cms.EDProducer("Phase2ITPixelClusterProducer",
     SiPixelGainCalibrationServiceParameters,
     src = cms.InputTag("siPixelDigis"),
     ChannelThreshold = cms.int32(1000),

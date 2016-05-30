@@ -1,5 +1,5 @@
-#ifndef RecoLocalTracker_Phase2PixelClusterizer_Phase2PixelClusterizerBase_H
-#define RecoLocalTracker_Phase2PixelClusterizer_Phase2PixelClusterizerBase_H
+#ifndef RecoLocalTracker_Phase2ITPixelClusterizer_Phase2ITPixelClusterizerBase_H
+#define RecoLocalTracker_Phase2ITPixelClusterizer_Phase2ITPixelClusterizerBase_H
 
 #include "DataFormats/Common/interface/DetSetVector.h"
 #include "DataFormats/Common/interface/DetSetVectorNew.h"
@@ -13,12 +13,12 @@ class PixelGeomDetUnit;
 /**
  * Abstract interface for Pixel Clusterizers
  */
-class Phase2PixelClusterizerBase {
+class Phase2ITPixelClusterizerBase {
 public:
   typedef edm::DetSet<PixelDigi>::const_iterator    DigiIterator;
 
   // Virtual destructor, this is a base class.
-  virtual ~Phase2PixelClusterizerBase() {}
+  virtual ~Phase2ITPixelClusterizerBase() {}
 
   // Build clusters in a DetUnit. Both digi and cluster stored in a DetSet
 

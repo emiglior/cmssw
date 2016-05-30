@@ -22,7 +22,7 @@
 <use   name="DataFormats/Phase2PixelCluster"/>
 <use   name="DataFormats/ParticleFlowCandidate"/>
 <use   name="DataFormats/ParticleFlowReco"/>
-<library   file="ClustersValidation.cc" name="Phase2PixelClusterizerValidation">
+<library   file="ClustersValidation.cc" name="Phase2ITPixelClusterizerValidation">
   <flags   EDM_PLUGIN="1"/>
 </library>
 <!-- ATricomi EMigliore 2016.05.10 -->

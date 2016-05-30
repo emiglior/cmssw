@@ -1,22 +1,22 @@
-#ifndef RecoLocalTracker_Phase2PixelClusterizer_Phase2PixelClusterProducer_h
-#define RecoLocalTracker_Phase2PixelClusterizer_Phase2PixelClusterProducer_h
+#ifndef RecoLocalTracker_Phase2ITPixelClusterizer_Phase2ITPixelClusterProducer_h
+#define RecoLocalTracker_Phase2ITPixelClusterizer_Phase2ITPixelClusterProducer_h
 
 //---------------------------------------------------------------------------
-//! \class Phase2PixelClusterProducer
+//! \class Phase2ITPixelClusterProducer
 //!
-//! \brief EDProducer to cluster PixelDigis into Phase2PixelClusters.
+//! \brief EDProducer to cluster PixelDigis into Phase2ITPixelClusters.
 //!
-//! Phase2PixelClusterProducer is an EDProducer subclass (i.e., a module)
-//! which orchestrates clustering of PixelDigis to Phase2PixelClusters.
+//! Phase2ITPixelClusterProducer is an EDProducer subclass (i.e., a module)
+//! which orchestrates clustering of PixelDigis to Phase2ITPixelClusters.
 //! Consequently, the input is edm::DetSetVector<PixelDigi> and the output is
-//! edm::DetSetVector<Phase2PixelCluster>.
+//! edm::DetSetVector<Phase2ITPixelCluster>.
 //!
-//! Phase2PixelClusterProducer invokes one of descendents from Phase2PixelClusterizerBase,
+//! Phase2ITPixelClusterProducer invokes one of descendents from Phase2ITPixelClusterizerBase,
 //! e.g. PixelThresholdClusterizer (which is the only available option 
-//! right now).  Phase2PixelClusterProducer loads the PixelDigis,
-//! and then iterates over DetIds, invoking Phase2PixelClusterizer's clusterizeDetUnit
+//! right now).  Phase2ITPixelClusterProducer loads the PixelDigis,
+//! and then iterates over DetIds, invoking Phase2ITPixelClusterizer's clusterizeDetUnit
 //! to perform the clustering.  clusterizeDetUnit() returns a DetSetVector of
-//! Phase2PixelClusters, which are then recorded in the event.
+//! Phase2ITPixelClusters, which are then recorded in the event.
 //!
 //! The calibrations are not loaded at the moment (v1), although that is
 //! being planned for the near future.
@@ -28,7 +28,7 @@
 //!
 //---------------------------------------------------------------------------
 
-#include "Phase2PixelClusterizerBase.h"
+#include "Phase2ITPixelClusterizerBase.h"
 
 //#include "Geometry/CommonDetUnit/interface/TrackingGeometry.h"
 
@@ -49,11 +49,11 @@
 #include "FWCore/ParameterSet/interface/ParameterSet.h"
 #include "FWCore/Utilities/interface/InputTag.h"
 
-  class dso_hidden Phase2PixelClusterProducer final : public edm::stream::EDProducer<> {
+  class dso_hidden Phase2ITPixelClusterProducer final : public edm::stream::EDProducer<> {
   public:
     //--- Constructor, virtual destructor (just in case)
-    explicit Phase2PixelClusterProducer(const edm::ParameterSet& conf);
-    virtual ~Phase2PixelClusterProducer();
+    explicit Phase2ITPixelClusterProducer(const edm::ParameterSet& conf);
+    virtual ~Phase2ITPixelClusterProducer();
 
     void setupClusterizer();
 
@@ -71,7 +71,7 @@
     // TO DO: maybe allow a map of pointers?
     SiPixelGainCalibrationServiceBase * theSiPixelGainCalibration_;
     std::string clusterMode_;               // user's choice of the clusterizer
-    Phase2PixelClusterizerBase * clusterizer_;    // what we got (for now, one ptr to base class)
+    Phase2ITPixelClusterizerBase * clusterizer_;    // what we got (for now, one ptr to base class)
     bool readyToCluster_;                   // needed clusterizers valid => good to go!
     edm::InputTag src_;
 

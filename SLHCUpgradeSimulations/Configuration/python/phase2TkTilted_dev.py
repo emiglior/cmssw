@@ -47,11 +47,12 @@ def customise_Digi(process):
         process.mix.digitizers.mergedtruth.simHitCollections.tracker.remove( cms.InputTag("g4SimHits","TrackerHitsTIDHighTof"))
 
     # keep new digis
-    alist=['FEVTDEBUG','FEVTDEBUGHLT','FEVT']
+    alist=['FEVTDEBUG','FEVTDEBUGHLT','FEVT','RECOSIM']
     for a in alist:
         b=a+'output'
         if hasattr(process,b):
             getattr(process,b).outputCommands.append('keep Phase2TrackerDigiedmDetSetVector_*_*_*')
+            getattr(process,b).outputCommands.append('keep *_simSiPixelDigis_*_*')
     return process
 
 
@@ -69,9 +70,9 @@ def customise_Reco(process,pileup):
     process.load('SimTracker.SiPhase2Digitizer.phase2TrackerClusterizer_cfi')
 
     # added to produce phase2 DataFormats
-    process.load("RecoLocalTracker.Phase2PixelClusterizer.Phase2PixelClusterizerPreSplitting_cfi")
-    process.phase2PixelClustersPreSplitting.src = cms.InputTag('simSiPixelDigis', "Pixel")
-    process.phase2PixelClustersPreSplitting.MissCalibrate = cms.untracked.bool(False)
+    process.load("RecoLocalTracker.Phase2ITPixelClusterizer.Phase2ITPixelClusterizerPreSplitting_cfi")
+    process.phase2ITPixelClustersPreSplitting.src = cms.InputTag('simSiPixelDigis', "Pixel")
+    process.phase2ITPixelClustersPreSplitting.MissCalibrate = cms.untracked.bool(False)
     process.load("RecoLocalTracker.Phase2PixelRecHits.Phase2PixelRecHits_cfi")
     process.phase2PixelRecHitsPreSplitting.src = cms.InputTag("phase2PixelClustersPreSplitting")
 
@@ -113,22 +114,23 @@ def customise_Reco(process,pileup):
 
     process.pixeltrackerlocalreco = cms.Sequence(
         process.siPhase2Clusters 
-        + process.phase2PixelClustersPreSplitting 
-        + process.phase2PixelRecHitsPreSplitting 
+      + process.phase2ITPixelClustersPreSplitting 
+        #+ process.phase2PixelRecHitsPreSplitting 
         )
     process.trackerlocalreco.remove(process.clusterSummaryProducer)
+    process.reconstruction_trackingOnly.remove(process.globalreco_tracking)
 
-    # keep new clusters
-    alist=['RAWSIM','FEVTDEBUG','FEVTDEBUGHLT','GENRAW','RAWSIMHLT','FEVT']
+    # keep digis and new clusters
+    alist=['RAWSIM','FEVTDEBUG','FEVTDEBUGHLT','GENRAW','RAWSIMHLT','FEVT','RECOSIM']
     for a in alist:
         b=a+'output'
         if hasattr(process,b):
             getattr(process,b).outputCommands.append('keep *_siPhase2Clusters_*_*')
-            getattr(process,b).outputCommands.append('keep *_phase2PixelClusters_*_*')
-            getattr(process,b).outputCommands.append('keep *_phase2PixelClustersPreSplitting_*_*')
+            getattr(process,b).outputCommands.append('keep *_phase2ITPixelClusters_*_*')
+            getattr(process,b).outputCommands.append('keep *_phase2ITPixelClustersPreSplitting_*_*')
             getattr(process,b).outputCommands.append('keep *_phase2PixelRecHits_*_*')               
             getattr(process,b).outputCommands.append('keep *_phase2PixelRecHitsPreSplitting_*_*')               
-
+            getattr(process,b).outputCommands.append('keep *_simSiPixelDigis_*_*')
  
     return process
 

@@ -1,8 +1,8 @@
-#ifndef RecoLocalTracker_Phase2PixelClusterizer_Phase2PixelArrayBuffer_H
-#define RecoLocalTracker_Phase2PixelClusterizer_Phase2PixelArrayBuffer_H
+#ifndef RecoLocalTracker_Phase2ITPixelClusterizer_Phase2ITPixelArrayBuffer_H
+#define RecoLocalTracker_Phase2ITPixelClusterizer_Phase2ITPixelArrayBuffer_H
 
 //----------------------------------------------------------------------------
-//! \class Phase2PixelArrayBuffer
+//! \class Phase2ITPixelArrayBuffer
 //! \brief Class to store ADC counts during clustering.
 //!
 //! This class defines the buffer where the pixel ADC are stored.
@@ -24,11 +24,11 @@
 
 
 
-class Phase2PixelArrayBuffer 
+class Phase2ITPixelArrayBuffer 
 {
  public:
-  inline Phase2PixelArrayBuffer( int rows, int cols);
-  inline Phase2PixelArrayBuffer( ){}
+  inline Phase2ITPixelArrayBuffer( int rows, int cols);
+  inline Phase2ITPixelArrayBuffer( ){}
   
   inline void setSize( int rows, int cols);
   inline int operator()( int row, int col) const;
@@ -53,36 +53,36 @@ class Phase2PixelArrayBuffer
 
 
 
-Phase2PixelArrayBuffer::Phase2PixelArrayBuffer( int rows, int cols) 
+Phase2ITPixelArrayBuffer::Phase2ITPixelArrayBuffer( int rows, int cols) 
   : pixel_vec(rows*cols,0),  nrows(rows), ncols(cols) {}
 
 
-void Phase2PixelArrayBuffer::setSize( int rows, int cols) {
+void Phase2ITPixelArrayBuffer::setSize( int rows, int cols) {
   pixel_vec.resize(rows*cols,0);
   nrows = rows;
   ncols = cols;
 }
 
 
-bool Phase2PixelArrayBuffer::inside(int row, int col) const 
+bool Phase2ITPixelArrayBuffer::inside(int row, int col) const 
 {
   return ( row >= 0 && row < nrows && col >= 0 && col < ncols);
 }
 
 
-int Phase2PixelArrayBuffer::operator()(int row, int col) const  { return pixel_vec[index(row,col)];}
+int Phase2ITPixelArrayBuffer::operator()(int row, int col) const  { return pixel_vec[index(row,col)];}
 
 
-int Phase2PixelArrayBuffer::operator()(const Phase2PixelCluster::PixelPos& pix) const {return pixel_vec[index(pix)];}
+int Phase2ITPixelArrayBuffer::operator()(const Phase2PixelCluster::PixelPos& pix) const {return pixel_vec[index(pix)];}
 
 // unchecked!
-void Phase2PixelArrayBuffer::set_adc( int row, int col, int adc) 
+void Phase2ITPixelArrayBuffer::set_adc( int row, int col, int adc) 
 {
   pixel_vec[index(row,col)] = adc;
 }
 
 
-void Phase2PixelArrayBuffer::set_adc( const Phase2PixelCluster::PixelPos& pix, int adc)
+void Phase2ITPixelArrayBuffer::set_adc( const Phase2PixelCluster::PixelPos& pix, int adc)
 {
   pixel_vec[index(pix)] = adc;
 }

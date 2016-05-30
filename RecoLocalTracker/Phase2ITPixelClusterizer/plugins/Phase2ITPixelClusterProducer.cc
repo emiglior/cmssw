@@ -1,6 +1,6 @@
-/** Phase2PixelClusterProducer.cc
+/** Phase2ITPixelClusterProducer.cc
  * ---------------------------------------------------------------
- * Description:  see Phase2PixelClusterProducer.h
+ * Description:  see Phase2ITPixelClusterProducer.h
  * Author:  P. Maksimovic (porting from original ORCA version)
  * History: Oct 14, 2005, initial version
  * Get rid of the noiseVector. d.k. 28/3/06
@@ -12,8 +12,8 @@
  */
 
 // Our own stuff
-#include "Phase2PixelClusterProducer.h"
-#include "Phase2PixelThresholdClusterizer.h"
+#include "Phase2ITPixelClusterProducer.h"
+#include "Phase2ITPixelThresholdClusterizer.h"
 
 // Geometry
 #include "Geometry/Records/interface/TrackerDigiGeometryRecord.h"
@@ -46,7 +46,7 @@
   //---------------------------------------------------------------------------
   //!  Constructor: set the ParameterSet and defer all thinking to setupClusterizer().
   //---------------------------------------------------------------------------
-  Phase2PixelClusterProducer::Phase2PixelClusterProducer(edm::ParameterSet const& conf) 
+  Phase2ITPixelClusterProducer::Phase2ITPixelClusterProducer(edm::ParameterSet const& conf) 
     : 
     conf_(conf),
     theSiPixelGainCalibration_(0), 
@@ -76,7 +76,7 @@
   }
 
   // Destructor
-  Phase2PixelClusterProducer::~Phase2PixelClusterProducer() { 
+  Phase2ITPixelClusterProducer::~Phase2ITPixelClusterProducer() { 
     delete clusterizer_;
     delete theSiPixelGainCalibration_;
   }  
@@ -85,7 +85,7 @@
   //---------------------------------------------------------------------------
   //! The "Event" entrypoint: gets called by framework for every event
   //---------------------------------------------------------------------------
-  void Phase2PixelClusterProducer::produce(edm::Event& e, const edm::EventSetup& es)
+  void Phase2ITPixelClusterProducer::produce(edm::Event& e, const edm::EventSetup& es)
   {
 
     //Setup gain calibration service
@@ -119,32 +119,32 @@
   //!  TO DO: in the future, we should allow for a different algorithm for 
   //!  each detector subset (e.g. barrel vs forward, per layer, etc).
   //---------------------------------------------------------------------------
-  void Phase2PixelClusterProducer::setupClusterizer()  {
+  void Phase2ITPixelClusterProducer::setupClusterizer()  {
     clusterMode_ = 
-      conf_.getUntrackedParameter<std::string>("ClusterMode","Phase2PixelThresholdClusterizer");
+      conf_.getUntrackedParameter<std::string>("ClusterMode","Phase2ITPixelThresholdClusterizer");
 
-    if ( clusterMode_ == "Phase2PixelThresholdClusterizer" ) {
-      clusterizer_ = new Phase2PixelThresholdClusterizer(conf_);
+    if ( clusterMode_ == "Phase2ITPixelThresholdClusterizer" ) {
+      clusterizer_ = new Phase2ITPixelThresholdClusterizer(conf_);
       clusterizer_->setSiPixelGainCalibrationService(theSiPixelGainCalibration_);
       readyToCluster_ = true;
     } 
     else {
-      edm::LogError("Phase2PixelClusterProducer") << "[Phase2PixelClusterProducer]:"
+      edm::LogError("Phase2ITPixelClusterProducer") << "[Phase2ITPixelClusterProducer]:"
 		<<" choice " << clusterMode_ << " is invalid.\n"
 		<< "Possible choices:\n" 
-		<< "    Phase2PixelThresholdClusterizer";
+		<< "    Phase2ITPixelThresholdClusterizer";
       readyToCluster_ = false;
     }
   }
 
   //---------------------------------------------------------------------------
-  //!  Iterate over DetUnits, and invoke the Phase2PixelClusterizer on each.
+  //!  Iterate over DetUnits, and invoke the Phase2ITPixelClusterizer on each.
   //---------------------------------------------------------------------------
-  void Phase2PixelClusterProducer::run(const edm::DetSetVector<PixelDigi>   & input, 
+  void Phase2ITPixelClusterProducer::run(const edm::DetSetVector<PixelDigi>   & input, 
 				   edm::ESHandle<TrackerGeometry>       & geom,
                                    edmNew::DetSetVector<Phase2PixelCluster> & output) {
     if ( ! readyToCluster_ ) {
-      edm::LogError("Phase2PixelClusterProducer")
+      edm::LogError("Phase2ITPixelClusterProducer")
 		<<" at least one clusterizer is not ready -- can't run!" ;
       // TO DO: throw an exception here?  The user may want to know...
       return;   // clusterizer is invalid, bail out
@@ -159,7 +159,7 @@
       ++numberOfDetUnits;
 
       //  LogDebug takes very long time, get rid off.
-      //LogDebug("SiStripClusterizer") << "[Phase2PixelClusterProducer::run] DetID" << DSViter->id;
+      //LogDebug("SiStripClusterizer") << "[Phase2ITPixelClusterProducer::run] DetID" << DSViter->id;
 
       std::vector<short> badChannels; 
       DetId detIdObject(DSViter->detId());
@@ -193,7 +193,7 @@
       }
     } // end of DetUnit loop
     
-    //LogDebug ("Phase2PixelClusterProducer") << " Executing " 
+    //LogDebug ("Phase2ITPixelClusterProducer") << " Executing " 
     //      << clusterMode_ << " resulted in " << numberOfClusters
     //				    << " Phase2PixelClusters in " << numberOfDetUnits << " DetUnits."; 
   }
@@ -204,5 +204,5 @@
 #include "FWCore/PluginManager/interface/ModuleDef.h"
 #include "FWCore/Framework/interface/MakerMacros.h"
 
-DEFINE_FWK_MODULE(Phase2PixelClusterProducer);
+DEFINE_FWK_MODULE(Phase2ITPixelClusterProducer);
 
