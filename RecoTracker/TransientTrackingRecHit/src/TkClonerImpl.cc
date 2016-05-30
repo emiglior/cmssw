@@ -6,6 +6,7 @@
 #include "DataFormats/TrackerRecHit2D/interface/SiStripRecHit2D.h"
 #include "DataFormats/TrackerRecHit2D/interface/SiStripRecHit1D.h"
 #include "DataFormats/TrackerRecHit2D/interface/Phase2TrackerRecHit1D.h"
+#include "DataFormats/TrackerRecHit2D/interface/Phase2ITPixelRecHit.h"
 
 #include "Geometry/CommonDetUnit/interface/GeomDetUnit.h"
 #include "TrackingTools/TrajectoryState/interface/TrajectoryStateOnSurface.h"
@@ -64,6 +65,24 @@ std::unique_ptr<Phase2TrackerRecHit1D> TkClonerImpl::operator()(Phase2TrackerRec
   return std::unique_ptr<Phase2TrackerRecHit1D>{new Phase2TrackerRecHit1D(lp, le, *hit.det(), hit.cluster())};
 }
 
+std::unique_ptr<Phase2ITPixelRecHit> TkClonerImpl::operator()(Phase2ITPixelRecHit const & hit, TrajectoryStateOnSurface const& tsos) const {
+  const Phase2ITPixelCluster&  clust = hit.phase2ITPixelCluster();
+  const PixelGeomDetUnit & gdu = (const PixelGeomDetUnit &) *(hit.detUnit()) ;
+  const PixelTopology * topo = &gdu.specificTopology();
+
+  //FIXME:just temporary solution for phase2!
+  float pitch_x = topo->pitch().first;
+  float pitch_y = topo->pitch().second;
+  float ix = 0.5*(clust.minPixelRow()+clust.maxPixelRow());
+  float iy = 0.5*(clust.minPixelCol()+clust.maxPixelCol());
+
+  LocalPoint lp( topo->localX(ix), topo->localY(iy), 0 );          // x, y, z
+  LocalError le( pow(pitch_x, 2) / 12, 0, pow(pitch_y, 2) / 12);   // e2_xx, e2_xy, e2_yy
+
+  return std::unique_ptr<Phase2ITPixelRecHit>{new Phase2ITPixelRecHit(lp, le, *hit.det(), hit.cluster())};
+}
+
+
 TrackingRecHit::ConstRecHitPointer TkClonerImpl::makeShared(SiPixelRecHit const & hit, TrajectoryStateOnSurface const& tsos) const {
  // std::cout << "cloning " << typeid(hit).name() << std::endl;
   const SiPixelCluster& clust = *hit.cluster();  
@@ -105,6 +124,23 @@ TrackingRecHit::ConstRecHitPointer TkClonerImpl::makeShared(Phase2TrackerRecHit1
   LocalError le( pow(pitch_x, 2) / 12, 0, pow(pitch_y, 2) / 12);   // e2_xx, e2_xy, e2_yy
 
   return std::make_shared<Phase2TrackerRecHit1D>( lp, le, *hit.det(), hit.cluster());
+}
+
+TrackingRecHit::ConstRecHitPointer TkClonerImpl::makeShared(Phase2ITPixelRecHit const & hit, TrajectoryStateOnSurface const& tsos) const {
+  const Phase2ITPixelCluster&  clust = hit.phase2ITPixelCluster();
+  const PixelGeomDetUnit & gdu = (const PixelGeomDetUnit &) *(hit.detUnit()) ;
+  const PixelTopology * topo = &gdu.specificTopology();
+
+  //FIXME:just temporary solution for phase2!
+  float pitch_x = topo->pitch().first;
+  float pitch_y = topo->pitch().second;
+  float ix = 0.5*(clust.minPixelRow()+clust.maxPixelRow());
+  float iy = 0.5*(clust.minPixelCol()+clust.maxPixelCol());
+
+  LocalPoint lp( topo->localX(ix), topo->localY(iy), 0 );          // x, y, z
+  LocalError le( pow(pitch_x, 2) / 12, 0, pow(pitch_y, 2) / 12);   // e2_xx, e2_xy, e2_yy
+
+  return std::make_shared<Phase2ITPixelRecHit>( lp, le, *hit.det(), hit.cluster());
 }
 
 

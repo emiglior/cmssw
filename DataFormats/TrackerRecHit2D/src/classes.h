@@ -10,6 +10,8 @@
 #include "DataFormats/TrackingRecHit/interface/TrackingRecHitFwd.h" 
 #include "DataFormats/TrackerRecHit2D/interface/SiStripMatchedRecHit2DCollection.h"
 #include "DataFormats/TrackerRecHit2D/interface/SiPixelRecHitCollection.h"
+#include "DataFormats/TrackerRecHit2D/interface/Phase2ITPixelRecHitCollection.h"
+#include "DataFormats/TrackerRecHit2D/interface/Phase2ITPixelRecHit.h" 
 #include "DataFormats/Common/interface/RefProd.h" 
 #include "DataFormats/SiStripCluster/interface/SiStripCluster.h" 
 #include "DataFormats/Common/interface/DetSetVector.h" 
@@ -112,6 +114,7 @@ namespace DataFormats_TrackerRecHit2D {
     edm::Wrapper<edmNew::DetSetVector<SiStripMatchedRecHit2D> > wdstvDummy2;
     edm::Wrapper<edmNew::DetSetVector<SiPixelRecHit> > wdstvDummy3;
 
+
     edm::Wrapper<reco::ClusterRemovalInfo> clusterRemovalInfo;
 
       edm::OwnVector<FastTrackerRecHit,edm::ClonePolicy<FastTrackerRecHit> > fastsimTrackerRecHitCollection;
@@ -134,6 +137,17 @@ namespace DataFormats_TrackerRecHit2D {
         edm::Wrapper< edmNew::DetSet< Phase2TrackerRecHit1D > > cl2;
         edm::Wrapper< std::vector< edmNew::DetSet< Phase2TrackerRecHit1D > > > cl3;
         edm::Wrapper< Phase2TrackerRecHit1DCollectionNew > cl4;
+
+        edm::Wrapper< Phase2ITPixelRecHit > cl0_pix;
+        edm::Wrapper< std::vector< Phase2ITPixelRecHit > > cl1_pix;
+        edm::Wrapper< edmNew::DetSet< Phase2ITPixelRecHit > > cl2_pix;
+        edm::Wrapper< std::vector< edmNew::DetSet< Phase2ITPixelRecHit > > > cl3_pix;
+        edm::Wrapper< Phase2ITPixelRecHitCollectionNew > cl4_pix;
+
+
+
+
+
 
   };
 }
