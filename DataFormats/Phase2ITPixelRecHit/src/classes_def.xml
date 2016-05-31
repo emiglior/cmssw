@@ -1,0 +1,18 @@
+<lcgdict>
+  
+  <class name="Phase2ITPixelRecHit"/>
+
+  <class name="std::vector<Phase2ITPixelRecHit*>"/>
+  <class name="std::vector<Phase2ITPixelRecHit>"/>
+  <class name="edm::OwnVector<Phase2ITPixelRecHit,edm::ClonePolicy<Phase2ITPixelRecHit> >"/>
+  <class name="edm::OwnVector<Phase2ITPixelRecHit,edm::ClonePolicy<Phase2ITPixelRecHit> >::const_iterator"/>
+  <class name="edm::RangeMap<DetId, edm::OwnVector<Phase2ITPixelRecHit, edm::ClonePolicy<Phase2ITPixelRecHit> >, edm::ClonePolicy<Phase2ITPixelRecHit> >"/>
+  <class name="edm::RangeMap<DetId, edm::OwnVector<Phase2ITPixelRecHit, edm::ClonePolicy<Phase2ITPixelRecHit> >, edm::ClonePolicy<Phase2ITPixelRecHit> >::id_iterator"/>
+  <class name="edm::Wrapper<edm::RangeMap<DetId, edm::OwnVector<Phase2ITPixelRecHit, edm::ClonePolicy<Phase2ITPixelRecHit> >, edm::ClonePolicy<Phase2ITPixelRecHit> > >"/>
+
+ <class name="edmNew::DetSet<Phase2ITPixelRecHit>"/>
+ <class name="edmNew::DetSetVector<Phase2ITPixelRecHit>"/>
+ <class name="edm::Wrapper<edmNew::DetSetVector<Phase2ITPixelRecHit> >"/>
+
+
+</lcgdict>
