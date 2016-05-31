@@ -1,4 +1,4 @@
-#include "DataFormats/Phase2PixelCluster/interface/Phase2PixelClusterShapeCache.h"
+#include "DataFormats/Phase2ITPixelCluster/interface/Phase2PixelClusterShapeCache.h"
 #include "FWCore/Utilities/interface/Exception.h"
 
 Phase2PixelClusterShapeData::~Phase2PixelClusterShapeData() {}

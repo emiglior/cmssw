@@ -115,7 +115,7 @@ def customise_Reco(process,pileup):
     process.pixeltrackerlocalreco = cms.Sequence(
         process.siPhase2Clusters 
       + process.phase2ITPixelClustersPreSplitting 
-        #+ process.phase2PixelRecHitsPreSplitting 
+      + process.phase2PixelRecHitsPreSplitting 
         )
     process.trackerlocalreco.remove(process.clusterSummaryProducer)
     process.reconstruction_trackingOnly.remove(process.globalreco_tracking)

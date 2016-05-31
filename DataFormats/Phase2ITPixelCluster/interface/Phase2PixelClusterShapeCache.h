@@ -1,12 +1,12 @@
 // -*- c++ -*-
-#ifndef DataFormats_Phase2PixelCluster_Phase2PixelClusterShapeData_h
-#define DataFormats_Phase2PixelCluster_Phase2PixelClusterShapeData_h
+#ifndef DataFormats_Phase2ITPixelCluster_Phase2PixelClusterShapeData_h
+#define DataFormats_Phase2ITPixelCluster_Phase2PixelClusterShapeData_h
 
 #include "DataFormats/Provenance/interface/ProductID.h"
 #include "DataFormats/Common/interface/HandleBase.h"
 #include "DataFormats/Common/interface/Ref.h"
 #include "DataFormats/Common/interface/DetSetVectorNew.h"
-#include "DataFormats/Phase2PixelCluster/interface/Phase2PixelCluster.h"
+#include "DataFormats/Phase2ITPixelCluster/interface/Phase2PixelCluster.h"
 
 #include <utility>
 #include <vector>

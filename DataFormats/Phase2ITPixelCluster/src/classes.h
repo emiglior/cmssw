@@ -1,10 +1,10 @@
-#ifndef DataFormats_Phase2PixelCluster_classes_h
-#define DataFormats_Phase2PixelCluster_classes_h
-#include "DataFormats/Phase2PixelCluster/interface/Phase2PixelCluster.h"
+#ifndef DataFormats_Phase2ITPixelCluster_classes_h
+#define DataFormats_Phase2ITPixelCluster_classes_h
+#include "DataFormats/Phase2ITPixelCluster/interface/Phase2PixelCluster.h"
 #include "DataFormats/Common/interface/RefProd.h" 
 #include "DataFormats/Common/interface/Wrapper.h"
 #include "DataFormats/Common/interface/ContainerMask.h"
-#include "DataFormats/Phase2PixelCluster/interface/Phase2PixelClusterShapeCache.h"
+#include "DataFormats/Phase2ITPixelCluster/interface/Phase2PixelClusterShapeCache.h"
 
 namespace DataFormats_Phase2PixelCluster {
   struct dictionary {

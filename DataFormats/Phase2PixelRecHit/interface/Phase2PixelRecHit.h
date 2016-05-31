@@ -21,7 +21,7 @@
 #include "DataFormats/GeometryVector/interface/LocalPoint.h"
 #include "Geometry/CommonDetUnit/interface/GeomDetUnit.h"
 
-#include "DataFormats/Phase2PixelCluster/interface/Phase2PixelCluster.h"
+#include "DataFormats/Phase2ITPixelCluster/interface/Phase2PixelCluster.h"
 // It contains the typedef used here 
 // typedef edmNew::DetSetVector<Phase2PixelCluster> Phase2PixelClusterCollectionNew;
 // typedef edm::Ref<Phase2PixelClusterCollectionNew, Phase2PixelCluster> Phase2PixelClusterRefNew;
