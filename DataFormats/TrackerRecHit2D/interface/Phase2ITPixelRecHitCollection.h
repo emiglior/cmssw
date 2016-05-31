@@ -1,7 +1,7 @@
 #ifndef DataFormats_Phase2ITPixelRecHitCollection_H
 #define DataFormats_Phase2ITPixelRecHitCollection_H
 
-#include "DataFormats/Phase2ITPixelRecHit/interface/Phase2ITPixelRecHit.h"
+#include "DataFormats/TrackerRecHit2D/interface/Phase2ITPixelRecHit.h"
 
 #include "DataFormats/DetId/interface/DetId.h"
 #include "DataFormats/Common/interface/DetSetVectorNew.h"
