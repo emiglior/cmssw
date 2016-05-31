@@ -1,20 +1,20 @@
-#ifndef RecoLocalTracker_Phase2PixelRecHits_Phase2PixelRecHitConverter_h
-#define RecoLocalTracker_Phase2PixelRecHits_Phase2PixelRecHitConverter_h
+#ifndef RecoLocalTracker_Phase2ITPixelRecHits_Phase2ITPixelRecHitConverter_h
+#define RecoLocalTracker_Phase2ITPixelRecHits_Phase2ITPixelRecHitConverter_h
 
 //---------------------------------------------------------------------------
-//! \class Phase2PixelRecHitConverter
+//! \class Phase2ITPixelRecHitConverter
 //!
-//! \brief EDProducer to covert Phase2ITPixelClusters into Phase2PixelRecHits
+//! \brief EDProducer to covert Phase2ITPixelClusters into Phase2ITPixelRecHits
 //!
-//! Phase2PixelRecHitConverter is an EDProducer subclass (i.e., a module)
-//! which orchestrates the conversion of Phase2ITPixelClusters into Phase2PixelRecHits.
+//! Phase2ITPixelRecHitConverter is an EDProducer subclass (i.e., a module)
+//! which orchestrates the conversion of Phase2ITPixelClusters into Phase2ITPixelRecHits.
 //! Consequently, the input is a edm::DetSetVector<Phase2ITPixelCluster> and the output is
-//! Phase2PixelRecHitCollection.
+//! Phase2ITPixelRecHitCollection.
 //!
-//! Phase2PixelRecHitConverter invokes one of descendents from 
+//! Phase2ITPixelRecHitConverter invokes one of descendents from 
 //! ClusterParameterEstimator (templated on Phase2ITPixelCluster), e.g.
 //! CPEFromDetPosition (which is the only available option 
-//! right now).  Phase2PixelRecHitConverter loads the Phase2ITPixelClusterCollection,
+//! right now).  Phase2ITPixelRecHitConverter loads the Phase2ITPixelClusterCollection,
 //! and then iterates over DetIds, invoking the chosen CPE's methods
 //! localPosition() and localError() to perform the correction (some of which
 //! may be rather involved).  A RecHit is made on the spot, and appended
@@ -33,12 +33,12 @@
 
 //--- Base class for CPEs:
 
-#include "RecoLocalTracker/Phase2PixelRecHits/interface/Phase2PixelCPEBase.h"
+#include "RecoLocalTracker/Phase2ITPixelRecHits/interface/Phase2PixelCPEBase.h"
 
 //--- Geometry + DataFormats
 #include "Geometry/TrackerGeometryBuilder/interface/TrackerGeometry.h"
 #include "DataFormats/Phase2ITPixelCluster/interface/Phase2ITPixelCluster.h"
-#include "DataFormats/Phase2PixelRecHit/interface/Phase2PixelRecHitCollection.h"
+#include "DataFormats/Phase2ITPixelRecHit/interface/Phase2ITPixelRecHitCollection.h"
 #include "DataFormats/Common/interface/DetSetVector.h"
 
 //--- Framework
@@ -58,12 +58,12 @@
 
 class MagneticField;
 
-  class Phase2PixelRecHitConverter : public edm::stream::EDProducer<>
+  class Phase2ITPixelRecHitConverter : public edm::stream::EDProducer<>
   {
   public:
     //--- Constructor, virtual destructor (just in case)
-    explicit Phase2PixelRecHitConverter(const edm::ParameterSet& conf);
-    virtual ~Phase2PixelRecHitConverter();
+    explicit Phase2ITPixelRecHitConverter(const edm::ParameterSet& conf);
+    virtual ~Phase2ITPixelRecHitConverter();
 
     //--- Factory method to make CPE's depending on the ParameterSet
     //--- Not sure if we need to make more than one CPE to run concurrently
@@ -79,11 +79,11 @@ class MagneticField;
     //--- Execute the position estimator algorithm(s).
     //--- New interface with DetSetVector
     void run(const edmNew::DetSetVector<Phase2ITPixelCluster>& input,
-	     Phase2PixelRecHitCollectionNew & output,
+	     Phase2ITPixelRecHitCollectionNew & output,
 	     edm::ESHandle<TrackerGeometry> & geom);
 
     void run(edm::Handle<edmNew::DetSetVector<Phase2ITPixelCluster> >  inputhandle,
-	     Phase2PixelRecHitCollectionNew & output,
+	     Phase2ITPixelRecHitCollectionNew & output,
 	     edm::ESHandle<TrackerGeometry> & geom);
 
   private:

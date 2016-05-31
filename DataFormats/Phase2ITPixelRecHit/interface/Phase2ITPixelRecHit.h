@@ -1,8 +1,8 @@
-#ifndef DataFormats_Phase2PixelRecHit_h
-#define DataFormats_Phase2PixelRecHit_h 1
+#ifndef DataFormats_Phase2ITPixelRecHit_h
+#define DataFormats_Phase2ITPixelRecHit_h 1
 
 //---------------------------------------------------------------------------
-//!  \class Phase2PixelRecHit
+//!  \class Phase2ITPixelRecHit
 //!  \brief Pixel Reconstructed Hit
 //!
 //!  A pixel hit is a 2D position and error in a given
@@ -10,7 +10,7 @@
 //!  pixel cluster. 
 //!
 // EM 2016.05 development for phase2 pixel
-// The IT IS chain should be  Phase2PixelRecHit->TrackerSingleRecHit->BaseTrackerRecHit-> TrackingRecHit
+// The IT IS chain should be  Phase2ITPixelRecHit->TrackerSingleRecHit->BaseTrackerRecHit-> TrackingRecHit
 //---------------------------------------------------------------------------
 
 
@@ -31,12 +31,12 @@
 
 // 
 
-class Phase2PixelRecHit {
+class Phase2ITPixelRecHit {
   
 public:
-  Phase2PixelRecHit()  {;}  
-  ~Phase2PixelRecHit() {;}
-  Phase2PixelRecHit( const LocalPoint& pos , const LocalError& err, 
+  Phase2ITPixelRecHit()  {;}  
+  ~Phase2ITPixelRecHit() {;}
+  Phase2ITPixelRecHit( const LocalPoint& pos , const LocalError& err, 
 		     GeomDet const & idet, // not used for the moment 
 		     Phase2ITPixelClusterRefNew const&  cluster) : pos_(pos), err_(err), cluster_(cluster) {;}
 

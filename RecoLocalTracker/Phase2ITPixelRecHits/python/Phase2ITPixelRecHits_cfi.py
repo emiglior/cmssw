@@ -1,12 +1,12 @@
 import FWCore.ParameterSet.Config as cms
 
-phase2PixelRecHits = cms.EDProducer("Phase2PixelRecHitConverter",
+phase2ITPixelRecHits = cms.EDProducer("Phase2ITPixelRecHitConverter",
     src = cms.InputTag("phase2ITPixelClusters"),
     CPE = cms.string('Phase2PixelCPEGeneric'),
     VerboseLevel = cms.untracked.int32(0),
 
 )
 
-phase2PixelRecHitsPreSplitting = phase2PixelRecHits.clone(
+phase2ITPixelRecHitsPreSplitting = phase2ITPixelRecHits.clone(
     src = 'phase2ITPixelClustersPreSplitting'
 )

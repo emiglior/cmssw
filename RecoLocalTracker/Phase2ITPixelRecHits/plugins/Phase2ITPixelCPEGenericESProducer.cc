@@ -1,5 +1,5 @@
-#include "RecoLocalTracker/Phase2PixelRecHits/interface/Phase2PixelCPEGenericESProducer.h"
-#include "RecoLocalTracker/Phase2PixelRecHits/interface/Phase2PixelCPEGeneric.h"
+#include "RecoLocalTracker/Phase2ITPixelRecHits/interface/Phase2PixelCPEGenericESProducer.h"
+#include "RecoLocalTracker/Phase2ITPixelRecHits/interface/Phase2PixelCPEGeneric.h"
 #include "MagneticField/Engine/interface/MagneticField.h"
 #include "MagneticField/Records/interface/IdealMagneticFieldRecord.h"
 #include "Geometry/TrackerGeometryBuilder/interface/TrackerGeometry.h"

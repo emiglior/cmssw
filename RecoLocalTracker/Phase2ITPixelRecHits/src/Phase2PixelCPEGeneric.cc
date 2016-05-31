@@ -1,4 +1,4 @@
-#include "RecoLocalTracker/Phase2PixelRecHits/interface/Phase2PixelCPEGeneric.h"
+#include "RecoLocalTracker/Phase2ITPixelRecHits/interface/Phase2PixelCPEGeneric.h"
 
 #include "Geometry/TrackerGeometryBuilder/interface/PixelGeomDetUnit.h"
 #include "Geometry/TrackerGeometryBuilder/interface/RectangularPixelTopology.h"

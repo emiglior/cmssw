@@ -1,5 +1,5 @@
-#ifndef RecoLocalTracker_Phase2PixelRecHits_Phase2PixelCPEGeneric_H
-#define RecoLocalTracker_Phase2PixelRecHits_Phase2PixelCPEGeneric_H
+#ifndef RecoLocalTracker_Phase2ITPixelRecHits_Phase2PixelCPEGeneric_H
+#define RecoLocalTracker_Phase2ITPixelRecHits_Phase2PixelCPEGeneric_H
 
 // \class Phase2PixelCPEGeneric  -- a generalized CPE reco for the idealized detector
 //
@@ -29,7 +29,7 @@
 // Thus, the formula for the computation of the hit position is very
 // simple, and is described in Morris's note (IN ???) on the generalizaton
 // of the pixel algorithm.
-#include "RecoLocalTracker/Phase2PixelRecHits/interface/Phase2PixelCPEBase.h"
+#include "RecoLocalTracker/Phase2ITPixelRecHits/interface/Phase2PixelCPEBase.h"
 
 #include <utility>
 #include <vector>

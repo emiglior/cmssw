@@ -73,8 +73,8 @@ def customise_Reco(process,pileup):
     process.load("RecoLocalTracker.Phase2ITPixelClusterizer.Phase2ITPixelClusterizerPreSplitting_cfi")
     process.phase2ITPixelClustersPreSplitting.src = cms.InputTag('simSiPixelDigis', "Pixel")
     process.phase2ITPixelClustersPreSplitting.MissCalibrate = cms.untracked.bool(False)
-    process.load("RecoLocalTracker.Phase2PixelRecHits.Phase2PixelRecHits_cfi")
-    process.phase2PixelRecHitsPreSplitting.src = cms.InputTag("phase2ITPixelClustersPreSplitting")
+    process.load("RecoLocalTracker.Phase2ITPixelRecHits.Phase2ITPixelRecHits_cfi")
+    process.phase2ITPixelRecHitsPreSplitting.src = cms.InputTag("phase2ITPixelClustersPreSplitting")
 
 
     # PixelCPEGeneric #
@@ -89,11 +89,11 @@ def customise_Reco(process,pileup):
     process.siPixelRecHits.CPE = cms.string('PixelCPEGeneric')
 
     # Phase2PixelCPEGeneric #
-    process.load("RecoLocalTracker.Phase2PixelRecHits.Phase2PixelCPEESProducers_cff")
+    process.load("RecoLocalTracker.Phase2ITPixelRecHits.Phase2PixelCPEESProducers_cff")
     process.Phase2PixelCPEGenericESProducer.useLAWidthFromDB = cms.bool(False)
     process.Phase2PixelCPEGenericESProducer.DoCosmics = cms.bool(False)
     # CPE for other steps
-    process.phase2PixelRecHits.CPE = cms.string('Phase2PixelCPEGeneric')
+    process.phase2ITPixelRecHits.CPE = cms.string('Phase2PixelCPEGeneric')
 
 
     #process.load('RecoLocalTracker.SubCollectionProducers.jetCoreClusterSplitter_cfi')	
@@ -108,14 +108,14 @@ def customise_Reco(process,pileup):
 
     #itIndex = process.pixeltrackerlocalreco.index(process.siPixelClustersPreSplitting)
     #process.pixeltrackerlocalreco.insert(itIndex, process.siPhase2Clusters)
-    #process.pixeltrackerlocalreco.replace(process.siPixelClustersPreSplitting,process.phase2PixelClustersPreSplitting)
-    #process.pixeltrackerlocalreco.replace(process.siPixelRecHitsPreSplitting,process.phase2PixelRecHitPreSplitting)
+    #process.pixeltrackerlocalreco.replace(process.siPixelClustersPreSplitting,process.phase2ITPixelClustersPreSplitting)
+    #process.pixeltrackerlocalreco.replace(process.siPixelRecHitsPreSplitting,process.phase2ITPixelRecHitPreSplitting)
 
 
     process.pixeltrackerlocalreco = cms.Sequence(
         process.siPhase2Clusters 
       + process.phase2ITPixelClustersPreSplitting 
-      + process.phase2PixelRecHitsPreSplitting 
+      + process.phase2ITPixelRecHitsPreSplitting 
         )
     process.trackerlocalreco.remove(process.clusterSummaryProducer)
     process.reconstruction_trackingOnly.remove(process.globalreco_tracking)
@@ -128,8 +128,8 @@ def customise_Reco(process,pileup):
             getattr(process,b).outputCommands.append('keep *_siPhase2Clusters_*_*')
             getattr(process,b).outputCommands.append('keep *_phase2ITPixelClusters_*_*')
             getattr(process,b).outputCommands.append('keep *_phase2ITPixelClustersPreSplitting_*_*')
-            getattr(process,b).outputCommands.append('keep *_phase2PixelRecHits_*_*')               
-            getattr(process,b).outputCommands.append('keep *_phase2PixelRecHitsPreSplitting_*_*')               
+            getattr(process,b).outputCommands.append('keep *_phase2ITPixelRecHits_*_*')               
+            getattr(process,b).outputCommands.append('keep *_phase2ITPixelRecHitsPreSplitting_*_*')               
             getattr(process,b).outputCommands.append('keep *_simSiPixelDigis_*_*')
  
     return process

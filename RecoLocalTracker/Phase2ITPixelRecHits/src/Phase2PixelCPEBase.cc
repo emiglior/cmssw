@@ -12,7 +12,7 @@
 
 #include "Geometry/TrackerNumberingBuilder/interface/GeometricDet.h"
 
-#include "RecoLocalTracker/Phase2PixelRecHits/interface/Phase2PixelCPEBase.h"
+#include "RecoLocalTracker/Phase2ITPixelRecHits/interface/Phase2PixelCPEBase.h"
 
 #define CORRECT_FOR_BIG_PIXELS
 
