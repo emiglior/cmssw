@@ -13,42 +13,38 @@
 // The IT IS chain should be  Phase2ITPixelRecHit->TrackerSingleRecHit->BaseTrackerRecHit-> TrackingRecHit
 //---------------------------------------------------------------------------
 
-
 #include "DataFormats/Common/interface/DetSetVectorNew.h"
 
-
-#include "DataFormats/GeometrySurface/interface/LocalError.h"
-#include "DataFormats/GeometryVector/interface/LocalPoint.h"
-#include "Geometry/CommonDetUnit/interface/GeomDetUnit.h"
-
-#include "DataFormats/Phase2ITPixelCluster/interface/Phase2ITPixelCluster.h"
-// It contains the typedef used here 
-// typedef edmNew::DetSetVector<Phase2ITPixelCluster> Phase2ITPixelClusterCollectionNew;
-// typedef edm::Ref<Phase2ITPixelClusterCollectionNew, Phase2ITPixelCluster> Phase2ITPixelClusterRefNew;
-
 //! Our base class
-// #include "DataFormats/TrackerRecHit2D/interface/TrackerSingleRecHit.h"
+#include "DataFormats/TrackerRecHit2D/interface/TrackerSingleRecHit.h"
 
 // 
 
-class Phase2ITPixelRecHit {
+class Phase2ITPixelRecHit final : public TrackerSingleRecHit {
   
 public:
+  typedef OmniClusterRef::Phase2ITPixelClusterRef CluRef;
+
   Phase2ITPixelRecHit()  {;}  
   ~Phase2ITPixelRecHit() {;}
   Phase2ITPixelRecHit( const LocalPoint& pos , const LocalError& err, 
-		     GeomDet const & idet, // not used for the moment 
-		     Phase2ITPixelClusterRefNew const&  cluster) : pos_(pos), err_(err), cluster_(cluster) {;}
+		     GeomDet const & idet, 
+		     CluRef const&  cluster) : TrackerSingleRecHit(pos,err,idet,cluster){}
 
-  LocalPoint localPosition()      const { return pos_; }
-  LocalError localPositionError() const { return err_; }
-  Phase2ITPixelClusterRefNew cluster() const { return cluster_; }
-   
-  
-private:
-  LocalPoint pos_;
-  LocalError err_;
-  Phase2ITPixelClusterRefNew cluster_;
+  virtual Phase2ITPixelRecHit * clone() const override { return new Phase2ITPixelRecHit( * this); }
+#ifndef __GCCXML__
+  virtual RecHitPointer cloneSH() const override { return std::make_shared<Phase2ITPixelRecHit>(*this);}
+#endif
+
+  CluRef cluster()  const { return cluster_phase2IT(); }
+  void setClusterRef(CluRef const & ref)  {setClusterPhase2ITPixelRef(ref);}
+
+  virtual bool isPhase2() const override { return true; }
+  //FIXME::check dimension of this!!
+  virtual int dimension() const override {return 2;}
+  virtual void getKfComponents( KfComponentsHolder & holder ) const override { getKfComponents2D(holder); }
+
+ private:
   
 };
 
