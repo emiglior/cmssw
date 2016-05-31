@@ -112,7 +112,7 @@ bool Phase2ITPixelThresholdClusterizer::setup(const PixelGeomDetUnit * pixDet)
 void Phase2ITPixelThresholdClusterizer::clusterizeDetUnit( const edm::DetSet<PixelDigi> & input,
 						   const PixelGeomDetUnit * pixDet,
 						   const std::vector<short>& badChannels,
-                                                   edmNew::DetSetVector<Phase2PixelCluster>::FastFiller& output) {
+                                                   edmNew::DetSetVector<Phase2ITPixelCluster>::FastFiller& output) {
   
   DigiIterator begin = input.begin();
   DigiIterator end   = input.end();
@@ -140,7 +140,7 @@ void Phase2ITPixelThresholdClusterizer::clusterizeDetUnit( const edm::DetSet<Pix
       if ( theBuffer(theSeeds[i]) >= theSeedThreshold ) 
 	{  // Is this seed still valid?
 	  //  Make a cluster around this seed
-	  Phase2PixelCluster && cluster = make_cluster( theSeeds[i] , output);
+	  Phase2ITPixelCluster && cluster = make_cluster( theSeeds[i] , output);
 	  
 	  //  Check if the cluster is above threshold  
 	  // (TO DO: one is signed, other unsigned, gcc warns...)
@@ -229,7 +229,7 @@ void Phase2ITPixelThresholdClusterizer::copy_to_buffer( DigiIterator begin, Digi
 #endif
     if ( adc >= thePixelThreshold) {
       theBuffer.set_adc( row, col, adc);
-      if ( adc >= theSeedThreshold) theSeeds.push_back( Phase2PixelCluster::PixelPos(row,col) );
+      if ( adc >= theSeedThreshold) theSeeds.push_back( Phase2ITPixelCluster::PixelPos(row,col) );
     }
   }
   assert(i==(end-begin));
@@ -328,7 +328,7 @@ namespace {
     void pop() { ++curr;}   
     bool empty() { return curr==isize;}
 
-    bool add(Phase2PixelCluster::PixelPos const & p, UShort const iadc) {
+    bool add(Phase2ITPixelCluster::PixelPos const & p, UShort const iadc) {
       if (isize==MAXSIZE) return false;
       xmin=std::min(xmin,(UShort)(p.row()));
       ymin=std::min(ymin,(UShort)(p.col()));
@@ -344,14 +344,14 @@ namespace {
 //----------------------------------------------------------------------------
 //!  \brief The actual clustering algorithm: group the neighboring pixels around the seed.
 //----------------------------------------------------------------------------
-Phase2PixelCluster 
-Phase2ITPixelThresholdClusterizer::make_cluster( const Phase2PixelCluster::PixelPos& pix, 
-					 edmNew::DetSetVector<Phase2PixelCluster>::FastFiller& output) 
+Phase2ITPixelCluster 
+Phase2ITPixelThresholdClusterizer::make_cluster( const Phase2ITPixelCluster::PixelPos& pix, 
+					 edmNew::DetSetVector<Phase2ITPixelCluster>::FastFiller& output) 
 {
   
   //First we acquire the seeds for the clusters
   int seed_adc;
-  stack<Phase2PixelCluster::PixelPos, vector<Phase2PixelCluster::PixelPos> > dead_pixel_stack;
+  stack<Phase2ITPixelCluster::PixelPos, vector<Phase2ITPixelCluster::PixelPos> > dead_pixel_stack;
   
   //The individual modules have been loaded into a buffer.
   //After each pixel has been considered by the clusterizer, we set the adc count to 1
@@ -386,7 +386,7 @@ Phase2ITPixelThresholdClusterizer::make_cluster( const Phase2PixelCluster::Pixel
       for ( auto c = std::max(0,int(acluster.y[curInd])-1); c < std::min(int(acluster.y[curInd])+2,theBuffer.columns()) ; ++c) {
 	for ( auto r = std::max(0,int(acluster.x[curInd])-1); r < std::min(int(acluster.x[curInd])+2,theBuffer.rows()); ++r)  {
 	  if ( theBuffer(r,c) >= thePixelThreshold) {
-	    Phase2PixelCluster::PixelPos newpix(r,c);
+	    Phase2ITPixelCluster::PixelPos newpix(r,c);
 	    if (!acluster.add( newpix, theBuffer(r,c))) goto endClus;
 	    theBuffer.set_adc( newpix, 1);
 	  }
@@ -402,7 +402,7 @@ Phase2ITPixelThresholdClusterizer::make_cluster( const Phase2PixelCluster::Pixel
 	      //Push it into a dead pixel stack in case we want to split the clusters.  Otherwise add it to the cluster.
    	      //If we are splitting the clusters, we will iterate over the dead pixel stack later.
 	      
-	      Phase2PixelCluster::PixelPos newpix(r,c);
+	      Phase2ITPixelCluster::PixelPos newpix(r,c);
 	      if(!doSplitClusters){
 	      
 	      cluster.add(newpix, theBuffer(r,c));}
@@ -423,22 +423,22 @@ Phase2ITPixelThresholdClusterizer::make_cluster( const Phase2PixelCluster::Pixel
       
     }  // while accretion
  endClus:
-  Phase2PixelCluster cluster(acluster.isize,acluster.adc, acluster.x,acluster.y, acluster.xmin,acluster.ymin);
+  Phase2ITPixelCluster cluster(acluster.isize,acluster.adc, acluster.x,acluster.y, acluster.xmin,acluster.ymin);
   //Here we split the cluster, if the flag to do so is set and we have found a dead or noisy pixel.
   
   if (dead_flag && doSplitClusters) 
     {
       //Set the first cluster equal to the existing cluster.
-      Phase2PixelCluster first_cluster = cluster;
+      Phase2ITPixelCluster first_cluster = cluster;
       bool have_second_cluster = false;
       while ( !dead_pixel_stack.empty() )
 	{
 	  //consider each found dead pixel
-	  Phase2PixelCluster::PixelPos deadpix = dead_pixel_stack.top(); dead_pixel_stack.pop();
+	  Phase2ITPixelCluster::PixelPos deadpix = dead_pixel_stack.top(); dead_pixel_stack.pop();
 	  theBuffer.set_adc(deadpix, 1);
 	 
 	  //Clusterize the split cluster using the dead pixel as a seed
-	  Phase2PixelCluster second_cluster = make_cluster(deadpix, output);
+	  Phase2ITPixelCluster second_cluster = make_cluster(deadpix, output);
 	  
 	  //If both clusters would normally have been found by the clusterizer, put them into output
 	  if ( second_cluster.charge() >= theClusterThreshold && 
@@ -450,13 +450,13 @@ Phase2ITPixelThresholdClusterizer::make_cluster( const Phase2PixelCluster::Pixel
 	  
 	  //We also want to keep the merged cluster in data and let the RecHit algorithm decide which set to keep
 	  //This loop adds the second cluster to the first.
-	  const std::vector<Phase2PixelCluster::Pixel>& branch_pixels = second_cluster.pixels();
+	  const std::vector<Phase2ITPixelCluster::Pixel>& branch_pixels = second_cluster.pixels();
 	  for ( unsigned int i = 0; i<branch_pixels.size(); i++)
 	    {
 	      int temp_x = branch_pixels[i].x;
 	      int temp_y = branch_pixels[i].y;
 	      int temp_adc = branch_pixels[i].adc;
-	      Phase2PixelCluster::PixelPos newpix(temp_x, temp_y);
+	      Phase2ITPixelCluster::PixelPos newpix(temp_x, temp_y);
 	      cluster.add(newpix, temp_adc);}
 	}
       

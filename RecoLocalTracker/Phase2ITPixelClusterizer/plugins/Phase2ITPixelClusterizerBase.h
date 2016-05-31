@@ -3,7 +3,7 @@
 
 #include "DataFormats/Common/interface/DetSetVector.h"
 #include "DataFormats/Common/interface/DetSetVectorNew.h"
-#include "DataFormats/Phase2ITPixelCluster/interface/Phase2PixelCluster.h"
+#include "DataFormats/Phase2ITPixelCluster/interface/Phase2ITPixelCluster.h"
 #include "DataFormats/SiPixelDigi/interface/PixelDigi.h"
 #include "CalibTracker/SiPixelESProducers/interface/SiPixelGainCalibrationServiceBase.h"
 #include <vector>
@@ -25,7 +25,7 @@ public:
   virtual void clusterizeDetUnit( const edm::DetSet<PixelDigi> & input,	
 				  const PixelGeomDetUnit * pixDet,
 				  const std::vector<short>& badChannels,
-				  edmNew::DetSetVector<Phase2PixelCluster>::FastFiller& output) = 0;
+				  edmNew::DetSetVector<Phase2ITPixelCluster>::FastFiller& output) = 0;
 
   // Configure gain calibration service
   void setSiPixelGainCalibrationService( SiPixelGainCalibrationServiceBase* in){ 

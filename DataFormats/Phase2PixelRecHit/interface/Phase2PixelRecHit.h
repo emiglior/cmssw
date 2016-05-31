@@ -21,10 +21,10 @@
 #include "DataFormats/GeometryVector/interface/LocalPoint.h"
 #include "Geometry/CommonDetUnit/interface/GeomDetUnit.h"
 
-#include "DataFormats/Phase2ITPixelCluster/interface/Phase2PixelCluster.h"
+#include "DataFormats/Phase2ITPixelCluster/interface/Phase2ITPixelCluster.h"
 // It contains the typedef used here 
-// typedef edmNew::DetSetVector<Phase2PixelCluster> Phase2PixelClusterCollectionNew;
-// typedef edm::Ref<Phase2PixelClusterCollectionNew, Phase2PixelCluster> Phase2PixelClusterRefNew;
+// typedef edmNew::DetSetVector<Phase2ITPixelCluster> Phase2ITPixelClusterCollectionNew;
+// typedef edm::Ref<Phase2ITPixelClusterCollectionNew, Phase2ITPixelCluster> Phase2ITPixelClusterRefNew;
 
 //! Our base class
 // #include "DataFormats/TrackerRecHit2D/interface/TrackerSingleRecHit.h"
@@ -38,17 +38,17 @@ public:
   ~Phase2PixelRecHit() {;}
   Phase2PixelRecHit( const LocalPoint& pos , const LocalError& err, 
 		     GeomDet const & idet, // not used for the moment 
-		     Phase2PixelClusterRefNew const&  cluster) : pos_(pos), err_(err), cluster_(cluster) {;}
+		     Phase2ITPixelClusterRefNew const&  cluster) : pos_(pos), err_(err), cluster_(cluster) {;}
 
   LocalPoint localPosition()      const { return pos_; }
   LocalError localPositionError() const { return err_; }
-  Phase2PixelClusterRefNew cluster() const { return cluster_; }
+  Phase2ITPixelClusterRefNew cluster() const { return cluster_; }
    
   
 private:
   LocalPoint pos_;
   LocalError err_;
-  Phase2PixelClusterRefNew cluster_;
+  Phase2ITPixelClusterRefNew cluster_;
   
 };
 

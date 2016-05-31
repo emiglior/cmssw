@@ -1,8 +1,8 @@
-#ifndef DataFormats_Phase2PixelCluster_Phase2PixelCluster_h
-#define DataFormats_Phase2PixelCluster_Phase2PixelCluster_h
+#ifndef DataFormats_Phase2ITPixelCluster_Phase2ITPixelCluster_h
+#define DataFormats_Phase2ITPixelCluster_Phase2ITPixelCluster_h
 
 //---------------------------------------------------------------------------
-//!  \class Phase2PixelCluster
+//!  \class Phase2ITPixelCluster
 //!  \brief Pixel cluster -- collection of neighboring pixels above threshold
 //!
 //!  Class to contain and store all the topological information of pixel clusters:
@@ -30,7 +30,7 @@
 
 class PixelDigi;
 
-class Phase2PixelCluster {
+class Phase2ITPixelCluster {
 public:
   
   class Pixel {
@@ -90,9 +90,9 @@ public:
    *  a DetID. The range is assumed to be non-empty.
    */
   
-  Phase2PixelCluster() : thePixelRow(MAXPOS), thePixelCol(MAXPOS), err_x(-99999.9), err_y(-99999.9) {}  // needed by many....
+  Phase2ITPixelCluster() : thePixelRow(MAXPOS), thePixelCol(MAXPOS), err_x(-99999.9), err_y(-99999.9) {}  // needed by many....
   
-  Phase2PixelCluster(unsigned int isize, uint32_t const * adcs,
+  Phase2ITPixelCluster(unsigned int isize, uint32_t const * adcs,
 		 uint32_t const * xpos,  uint32_t const * ypos, 
 		 uint32_t const  xmin,  uint32_t const  ymin) :   
     thePixelOffset(2*isize), thePixelADC(adcs,adcs+isize), err_x(-99999.9), err_y(-99999.9) {
@@ -112,7 +112,7 @@ public:
   
   
   // obsolete (only for regression tests)
-  Phase2PixelCluster( const PixelPos& pix, uint32_t adc);
+  Phase2ITPixelCluster( const PixelPos& pix, uint32_t adc);
   void add( const PixelPos& pix, uint32_t adc);
   
   // Analog linear average position (barycenter) 
@@ -211,7 +211,7 @@ public:
   /// mostly to be compatible for <610 
   void verifyVersion() const {
     if unlikely( thePixelRow<MAXPOS && thePixelCol<MAXPOS)
-		 const_cast<Phase2PixelCluster*>(this)->computeMax();
+		 const_cast<Phase2ITPixelCluster*>(this)->computeMax();
   }
   
   /// moslty to be compatible for <610 
@@ -257,14 +257,14 @@ private:
   // from a splitting procedure or not. That's why we have to instruct the CPE to use 
   // appropriate errors for split clusters.
   // To avoid increase of data size on disk,these new data members are set as transient in: 
-  // DataFormats/Phase2PixelCluster/src/classes_def.xml
+  // DataFormats/Phase2ITPixelCluster/src/classes_def.xml
   float err_x;
   float err_y;
   
 };
 
 // Comparison operators  (no clue...)
-inline bool operator<( const Phase2PixelCluster& one, const Phase2PixelCluster& other) {
+inline bool operator<( const Phase2ITPixelCluster& one, const Phase2ITPixelCluster& other) {
   if ( one.minPixelRow() < other.minPixelRow() ) {
     return true;
   } else if ( one.minPixelRow() > other.minPixelRow() ) {
@@ -281,11 +281,11 @@ inline bool operator<( const Phase2PixelCluster& one, const Phase2PixelCluster& 
 #include "DataFormats/Common/interface/Ref.h"
 #include "DataFormats/Common/interface/DetSetRefVector.h"
 
-typedef edm::DetSetVector<Phase2PixelCluster> Phase2PixelClusterCollection;
-typedef edm::Ref<Phase2PixelClusterCollection, Phase2PixelCluster> Phase2PixelClusterRef;
-typedef edm::DetSetRefVector<Phase2PixelCluster> Phase2PixelClusterRefVector;
-typedef edm::RefProd<Phase2PixelClusterCollection> Phase2PixelClusterRefProd;
+typedef edm::DetSetVector<Phase2ITPixelCluster> Phase2ITPixelClusterCollection;
+typedef edm::Ref<Phase2ITPixelClusterCollection, Phase2ITPixelCluster> Phase2ITPixelClusterRef;
+typedef edm::DetSetRefVector<Phase2ITPixelCluster> Phase2ITPixelClusterRefVector;
+typedef edm::RefProd<Phase2ITPixelClusterCollection> Phase2ITPixelClusterRefProd;
 
-typedef edmNew::DetSetVector<Phase2PixelCluster> Phase2PixelClusterCollectionNew;
-typedef edm::Ref<Phase2PixelClusterCollectionNew, Phase2PixelCluster> Phase2PixelClusterRefNew;
+typedef edmNew::DetSetVector<Phase2ITPixelCluster> Phase2ITPixelClusterCollectionNew;
+typedef edm::Ref<Phase2ITPixelClusterCollectionNew, Phase2ITPixelCluster> Phase2ITPixelClusterRefNew;
 #endif 

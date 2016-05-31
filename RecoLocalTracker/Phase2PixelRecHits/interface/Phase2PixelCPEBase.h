@@ -15,6 +15,7 @@
 #include <vector>
 #include "TMath.h"
 
+#include "DataFormats/Phase2ITPixelCluster/interface/Phase2ITPixelCluster.h"
 #include "RecoLocalTracker/ClusterParameterEstimator/interface/Phase2PixelClusterParameterEstimator.h"
 #include "DataFormats/TrackerRecHit2D/interface/SiPixelRecHitQuality.h"
 
@@ -77,10 +78,10 @@ class Phase2PixelCPEBase : public Phase2PixelClusterParameterEstimator
 
   struct ClusterParam
   {
-    ClusterParam(const Phase2PixelCluster & cl) : theCluster(&cl), loc_trk_pred(0.0,0.0,0.0,0.0),
+    ClusterParam(const Phase2ITPixelCluster & cl) : theCluster(&cl), loc_trk_pred(0.0,0.0,0.0,0.0),
       probabilityX_(0.0), probabilityY_(0.0), probabilityQ_(0.0), qBin_(0.0),
       isOnEdge_(false), hasBadPixels_(false), spansTwoROCs_(false), hasFilledProb_(false) {}
-    const Phase2PixelCluster * theCluster;
+    const Phase2ITPixelCluster * theCluster;
 
     //--- Cluster-level quantities (may need more)
     float cotalpha;
@@ -127,7 +128,7 @@ public:
   // Obtain the angles from the position of the DetUnit.
   //--------------------------------------------------------------------------
 
-  inline ReturnType getParameters(const Phase2PixelCluster & cl, 
+  inline ReturnType getParameters(const Phase2ITPixelCluster & cl, 
 				   const GeomDetUnit    & det ) const
     {
 #ifdef EDM_ML_DEBUG
@@ -154,7 +155,7 @@ public:
   //--------------------------------------------------------------------------
   // In principle we could use the track too to obtain alpha and beta.
   //--------------------------------------------------------------------------
-  inline ReturnType getParameters(const Phase2PixelCluster & cl, 
+  inline ReturnType getParameters(const Phase2ITPixelCluster & cl, 
 				   const GeomDetUnit    & det, 
 				   const LocalTrajectoryParameters & ltp ) const
   {
@@ -182,7 +183,7 @@ public:
   
   
 private:
-  virtual ClusterParam * createClusterParam(const Phase2PixelCluster & cl) const = 0;
+  virtual ClusterParam * createClusterParam(const Phase2ITPixelCluster & cl) const = 0;
 
   //--------------------------------------------------------------------------
   // This is where the action happens.

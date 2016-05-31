@@ -37,7 +37,7 @@
 #include "DataFormats/Common/interface/DetSetVector.h"
 #include "DataFormats/Common/interface/DetSetVectorNew.h"
 #include "DataFormats/SiPixelDigi/interface/PixelDigi.h"
-#include "DataFormats/Phase2ITPixelCluster/interface/Phase2PixelCluster.h"
+#include "DataFormats/Phase2ITPixelCluster/interface/Phase2ITPixelCluster.h"
 
 
 #include "FWCore/Framework/interface/stream/EDProducer.h"
@@ -63,7 +63,7 @@
     //--- Execute the algorithm(s).
     void run(const edm::DetSetVector<PixelDigi>   & input,
 	     edm::ESHandle<TrackerGeometry>       & geom,
-             edmNew::DetSetVector<Phase2PixelCluster> & output);
+             edmNew::DetSetVector<Phase2ITPixelCluster> & output);
 
   private:
     edm::ParameterSet conf_;

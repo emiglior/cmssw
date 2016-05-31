@@ -1,16 +1,16 @@
-#include "DataFormats/Phase2ITPixelCluster/interface/Phase2PixelCluster.h"
+#include "DataFormats/Phase2ITPixelCluster/interface/Phase2ITPixelCluster.h"
 #include<cassert>
 #include<cstdio>
 
-typedef Phase2PixelCluster::PixelPos PiPos;
-typedef Phase2PixelCluster::Pixel Pixel;
+typedef Phase2ITPixelCluster::PixelPos PiPos;
+typedef Phase2ITPixelCluster::Pixel Pixel;
 
 template<int N>
 inline
 bool verify(PiPos const (&pos)[N], bool ox, bool oy) {
 
   bool ok=true;
-  Phase2PixelCluster clus;
+  Phase2ITPixelCluster clus;
   for (auto p : pos)
     clus.add(p,2);
   printf("\nclus  %d  %d,%d %d,%d %s %s\n\n",clus.size(), clus.minPixelRow(),clus.maxPixelRow(),clus.minPixelCol(),clus.maxPixelCol(), 
@@ -34,7 +34,7 @@ bool verify(PiPos const (&pos)[N], bool ox, bool oy) {
     y[isize++]=p.col();
   }
   printf("pos  %d  %d,%d\n", isize, xmin, ymin);
-  Phase2PixelCluster clus2(isize,adc,x,y,xmin,ymin);
+  Phase2ITPixelCluster clus2(isize,adc,x,y,xmin,ymin);
   printf("clus2 %d  %d,%d %d,%d %s %s\n\n",clus2.size(), clus2.minPixelRow(),clus2.maxPixelRow(),clus2.minPixelCol(),clus2.maxPixelCol(), 
 	 clus2.overflowCol() ? "overflowY ":" ",clus2.overflowRow() ? " overflowX":"");  
 

@@ -74,7 +74,7 @@ def customise_Reco(process,pileup):
     process.phase2ITPixelClustersPreSplitting.src = cms.InputTag('simSiPixelDigis', "Pixel")
     process.phase2ITPixelClustersPreSplitting.MissCalibrate = cms.untracked.bool(False)
     process.load("RecoLocalTracker.Phase2PixelRecHits.Phase2PixelRecHits_cfi")
-    process.phase2PixelRecHitsPreSplitting.src = cms.InputTag("phase2PixelClustersPreSplitting")
+    process.phase2PixelRecHitsPreSplitting.src = cms.InputTag("phase2ITPixelClustersPreSplitting")
 
 
     # PixelCPEGeneric #

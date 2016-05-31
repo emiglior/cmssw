@@ -24,7 +24,7 @@
 #include "DataFormats/Common/interface/DetSetVector.h"
 #include "DataFormats/DetId/interface/DetId.h"
 #include "DataFormats/Common/interface/Handle.h"
-#include "DataFormats/Phase2ITPixelCluster/interface/Phase2PixelCluster.h"
+#include "DataFormats/Phase2ITPixelCluster/interface/Phase2ITPixelCluster.h"
 #include "DataFormats/SiPixelDigi/interface/PixelDigi.h"
 
 #include "SimDataFormats/TrackerDigiSimLink/interface/PixelDigiSimLink.h"
@@ -81,7 +81,7 @@ class Phase2TrackerClusterizerValidation : public edm::EDAnalyzer {
         unsigned int getLayerNumber(const DetId&, const TrackerTopology*);
         unsigned int getSimTrackId(const edm::Handle< edm::DetSetVector< PixelDigiSimLink > >&, const DetId&, unsigned int);
 
-        edm::EDGetTokenT< Phase2PixelClusterCollectionNew > tokenClusters_;
+        edm::EDGetTokenT< Phase2ITPixelClusterCollectionNew > tokenClusters_;
         edm::EDGetTokenT< edm::DetSetVector< PixelDigiSimLink > > tokenLinks_;
         edm::EDGetTokenT< edm::PSimHitContainer > tokenSimHits_;
         edm::EDGetTokenT< edm::SimTrackContainer> tokenSimTracks_;
@@ -97,7 +97,7 @@ class Phase2TrackerClusterizerValidation : public edm::EDAnalyzer {
 };
 
     Phase2TrackerClusterizerValidation::Phase2TrackerClusterizerValidation(const edm::ParameterSet& conf) { 
-        tokenClusters_ = consumes< Phase2PixelClusterCollectionNew >(conf.getParameter<edm::InputTag>("src"));
+        tokenClusters_ = consumes< Phase2ITPixelClusterCollectionNew >(conf.getParameter<edm::InputTag>("src"));
         tokenLinks_ = consumes< edm::DetSetVector< PixelDigiSimLink> >(conf.getParameter<edm::InputTag>("links"));
         tokenSimHits_ = consumes< edm::PSimHitContainer >(edm::InputTag("g4SimHits", "TrackerHitsPixelBarrelLowTof"));
         tokenSimTracks_ = consumes< edm::SimTrackContainer >(edm::InputTag("g4SimHits"));
@@ -126,7 +126,7 @@ void Phase2TrackerClusterizerValidation::analyze(const edm::Event& event, const 
      */
 
     // Get the clusters
-    edm::Handle< Phase2PixelClusterCollectionNew > clusters;
+    edm::Handle< Phase2ITPixelClusterCollectionNew > clusters;
     event.getByToken(tokenClusters_, clusters);
 
     // Get the PixelDigiSimLinks
@@ -191,7 +191,7 @@ void Phase2TrackerClusterizerValidation::analyze(const edm::Event& event, const 
      */
 
     // Loop over modules
-    for (Phase2PixelClusterCollectionNew::const_iterator DSViter = clusters->begin(); DSViter != clusters->end(); ++DSViter) {
+    for (Phase2ITPixelClusterCollectionNew::const_iterator DSViter = clusters->begin(); DSViter != clusters->end(); ++DSViter) {
 
         // Get the detector unit's id
         unsigned int rawid(DSViter->detId()); 
@@ -212,7 +212,7 @@ void Phase2TrackerClusterizerValidation::analyze(const edm::Event& event, const 
         unsigned int nClustersPixel(0);
 
         // Loop over the clusters in the detector unit
-        for (edmNew::DetSet< Phase2PixelCluster >::const_iterator clustIt = DSViter->begin(); clustIt != DSViter->end(); ++clustIt) {
+        for (edmNew::DetSet< Phase2ITPixelCluster >::const_iterator clustIt = DSViter->begin(); clustIt != DSViter->end(); ++clustIt) {
             /*
              * Cluster related variables
              */
@@ -262,7 +262,7 @@ void Phase2TrackerClusterizerValidation::analyze(const edm::Event& event, const 
             std::vector< unsigned int > clusterSimTrackIds;
 
 	    // ATricomi + EMigliore: skip for now 
-	    // Phase2PixelCluster::size: should return an unsigned int instead of a int?
+	    // Phase2ITPixelCluster::size: should return an unsigned int instead of a int?
 
             // // Get all the simTracks that form the cluster
             // for (unsigned int i(0); i < clustIt->size(); ++i) {

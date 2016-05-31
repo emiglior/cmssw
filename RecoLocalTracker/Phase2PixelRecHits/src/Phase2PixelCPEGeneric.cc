@@ -74,7 +74,7 @@ Phase2PixelCPEGeneric::Phase2PixelCPEGeneric(edm::ParameterSet const & conf,
 
 }
 
-Phase2PixelCPEBase::ClusterParam* Phase2PixelCPEGeneric::createClusterParam(const Phase2PixelCluster & cl) const
+Phase2PixelCPEBase::ClusterParam* Phase2PixelCPEGeneric::createClusterParam(const Phase2ITPixelCluster & cl) const
 {
    return new ClusterParamGeneric(cl);
 }

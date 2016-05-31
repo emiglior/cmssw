@@ -5,7 +5,7 @@
  * History: Oct 14, 2005, initial version
  * Get rid of the noiseVector. d.k. 28/3/06
  * Implementation of the DetSetVector container.    V.Chiochia, May 06
- * Phase2PixelClusterCollection typedef of DetSetVector V.Chiochia, June 06
+ * Phase2ITPixelClusterCollection typedef of DetSetVector V.Chiochia, June 06
  * Introduce the DetSet local container (cache) for speed. d.k. 05/07
  * 
  * ---------------------------------------------------------------
@@ -58,7 +58,7 @@
   {
     tPixelDigi = consumes<edm::DetSetVector<PixelDigi>>(src_);
     //--- Declare to the EDM what kind of collections we will be making.
-    produces<Phase2PixelClusterCollectionNew>(); 
+    produces<Phase2ITPixelClusterCollectionNew>(); 
 
     std::string payloadType = conf.getParameter<std::string>( "payloadType" );
 
@@ -101,7 +101,7 @@
     es.get<TrackerDigiGeometryRecord>().get( geom );
 
     // Step B: create the final output collection
-    std::auto_ptr<Phase2PixelClusterCollectionNew> output( new Phase2PixelClusterCollectionNew() );
+    std::auto_ptr<Phase2ITPixelClusterCollectionNew> output( new Phase2ITPixelClusterCollectionNew() );
     //FIXME: put a reserve() here
 
     // Step C: Iterate over DetIds and invoke the pixel clusterizer algorithm
@@ -142,7 +142,7 @@
   //---------------------------------------------------------------------------
   void Phase2ITPixelClusterProducer::run(const edm::DetSetVector<PixelDigi>   & input, 
 				   edm::ESHandle<TrackerGeometry>       & geom,
-                                   edmNew::DetSetVector<Phase2PixelCluster> & output) {
+                                   edmNew::DetSetVector<Phase2ITPixelCluster> & output) {
     if ( ! readyToCluster_ ) {
       edm::LogError("Phase2ITPixelClusterProducer")
 		<<" at least one clusterizer is not ready -- can't run!" ;
@@ -177,7 +177,7 @@
       }
       // Produce clusters for this DetUnit and store them in 
       // a DetSet
-      edmNew::DetSetVector<Phase2PixelCluster>::FastFiller spc(output, DSViter->detId());
+      edmNew::DetSetVector<Phase2ITPixelCluster>::FastFiller spc(output, DSViter->detId());
       clusterizer_->clusterizeDetUnit(*DSViter, pixDet, badChannels, spc);
       if ( spc.empty() ) {
         spc.abort();
@@ -187,7 +187,7 @@
 
       if ((maxTotalClusters_ >= 0) && (numberOfClusters > maxTotalClusters_)) {
         edm::LogError("TooManyClusters") <<  "Limit on the number of clusters exceeded. An empty cluster collection will be produced instead.\n";
-        edmNew::DetSetVector<Phase2PixelCluster> empty;
+        edmNew::DetSetVector<Phase2ITPixelCluster> empty;
         empty.swap(output);
         break;
       }
@@ -195,7 +195,7 @@
     
     //LogDebug ("Phase2ITPixelClusterProducer") << " Executing " 
     //      << clusterMode_ << " resulted in " << numberOfClusters
-    //				    << " Phase2PixelClusters in " << numberOfDetUnits << " DetUnits."; 
+    //				    << " Phase2ITPixelClusters in " << numberOfDetUnits << " DetUnits."; 
   }
 
 

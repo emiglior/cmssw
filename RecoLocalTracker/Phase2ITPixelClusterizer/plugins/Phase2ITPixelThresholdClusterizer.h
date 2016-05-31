@@ -6,7 +6,7 @@
 //! \brief An explicit threshold-based clustering algorithm.
 //!
 //! A threshold-based clustering algorithm which clusters SiPixelDigis 
-//! into Phase2PixelClusters for each DetUnit.  The algorithm is straightforward 
+//! into Phase2ITPixelClusters for each DetUnit.  The algorithm is straightforward 
 //! and purely topological: the clustering process starts with seed pixels 
 //! and continues by adding adjacent pixels above the pixel threshold.
 //! Once the cluster is made, it has to be above the cluster threshold as 
@@ -24,7 +24,7 @@
 //! At this point the noise and dead channels are ignored, but soon they
 //! won't be.
 //!
-//! Phase2PixelCluster contains a barrycenter, but it should be noted that that
+//! Phase2ITPixelCluster contains a barrycenter, but it should be noted that that
 //! information is largely useless.  One must use a PositionEstimator
 //! class to compute the RecHit position and its error for every given 
 //! cluster.
@@ -38,7 +38,7 @@
 //! useCache has been set.
 //-----------------------------------------------------------------------
 
-// Base class, defines SiPixelDigi and Phase2PixelCluster.  The latter includes
+// Base class, defines SiPixelDigi and Phase2ITPixelCluster.  The latter includes
 // Pixel, PixelPos and Shift as inner classes.
 //
 #include "DataFormats/Common/interface/DetSetVector.h"
@@ -63,7 +63,7 @@ class dso_hidden Phase2ITPixelThresholdClusterizer final : public Phase2ITPixelC
   void clusterizeDetUnit( const edm::DetSet<PixelDigi> & input,	
 				  const PixelGeomDetUnit * pixDet,
 				  const std::vector<short>& badChannels,
-				  edmNew::DetSetVector<Phase2PixelCluster>::FastFiller& output
+				  edmNew::DetSetVector<Phase2ITPixelCluster>::FastFiller& output
 );
 
   
@@ -74,8 +74,8 @@ class dso_hidden Phase2ITPixelThresholdClusterizer final : public Phase2ITPixelC
   //! Data storage
   Phase2ITPixelArrayBuffer           theBuffer;         // internal nrow * ncol matrix
   bool                             bufferAlreadySet;  // status of the buffer array
-  std::vector<Phase2PixelCluster::PixelPos>  theSeeds;          // cached seed pixels
-  std::vector<Phase2PixelCluster>            theClusters;       // resulting clusters  
+  std::vector<Phase2ITPixelCluster::PixelPos>  theSeeds;          // cached seed pixels
+  std::vector<Phase2ITPixelCluster>            theClusters;       // resulting clusters  
   
   //! Clustering-related quantities:
   float thePixelThresholdInNoiseUnits;    // Pixel threshold in units of noise
@@ -99,7 +99,7 @@ class dso_hidden Phase2ITPixelThresholdClusterizer final : public Phase2ITPixelC
   bool setup(const PixelGeomDetUnit * pixDet);
   void copy_to_buffer( DigiIterator begin, DigiIterator end );   
   void clear_buffer( DigiIterator begin, DigiIterator end );   
-  Phase2PixelCluster make_cluster( const Phase2PixelCluster::PixelPos& pix, edmNew::DetSetVector<Phase2PixelCluster>::FastFiller& output
+  Phase2ITPixelCluster make_cluster( const Phase2ITPixelCluster::PixelPos& pix, edmNew::DetSetVector<Phase2ITPixelCluster>::FastFiller& output
 );
   // Calibrate the ADC charge to electrons 
   int calibrate(int adc, int col, int row);

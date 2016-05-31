@@ -1,7 +1,7 @@
-#include "DataFormats/Phase2ITPixelCluster/interface/Phase2PixelCluster.h"
+#include "DataFormats/Phase2ITPixelCluster/interface/Phase2ITPixelCluster.h"
 
 //---------------------------------------------------------------------------
-//!  \class Phase2PixelCluster
+//!  \class Phase2ITPixelCluster
 //!  \brief Pixel cluster -- collection of pixels with ADC counts
 //!
 //!  Class to contain and store all the topological information of pixel clusters:
@@ -15,7 +15,7 @@
 //---------------------------------------------------------------------------
 
 
-Phase2PixelCluster::Phase2PixelCluster( const Phase2PixelCluster::PixelPos& pix, uint32_t adc) :
+Phase2ITPixelCluster::Phase2ITPixelCluster( const Phase2ITPixelCluster::PixelPos& pix, uint32_t adc) :
   thePixelRow(pix.row()),
   thePixelCol(pix.col()),
     // ggiurgiu@fnal.gov, 01/05/12
@@ -32,7 +32,7 @@ Phase2PixelCluster::Phase2PixelCluster( const Phase2PixelCluster::PixelPos& pix,
   thePixelOffset.push_back(0 );
 }
 
-void Phase2PixelCluster::add( const Phase2PixelCluster::PixelPos& pix, uint32_t adc) {
+void Phase2ITPixelCluster::add( const Phase2ITPixelCluster::PixelPos& pix, uint32_t adc) {
   
   uint32_t ominRow = minPixelRow();
   uint32_t ominCol = minPixelCol();

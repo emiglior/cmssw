@@ -1,12 +1,12 @@
 // -*- c++ -*-
-#ifndef DataFormats_Phase2ITPixelCluster_Phase2PixelClusterShapeData_h
-#define DataFormats_Phase2ITPixelCluster_Phase2PixelClusterShapeData_h
+#ifndef DataFormats_Phase2ITPixelCluster_Phase2ITPixelClusterShapeData_h
+#define DataFormats_Phase2ITPixelCluster_Phase2ITPixelClusterShapeData_h
 
 #include "DataFormats/Provenance/interface/ProductID.h"
 #include "DataFormats/Common/interface/HandleBase.h"
 #include "DataFormats/Common/interface/Ref.h"
 #include "DataFormats/Common/interface/DetSetVectorNew.h"
-#include "DataFormats/Phase2ITPixelCluster/interface/Phase2PixelCluster.h"
+#include "DataFormats/Phase2ITPixelCluster/interface/Phase2ITPixelCluster.h"
 
 #include <utility>
 #include <vector>
@@ -16,14 +16,14 @@
 
 class PixelGeomDetUnit;
 
-class Phase2PixelClusterShapeData {
+class Phase2ITPixelClusterShapeData {
 public:
   typedef std::vector<std::pair<int, int> >::const_iterator const_iterator;
   typedef std::pair<const_iterator, const_iterator> Range;
-  Phase2PixelClusterShapeData(const_iterator begin, const_iterator end, bool isStraight, bool isComplete, bool hasBigPixelsOnlyInside):
+  Phase2ITPixelClusterShapeData(const_iterator begin, const_iterator end, bool isStraight, bool isComplete, bool hasBigPixelsOnlyInside):
     begin_(begin), end_(end), isStraight_(isStraight), isComplete_(isComplete), hasBigPixelsOnlyInside_(hasBigPixelsOnlyInside)
   {}
-  ~Phase2PixelClusterShapeData();
+  ~Phase2ITPixelClusterShapeData();
 
   Range size() const { return std::make_pair(begin_, end_); }
 
@@ -36,9 +36,9 @@ private:
   const bool isStraight_, isComplete_, hasBigPixelsOnlyInside_;
 };
 
-class Phase2PixelClusterShapeCache {
+class Phase2ITPixelClusterShapeCache {
 public:
-  typedef edm::Ref<edmNew::DetSetVector<Phase2PixelCluster>, Phase2PixelCluster> ClusterRef;
+  typedef edm::Ref<edmNew::DetSetVector<Phase2ITPixelCluster>, Phase2ITPixelCluster> ClusterRef;
 
   struct Field {
     Field(): offset(0), size(0), straight(false), complete(false), has(false), filled(false) {}
@@ -53,17 +53,17 @@ public:
     unsigned filled:1;
   };
 
-  Phase2PixelClusterShapeCache() {};
-  explicit Phase2PixelClusterShapeCache(const edm::HandleBase& handle): productId_(handle.id()) {}
-  explicit Phase2PixelClusterShapeCache(const edm::ProductID& id): productId_(id) {}
-  ~Phase2PixelClusterShapeCache();
+  Phase2ITPixelClusterShapeCache() {};
+  explicit Phase2ITPixelClusterShapeCache(const edm::HandleBase& handle): productId_(handle.id()) {}
+  explicit Phase2ITPixelClusterShapeCache(const edm::ProductID& id): productId_(id) {}
+  ~Phase2ITPixelClusterShapeCache();
 
   void resize(size_t size) {
     data_.resize(size);
     sizeData_.reserve(size);
   }
 
-  void swap(Phase2PixelClusterShapeCache& other) {
+  void swap(Phase2ITPixelClusterShapeCache& other) {
     data_.swap(other.data_);
     sizeData_.swap(other.sizeData_);
     std::swap(productId_, other.productId_);
@@ -89,7 +89,7 @@ public:
     return data_[cluster.index()].filled;
   }
 
-  Phase2PixelClusterShapeData get(const ClusterRef& cluster, const PixelGeomDetUnit *pixDet) const {
+  Phase2ITPixelClusterShapeData get(const ClusterRef& cluster, const PixelGeomDetUnit *pixDet) const {
     checkRef(cluster);
     Field f = data_[cluster.index()];
     assert(f.filled);
@@ -97,7 +97,7 @@ public:
     auto beg = sizeData_.begin()+f.offset;
     auto end = beg+f.size;
 
-    return Phase2PixelClusterShapeData(beg, end, f.straight, f.complete, f.has);
+    return Phase2ITPixelClusterShapeData(beg, end, f.straight, f.complete, f.has);
   }
 #endif
 

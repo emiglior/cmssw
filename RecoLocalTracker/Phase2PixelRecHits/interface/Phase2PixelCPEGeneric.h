@@ -40,7 +40,7 @@ class Phase2PixelCPEGeneric : public Phase2PixelCPEBase
  public:
   struct ClusterParamGeneric : ClusterParam
   {
-    ClusterParamGeneric(const Phase2PixelCluster & cl) : ClusterParam(cl){}
+    ClusterParamGeneric(const Phase2ITPixelCluster & cl) : ClusterParam(cl){}
   // The truncation value pix_maximum is an angle-dependent cutoff on the
   // individual pixel signals. It should be applied to all pixels in the
   // cluster [signal_i = fminf(signal_i, pixmax)] before the column and row
@@ -73,7 +73,7 @@ class Phase2PixelCPEGeneric : public Phase2PixelCPEBase
 
  
 private:
-  ClusterParam * createClusterParam(const Phase2PixelCluster & cl) const;
+  ClusterParam * createClusterParam(const Phase2ITPixelCluster & cl) const;
 
   LocalPoint localPosition (DetParam const & theDetParam, ClusterParam & theClusterParam) const; 
   LocalError localError    (DetParam const & theDetParam, ClusterParam & theClusterParam) const;

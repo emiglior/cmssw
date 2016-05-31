@@ -1,5 +1,5 @@
-#ifndef RecoLocalTracker_Phase2PixelCluster_Parameter_Estimator_H
-#define RecoLocalTracker_Phase2PixelCluster_Parameter_Estimator_H
+#ifndef RecoLocalTracker_Phase2ITPixelCluster_Parameter_Estimator_H
+#define RecoLocalTracker_Phase2ITPixelCluster_Parameter_Estimator_H
 
 #include "DataFormats/GeometrySurface/interface/LocalError.h"
 #include "DataFormats/GeometryVector/interface/LocalPoint.h"
@@ -8,7 +8,7 @@
 #include "DataFormats/TrajectoryState/interface/LocalTrajectoryParameters.h"
 #include "TrackingTools/TrajectoryState/interface/TrajectoryStateOnSurface.h"
 
-#include "DataFormats/Phase2ITPixelCluster/interface/Phase2PixelCluster.h"
+#include "DataFormats/Phase2ITPixelCluster/interface/Phase2ITPixelCluster.h"
 #include "DataFormats/TrackerRecHit2D/interface/SiPixelRecHitQuality.h"
 #include<tuple>
 
@@ -26,26 +26,26 @@ class Phase2PixelClusterParameterEstimator
   // here just to implement it in the clients;
   // to be properly implemented in the sub-classes in order to make them thread-safe
 
-  virtual ReturnType getParameters(const Phase2PixelCluster & cl, 
+  virtual ReturnType getParameters(const Phase2ITPixelCluster & cl, 
                                    const GeomDetUnit    & det) const =0;
 
-  virtual ReturnType getParameters(const Phase2PixelCluster & cl, 
+  virtual ReturnType getParameters(const Phase2ITPixelCluster & cl, 
 				   const GeomDetUnit    & det, 
 				   const LocalTrajectoryParameters & ltp ) const =0;
 
-  virtual ReturnType getParameters(const Phase2PixelCluster & cl, 
+  virtual ReturnType getParameters(const Phase2ITPixelCluster & cl, 
 				   const GeomDetUnit    & det, 
 				   const TrajectoryStateOnSurface& tsos ) const {
     return getParameters(cl,det,tsos.localParameters());
   }
 
-  virtual VLocalValues localParametersV(const Phase2PixelCluster& cluster, const GeomDetUnit& gd) const {
+  virtual VLocalValues localParametersV(const Phase2ITPixelCluster& cluster, const GeomDetUnit& gd) const {
     VLocalValues vlp;
     ReturnType tuple = getParameters(cluster, gd);
     vlp.push_back(std::make_pair(std::get<0>(tuple), std::get<1>(tuple)));
     return vlp;
   }
-  virtual VLocalValues localParametersV(const Phase2PixelCluster& cluster, const GeomDetUnit& gd, TrajectoryStateOnSurface& tsos) const {
+  virtual VLocalValues localParametersV(const Phase2ITPixelCluster& cluster, const GeomDetUnit& gd, TrajectoryStateOnSurface& tsos) const {
     VLocalValues vlp;
     ReturnType tuple = getParameters(cluster,  gd, tsos);
     vlp.push_back(std::make_pair(std::get<0>(tuple), std::get<1>(tuple)));

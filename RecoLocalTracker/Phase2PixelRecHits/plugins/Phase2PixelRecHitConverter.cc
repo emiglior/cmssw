@@ -44,7 +44,7 @@ using namespace std;
     : 
     conf_(conf),
     src_( conf.getParameter<edm::InputTag>( "src" ) ),
-    tphase2PixelCluster(consumes< edmNew::DetSetVector<Phase2PixelCluster> >( src_)) {
+    tPhase2ITPixelCluster(consumes< edmNew::DetSetVector<Phase2ITPixelCluster> >( src_)) {
     //--- Declare to the EDM what kind of collections we will be making.
     produces<Phase2PixelRecHitCollection>();
     
@@ -62,8 +62,8 @@ using namespace std;
   {
 
     // Step A.1: get input data
-    edm::Handle< edmNew::DetSetVector<Phase2PixelCluster> > input;
-    e.getByToken( tphase2PixelCluster, input);
+    edm::Handle< edmNew::DetSetVector<Phase2ITPixelCluster> > input;
+    e.getByToken( tPhase2ITPixelCluster, input);
     
     // Step A.2: get event setup
     edm::ESHandle<TrackerGeometry> geom;
@@ -93,7 +93,7 @@ using namespace std;
   //!  and make a RecHit to store the result.
   //!  New interface reading DetSetVector by V.Chiochia (May 30th, 2006)
   //---------------------------------------------------------------------------
-  void Phase2PixelRecHitConverter::run(edm::Handle<edmNew::DetSetVector<Phase2PixelCluster> >  inputhandle,
+  void Phase2PixelRecHitConverter::run(edm::Handle<edmNew::DetSetVector<Phase2ITPixelCluster> >  inputhandle,
 				   Phase2PixelRecHitCollectionNew &output,
 				   edm::ESHandle<TrackerGeometry> & geom) {
     if ( ! cpe_ ) 
@@ -107,9 +107,9 @@ using namespace std;
     int numberOfDetUnits = 0;
     int numberOfClusters = 0;
     
-    const edmNew::DetSetVector<Phase2PixelCluster>& input = *inputhandle;
+    const edmNew::DetSetVector<Phase2ITPixelCluster>& input = *inputhandle;
     
-    edmNew::DetSetVector<Phase2PixelCluster>::const_iterator DSViter=input.begin();
+    edmNew::DetSetVector<Phase2ITPixelCluster>::const_iterator DSViter=input.begin();
     
     for ( ; DSViter != input.end() ; DSViter++) {
       numberOfDetUnits++;
@@ -120,7 +120,7 @@ using namespace std;
       assert(pixDet); 
       Phase2PixelRecHitCollectionNew::FastFiller recHitsOnDetUnit(output,detid);
       
-      edmNew::DetSet<Phase2PixelCluster>::const_iterator clustIt = DSViter->begin(), clustEnd = DSViter->end();
+      edmNew::DetSet<Phase2ITPixelCluster>::const_iterator clustIt = DSViter->begin(), clustEnd = DSViter->end();
       
       for ( ; clustIt != clustEnd; clustIt++) {
 	numberOfClusters++;
@@ -129,7 +129,7 @@ using namespace std;
 	LocalError le( std::get<1>(tuple) );
         SiPixelRecHitQuality::QualWordType rqw( std::get<2>(tuple) );
 	// Create a persistent edm::Ref to the cluster
-	edm::Ref< edmNew::DetSetVector<Phase2PixelCluster>, Phase2PixelCluster > cluster = edmNew::makeRefTo( inputhandle, clustIt);
+	edm::Ref< edmNew::DetSetVector<Phase2ITPixelCluster>, Phase2ITPixelCluster > cluster = edmNew::makeRefTo( inputhandle, clustIt);
 	// Make a RecHit and add it to the DetSet
 	// old : recHitsOnDetUnit.push_back( new Phase2PixelRecHit( lp, le, detIdObject, &*clustIt) );
 	Phase2PixelRecHit hit( lp, le, *genericDet, cluster);
@@ -153,7 +153,7 @@ using namespace std;
     //    LogDebug ("Phase2PixelRecHitConverter") 
     //  std::cout << "Phase2PixelRecHitConverterVI "
     //  << cpeName_ << " converted " << numberOfClusters 
-    //  << " Phase2PixelClusters into Phase2PixelRecHits, in " 
+    //  << " Phase2ITPixelClusters into Phase2PixelRecHits, in " 
     //  << numberOfDetUnits << " DetUnits." //; 
     //  << std::endl;
 	

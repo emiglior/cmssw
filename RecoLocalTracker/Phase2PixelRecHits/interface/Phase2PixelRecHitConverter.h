@@ -4,17 +4,17 @@
 //---------------------------------------------------------------------------
 //! \class Phase2PixelRecHitConverter
 //!
-//! \brief EDProducer to covert Phase2PixelClusters into Phase2PixelRecHits
+//! \brief EDProducer to covert Phase2ITPixelClusters into Phase2PixelRecHits
 //!
 //! Phase2PixelRecHitConverter is an EDProducer subclass (i.e., a module)
-//! which orchestrates the conversion of Phase2PixelClusters into Phase2PixelRecHits.
-//! Consequently, the input is a edm::DetSetVector<Phase2PixelCluster> and the output is
+//! which orchestrates the conversion of Phase2ITPixelClusters into Phase2PixelRecHits.
+//! Consequently, the input is a edm::DetSetVector<Phase2ITPixelCluster> and the output is
 //! Phase2PixelRecHitCollection.
 //!
 //! Phase2PixelRecHitConverter invokes one of descendents from 
-//! ClusterParameterEstimator (templated on Phase2PixelCluster), e.g.
+//! ClusterParameterEstimator (templated on Phase2ITPixelCluster), e.g.
 //! CPEFromDetPosition (which is the only available option 
-//! right now).  Phase2PixelRecHitConverter loads the Phase2PixelClusterCollection,
+//! right now).  Phase2PixelRecHitConverter loads the Phase2ITPixelClusterCollection,
 //! and then iterates over DetIds, invoking the chosen CPE's methods
 //! localPosition() and localError() to perform the correction (some of which
 //! may be rather involved).  A RecHit is made on the spot, and appended
@@ -37,7 +37,7 @@
 
 //--- Geometry + DataFormats
 #include "Geometry/TrackerGeometryBuilder/interface/TrackerGeometry.h"
-#include "DataFormats/Phase2ITPixelCluster/interface/Phase2PixelCluster.h"
+#include "DataFormats/Phase2ITPixelCluster/interface/Phase2ITPixelCluster.h"
 #include "DataFormats/Phase2PixelRecHit/interface/Phase2PixelRecHitCollection.h"
 #include "DataFormats/Common/interface/DetSetVector.h"
 
@@ -78,11 +78,11 @@ class MagneticField;
 
     //--- Execute the position estimator algorithm(s).
     //--- New interface with DetSetVector
-    void run(const edmNew::DetSetVector<Phase2PixelCluster>& input,
+    void run(const edmNew::DetSetVector<Phase2ITPixelCluster>& input,
 	     Phase2PixelRecHitCollectionNew & output,
 	     edm::ESHandle<TrackerGeometry> & geom);
 
-    void run(edm::Handle<edmNew::DetSetVector<Phase2PixelCluster> >  inputhandle,
+    void run(edm::Handle<edmNew::DetSetVector<Phase2ITPixelCluster> >  inputhandle,
 	     Phase2PixelRecHitCollectionNew & output,
 	     edm::ESHandle<TrackerGeometry> & geom);
 
@@ -93,7 +93,7 @@ class MagneticField;
     /// const PixelClusterParameterEstimator * cpe_;  // what we got (for now, one ptr to base class)
     Phase2PixelCPEBase const * cpe_=nullptr;          // What we got (for now, one ptr to base class)
     edm::InputTag src_;
-    edm::EDGetTokenT<edmNew::DetSetVector<Phase2PixelCluster>> tphase2PixelCluster;
+    edm::EDGetTokenT<edmNew::DetSetVector<Phase2ITPixelCluster>> tPhase2ITPixelCluster;
     bool m_newCont; // save also in emdNew::DetSetVector
   };
 
