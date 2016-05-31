@@ -53,20 +53,6 @@ Phase2PixelCPEGeneric::Phase2PixelCPEGeneric(edm::ParameterSet const & conf,
 
   DoCosmics_                 = conf.getParameter<bool>("DoCosmics");  
   
-  // EM 2016.05.17: TO BE REPLACED WITH pitch/sqrt(12)
-  xerr_barrel_l1_= {0.00115, 0.00120, 0.00088};
-  xerr_barrel_l1_def_=0.01030;
-  yerr_barrel_l1_= {0.00375,0.00230,0.00250,0.00250,0.00230,0.00230,0.00210,0.00210,0.00240};
-  yerr_barrel_l1_def_=0.00210;
-  xerr_barrel_ln_= {0.00115, 0.00120, 0.00088};
-  xerr_barrel_ln_def_=0.01030;
-  yerr_barrel_ln_= {0.00375,0.00230,0.00250,0.00250,0.00230,0.00230,0.00210,0.00210,0.00240};
-  yerr_barrel_ln_def_=0.00210;
-  xerr_endcap_= {0.0020, 0.0020};
-  xerr_endcap_def_=0.0020;
-  yerr_endcap_= {0.00210};
-  yerr_endcap_def_=0.00075;
-  
   if(MYDEBUG) {
     std::cout << "From Phase2PixelCPEGeneric::Phase2PixelCPEGeneric(...)" << std::endl;
   }
@@ -463,7 +449,7 @@ Phase2PixelCPEGeneric::localError(DetParam const & theDetParam,  ClusterParam & 
   bool bigInY = theDetParam.theRecTopol->containsBigPixelInY( minPixelCol, maxPixelCol );
 
   if(localPrint) {
-   cout<<" endge clus "<<xerr<<" "<<yerr<<endl;  //dk
+   cout<<" enge clus "<<xerr<<" "<<yerr<<endl;  //dk
    if(bigInX || bigInY) cout<<" big "<<bigInX<<" "<<bigInY<<endl;
    if(edgex || edgey) cout<<" edge "<<edgex<<" "<<edgey<<endl;
    if(theClusterParam.qBin_ == 0) 
@@ -475,46 +461,16 @@ Phase2PixelCPEGeneric::localError(DetParam const & theDetParam,  ClusterParam & 
     // cout << "Track angles are not known " << endl; 
     // cout << "Default angle estimation which assumes track from PV (0,0,0) does not work." << endl;
 
-    if ( GeomDetEnumerators::isTrackerPixel(theDetParam.thePart) ) {
-     if(GeomDetEnumerators::isBarrel(theDetParam.thePart)) {
-
-      DetId id = (theDetParam.theDet->geographicalId());
-      int layer=ttopo_.layer(id);
-      if ( layer==1 ) {
-	if ( !edgex ) {
-	  if ( sizex<=xerr_barrel_l1_.size() ) xerr=xerr_barrel_l1_[sizex-1];
-	  else xerr=xerr_barrel_l1_def_;
-	}
-	
-	if ( !edgey ) {
-	  if ( sizey<=yerr_barrel_l1_.size() ) yerr=yerr_barrel_l1_[sizey-1];
-	  else yerr=yerr_barrel_l1_def_;
-	}
-      } else{  // layer 2,3
-	if ( !edgex ) {
-	  if ( sizex<=xerr_barrel_ln_.size() ) xerr=xerr_barrel_ln_[sizex-1];
-	  else xerr=xerr_barrel_ln_def_;
-	}
-	    
-	if ( !edgey ) {
-	  if ( sizey<=yerr_barrel_ln_.size() ) yerr=yerr_barrel_ln_[sizey-1];
-	  else yerr=yerr_barrel_ln_def_;
-	}
-      }
-
-     } else { // EndCap
-
-      if ( !edgex ) {
-	if ( sizex<=xerr_endcap_.size() ) xerr=xerr_endcap_[sizex-1];
-	else xerr=xerr_endcap_def_;
-      }
-      
-      if ( !edgey ) {
-	if ( sizey<=yerr_endcap_.size() ) yerr=yerr_endcap_[sizey-1];
-	else yerr=yerr_endcap_def_;
-      }
-     } // end endcap
+  if ( GeomDetEnumerators::isTrackerPixel(theDetParam.thePart) ) { // EM 2016.05 check if GeomDetEnumerator is ok for phase2
     
+    xerr = theDetParam.thePitchX / std::sqrt( 12.0f );
+    if ( theDetParam.theRecTopol->isItBigPixelInX( theClusterParam.theCluster->minPixelRow() ) )
+	 xerr = theDetParam.thePitchX*2./std::sqrt(12.0f);
+
+    yerr = theDetParam.thePitchY / std::sqrt( 12.0f );
+    if ( theDetParam.theRecTopol->isItBigPixelInY( theClusterParam.theCluster->minPixelCol() ) )
+	 yerr = theDetParam.thePitchY*2./std::sqrt(12.0f);
+
 
     if(inflate_errors) {
       int n_bigx = 0;
