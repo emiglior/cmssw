@@ -241,26 +241,28 @@ PixelCPEGeneric::localPosition(DetParam const & theDetParam, ClusterParam & theC
   //--- (== upper right corner of lower left pixel), and then
   //--- subtract these two points in the formula.
 
+  int maxPixelCol, maxPixelRow, minPixelCol, minPixelRow = 0;       
+  float sizeX, sizeY;
+  if ( !theClusterParam.isPhase2_ ) {
+    sizeX = theClusterParam.theCluster->sizeX();
+    sizeY = theClusterParam.theCluster->sizeY();
+    maxPixelCol = theClusterParam.theCluster->maxPixelCol();
+    maxPixelRow = theClusterParam.theCluster->maxPixelRow();
+    minPixelCol = theClusterParam.theCluster->minPixelCol();
+    minPixelRow = theClusterParam.theCluster->minPixelRow();       
+  } else {
+    sizeX = theClusterParam.theClusterPhase2->sizeX();
+    sizeY = theClusterParam.theClusterPhase2->sizeY();
+    maxPixelCol = theClusterParam.theClusterPhase2->maxPixelCol();
+    maxPixelRow = theClusterParam.theClusterPhase2->maxPixelRow();
+    minPixelCol = theClusterParam.theClusterPhase2->minPixelCol();
+    minPixelRow = theClusterParam.theClusterPhase2->minPixelRow();       
+
+  }
   //--- Upper Right corner of Lower Left pixel -- in measurement frame
-  MeasurementPoint meas_URcorn_LLpix(0.,0.);
-  if ( !theClusterParam.isPhase2_ ) {
-    meas_URcorn_LLpix =  MeasurementPoint( theClusterParam.theCluster->minPixelRow()+1.0,
-					   theClusterParam.theCluster->minPixelCol()+1.0 );
-  } else {
-    meas_URcorn_LLpix =  MeasurementPoint( theClusterParam.theClusterPhase2->minPixelRow()+1.0,
-					   theClusterParam.theClusterPhase2->minPixelCol()+1.0 );
-  }
-
-
+  MeasurementPoint meas_URcorn_LLpix = MeasurementPoint( minPixelRow+1.0, minPixelCol+1.0 );
   //--- Lower Left corner of Upper Right pixel -- in measurement frame
-  MeasurementPoint meas_LLcorn_URpix(0.,0);
-  if ( !theClusterParam.isPhase2_ ) {
-    meas_LLcorn_URpix =  MeasurementPoint( theClusterParam.theCluster->maxPixelRow(),
-					   theClusterParam.theCluster->maxPixelCol() );
-  } else {
-    meas_LLcorn_URpix =  MeasurementPoint( theClusterParam.theClusterPhase2->maxPixelRow(),
-					   theClusterParam.theClusterPhase2->maxPixelCol() );
-  }
+  MeasurementPoint meas_LLcorn_URpix = MeasurementPoint( maxPixelRow, maxPixelCol );
 
   //--- These two now converted into the local  
   LocalPoint local_URcorn_LLpix;
@@ -278,19 +280,18 @@ PixelCPEGeneric::localPosition(DetParam const & theDetParam, ClusterParam & theC
 
  #ifdef EDM_ML_DEBUG
   if (theVerboseLevel > 20) {
-    cout  
-      << "\n\t >>> theClusterParam.theCluster->x = " << theClusterParam.theCluster->x()
-      << "\n\t >>> theClusterParam.theCluster->y = " << theClusterParam.theCluster->y()
-      << "\n\t >>> cluster: minRow = " << theClusterParam.theCluster->minPixelRow()
-      << "  minCol = " << theClusterParam.theCluster->minPixelCol()
-      << "\n\t >>> cluster: maxRow = " << theClusterParam.theCluster->maxPixelRow()
-      << "  maxCol = " << theClusterParam.theCluster->maxPixelCol()
-      << "\n\t >>> meas: inner lower left  = " << meas_URcorn_LLpix.x() 
-      << "," << meas_URcorn_LLpix.y()
-      << "\n\t >>> meas: inner upper right = " << meas_LLcorn_URpix.x() 
-      << "," << meas_LLcorn_URpix.y() 
-      << endl;
-  }
+      LogDebug("PixelCPEGeneric" )
+	<< "\n\t theClusterParam.theCluster->x = " << ( !theClusterParam.isPhase2_ ? theClusterParam.theCluster->x() : theClusterParam.theClusterPhase2->x() )
+	<< "\n\t theClusterParam.theCluster->y = " << ( !theClusterParam.isPhase2_ ? theClusterParam.theCluster->y() : theClusterParam.theClusterPhase2->y() )
+	<< "\n\t >>> cluster: minRow = " << minPixelRow
+	<< "  minCol = " << minPixelCol()
+	<< "\n\t >>> cluster: maxRow = " << maxPixelRow
+	<< "  maxCol = " << maxPixelCol()
+	<< "\n\t >>> meas: inner lower left  = " << meas_URcorn_LLpix.x() 
+	<< "," << meas_URcorn_LLpix.y()
+	<< "\n\t >>> meas: inner upper right = " << meas_LLcorn_URpix.x() 
+	<< "," << meas_LLcorn_URpix.y() 
+	}
 #endif
 
   //--- &&& Note that the cuts below should not be hardcoded (like in Orca and
@@ -304,24 +305,7 @@ PixelCPEGeneric::localPosition(DetParam const & theDetParam, ClusterParam & theC
     cout << "\t >>> Generic:: processing X" << endl;
 #endif
 
-  float sizeX, sizeY;
-  int minPixelRow, maxPixelRow, minPixelCol, maxPixelCol;
 
-  if ( !theClusterParam.isPhase2_ ) {
-    sizeX = theClusterParam.theCluster->sizeX();
-    sizeY = theClusterParam.theCluster->sizeY();
-    minPixelRow = theClusterParam.theCluster->minPixelRow();
-    maxPixelRow = theClusterParam.theCluster->maxPixelRow();
-    minPixelCol = theClusterParam.theCluster->minPixelCol();
-    maxPixelCol = theClusterParam.theCluster->maxPixelCol();
-  } else {
-    sizeX = theClusterParam.theClusterPhase2->sizeX();
-    sizeY = theClusterParam.theClusterPhase2->sizeY();
-    minPixelRow = theClusterParam.theClusterPhase2->minPixelRow();
-    maxPixelRow = theClusterParam.theClusterPhase2->maxPixelRow();
-    minPixelCol = theClusterParam.theClusterPhase2->minPixelCol();
-    maxPixelCol = theClusterParam.theClusterPhase2->maxPixelCol();
-  }
 
   float xPos = 
   generic_position_formula( sizeX,
@@ -553,26 +537,27 @@ collect_edge_charges(ClusterParam & theClusterParamBase,  //!< input, the cluste
   Q_f_Y = Q_l_Y = 0.0;
 
   uint32_t xmin,xmax,ymin,ymax=0;
+  int isize=0;
   // Obtain boundaries in index units
   if ( !theClusterParam.isPhase2_ ){
     xmin = theClusterParam.theCluster->minPixelRow();
     xmax = theClusterParam.theCluster->maxPixelRow();
     ymin = theClusterParam.theCluster->minPixelCol();
     ymax = theClusterParam.theCluster->maxPixelCol();
+
+    isize = theClusterParam.theCluster->size();
+
   } else {
     xmin = theClusterParam.theClusterPhase2->minPixelRow();
     xmax = theClusterParam.theClusterPhase2->maxPixelRow();
     ymin = theClusterParam.theClusterPhase2->minPixelCol();
     ymax = theClusterParam.theClusterPhase2->maxPixelCol();
+
+    isize = theClusterParam.theClusterPhase2->size();
   }
 
   // Iterate over the pixels.
-  int isize=0;
-  if ( !theClusterParam.isPhase2_ ){
-    isize = theClusterParam.theCluster->size();
-  } else {
-    isize = theClusterParam.theClusterPhase2->size();
-  }
+
   for (int i = 0;  i != isize; ++i) 
     {
       if ( !theClusterParam.isPhase2_ ){
@@ -644,13 +629,8 @@ PixelCPEGeneric::localError(DetParam const & theDetParam,  ClusterParam & theClu
     bool edgey = ( theDetParam.theRecTopol->isItEdgePixelInY( minPixelCol ) ) || ( theDetParam.theRecTopol->isItEdgePixelInY( maxPixelCol ) );
     
     unsigned int sizex, sizey = 0;
-    if ( !theClusterParam.isPhase2_ ) {
-      sizex = theClusterParam.theCluster->sizeX();
-      sizey = theClusterParam.theCluster->sizeY();
-    }  else {
-      sizex = theClusterParam.theClusterPhase2->sizeX();
-      sizey = theClusterParam.theClusterPhase2->sizeY();
-    }
+    sizex = theClusterParam.theCluster->sizeX();
+    sizey = theClusterParam.theCluster->sizeY();
     if(MYDEBUG) {
       if( int(sizex) != (maxPixelRow - minPixelRow+1) ) cout<<" wrong x"<<endl;
       if( int(sizey) != (maxPixelCol - minPixelCol+1) ) cout<<" wrong y"<<endl;

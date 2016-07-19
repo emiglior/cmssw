@@ -145,16 +145,9 @@ void PixelCPEBase::fillDetParams()
   // } 
   // LogDebug("LookingForFirstStrip") << " Chosen offset: " << m_detectors;
 
-  // EM likely not very efficient 
-  unsigned m_detectors = 0;
-  for (unsigned int i=0; i!=dus.size(); ++i) {
-    if ( GeomDetEnumerators::subDetGeom[dus[i]->subDetector()] == GeomDetEnumerators::PixelBarrel ||
-	 GeomDetEnumerators::subDetGeom[dus[i]->subDetector()] == GeomDetEnumerators::PixelEndcap ) 
-      m_detectors++;
-  }
-
+  unsigned m_detectors = geom_.detsPXB().size() + geom_.detsPXF().size();
   m_DetParams.resize(m_detectors);
-  cout<<"m_detectors caching "<<m_detectors<<" pixel detectors"<<endl;
+  LogDebug("PixelCPEBase") << "m_detectors caching " << m_detectors << " pixel detectors";
   for (unsigned i=0; i!=m_detectors;++i) {
     auto & p=m_DetParams[i];
     p.theDet = dynamic_cast<const PixelGeomDetUnit*>(dus[i]);
