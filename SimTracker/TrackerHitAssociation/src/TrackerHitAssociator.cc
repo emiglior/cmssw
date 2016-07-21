@@ -548,59 +548,63 @@ void  TrackerHitAssociator::associatePixelRecHit(const SiPixelRecHit * pixelrech
   if(isearch != pixeldigisimlink->end()) {  //if it is not empty
     edm::DetSet<PixelDigiSimLink> link_detset = (*isearch);
     SiPixelRecHit::ClusterRef const& cluster = pixelrechit->cluster();
-    
-    //check the reference is valid
-    
-    if(!(cluster.isNull())){//if the cluster is valid
-      
-      int minPixelRow = (*cluster).minPixelRow();
-      int maxPixelRow = (*cluster).maxPixelRow();
-      int minPixelCol = (*cluster).minPixelCol();
-      int maxPixelCol = (*cluster).maxPixelCol();    
-      //std::cout << "    Cluster minRow " << minPixelRow << " maxRow " << maxPixelRow << std::endl;
-      //std::cout << "    Cluster minCol " << minPixelCol << " maxCol " << maxPixelCol << std::endl;
-      edm::DetSet<PixelDigiSimLink>::const_iterator linkiter = link_detset.data.begin(), linkEnd = link_detset.data.end();
-      int dsl = 0;
-      std::vector<SimHitIdpr> idcachev;
-      std::vector<simhitAddr> CFposcachev;
-      for( ; linkiter != linkEnd; ++linkiter) {
-	++dsl;
-	std::pair<int,int> pixel_coord = PixelDigi::channelToPixel(linkiter->channel());
-	//std::cout << "    " << dsl << ") Digi link: row " << pixel_coord.first << " col " << pixel_coord.second << std::endl;      
-	if(  pixel_coord.first  <= maxPixelRow && 
-	     pixel_coord.first  >= minPixelRow &&
-	     pixel_coord.second <= maxPixelCol &&
-	     pixel_coord.second >= minPixelCol ) {
-	  //std::cout << "      !-> trackid   " << linkiter->SimTrackId() << endl;
-	  //std::cout << "          fraction  " << linkiter->fraction()   << endl;
-	  SimHitIdpr currentId(linkiter->SimTrackId(), linkiter->eventId());
-	  if(find(idcachev.begin(),idcachev.end(),currentId) == idcachev.end()){
-	    simtrackid.push_back(currentId);
-	    idcachev.push_back(currentId);
-	  }
+    SiPixelRecHit::ClusterPhase2ITPixelRef const& clusterPhase2 = pixelrechit->cluster_phase2IT();
 
-	  if (simhitCFPos != 0) {
-	  //create a vector that contains all the position (in the MixCollection) of the SimHits that contributed to the RecHit
-	  //write position only once
-	    unsigned int currentCFPos = linkiter->CFposition();
-	    unsigned int tofBin = linkiter->TofBin();
-	    simHitCollectionID theSimHitCollID = std::make_pair(detid.subdetId(), tofBin);
-	    simhitAddr currentAddr = std::make_pair(theSimHitCollID, currentCFPos);
-
-	    if(find(CFposcachev.begin(), CFposcachev.end(), currentAddr) == CFposcachev.end()) {
-	      CFposcachev.push_back(currentAddr);
-	      simhitCFPos->push_back(currentAddr);
+    int minPixelRow, maxPixelRow, minPixelCol, maxPixelCol = 0;    
+    if( !(cluster.isNull()) || !(clusterPhase2.isNull()) ) {//if the cluster is valid
+      if ( !(cluster.isNull()) ) { // EM any better way to tag a phase2 cluster?
+	  minPixelRow = (*cluster).minPixelRow();
+	  maxPixelRow = (*cluster).maxPixelRow();
+	  minPixelCol = (*cluster).minPixelCol();
+	  maxPixelCol = (*cluster).maxPixelCol();    
+	} else {
+	  minPixelRow = (*clusterPhase2).minPixelRow();
+	  maxPixelRow = (*clusterPhase2).maxPixelRow();
+	  minPixelCol = (*clusterPhase2).minPixelCol();
+	  maxPixelCol = (*clusterPhase2).maxPixelCol();    
+	}	
+      //	std::cout << "    Cluster minRow " << minPixelRow << " maxRow " << maxPixelRow << std::endl;
+      //	std::cout << "    Cluster minCol " << minPixelCol << " maxCol " << maxPixelCol << std::endl;
+	edm::DetSet<PixelDigiSimLink>::const_iterator linkiter = link_detset.data.begin(), linkEnd = link_detset.data.end();
+	int dsl = 0;
+	std::vector<SimHitIdpr> idcachev;
+	std::vector<simhitAddr> CFposcachev;
+	for( ; linkiter != linkEnd; ++linkiter) {
+	  ++dsl;
+	  std::pair<int,int> pixel_coord = PixelDigi::channelToPixel(linkiter->channel());
+	  //	  std::cout << "    " << dsl << ") Digi link: row " << pixel_coord.first << " col " << pixel_coord.second << std::endl;      
+	  if(  pixel_coord.first  <= maxPixelRow && 
+	       pixel_coord.first  >= minPixelRow &&
+	       pixel_coord.second <= maxPixelCol &&
+	       pixel_coord.second >= minPixelCol ) {
+	    //	    std::cout << "      !-> trackid   " << linkiter->SimTrackId() << endl;
+	    //	    std::cout << "          fraction  " << linkiter->fraction()   << endl;
+	    SimHitIdpr currentId(linkiter->SimTrackId(), linkiter->eventId());
+	    if(find(idcachev.begin(),idcachev.end(),currentId) == idcachev.end()){
+	      simtrackid.push_back(currentId);
+	      idcachev.push_back(currentId);
 	    }
+	    
+	    if (simhitCFPos != 0) {
+	      //create a vector that contains all the position (in the MixCollection) of the SimHits that contributed to the RecHit
+	      //write position only once
+	      unsigned int currentCFPos = linkiter->CFposition();
+	      unsigned int tofBin = linkiter->TofBin();
+	      simHitCollectionID theSimHitCollID = std::make_pair(detid.subdetId(), tofBin);
+	      simhitAddr currentAddr = std::make_pair(theSimHitCollID, currentCFPos);
+	      
+	      if(find(CFposcachev.begin(), CFposcachev.end(), currentAddr) == CFposcachev.end()) {
+		CFposcachev.push_back(currentAddr);
+		simhitCFPos->push_back(currentAddr);
+	      }
+	    }   
 	  }
-
-	} 
+	} // end for
+      } else {
+	edm::LogError("TrackerHitAssociator")<<"no cluster reference attached";
       }
-    }
-    else{      
-      edm::LogError("TrackerHitAssociator")<<"no Pixel cluster reference attached";
-      
-    }
-  }
+  }      
+
 }
 
 std::vector<PSimHit> TrackerHitAssociator::associateMultiRecHit(const SiTrackerMultiRecHit * multirechit) const{
