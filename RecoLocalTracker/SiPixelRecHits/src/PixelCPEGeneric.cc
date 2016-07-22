@@ -619,7 +619,12 @@ PixelCPEGeneric::localError(DetParam const & theDetParam,  ClusterParam & theClu
 
   // Find if cluster is at the module edge. 
   int maxPixelCol, maxPixelRow, minPixelCol, minPixelRow = 0;       
-  if ( !theClusterParam.isPhase2_ ) {
+  if ( !theClusterParam.isPhase2_ && !isUpgrade_ ) {
+    // EM 2016.07
+    // isUpgrade_ was used to identify phase-2  (likely in CMSSW_620_SLHCX I suppose)
+    // Eventually isPhase2_ 
+    // which now is set depending on the type of the cluster object (SiPixelCluster vs Phase2ITPixelCluster)
+    // will be enough to identify phase-2 (so "!isUpgrade_" will be removed)
     maxPixelCol = theClusterParam.theCluster->maxPixelCol();
     maxPixelRow = theClusterParam.theCluster->maxPixelRow();
     minPixelCol = theClusterParam.theCluster->minPixelCol();
@@ -641,7 +646,7 @@ PixelCPEGeneric::localError(DetParam const & theDetParam,  ClusterParam & theClu
     bool bigInY = theDetParam.theRecTopol->containsBigPixelInY( minPixelCol, maxPixelCol );
 
     if(localPrint) {
-      cout<<" endge clus "<<xerr<<" "<<yerr<<endl;  //dk
+      cout<<" edge clus "<<xerr<<" "<<yerr<<endl;  //dk
       if(bigInX || bigInY) cout<<" big "<<bigInX<<" "<<bigInY<<endl;
       if(edgex || edgey) cout<<" edge "<<edgex<<" "<<edgey<<endl;
       cout<<" before if "<<UseErrorsFromTemplates_<<" "<<theClusterParam.qBin_<<endl;
@@ -675,7 +680,6 @@ PixelCPEGeneric::localError(DetParam const & theDetParam,  ClusterParam & theClu
 	}
 	
       } else  { // simple errors
-
       // This are the simple errors, hardcoded in the code 
       //cout << "Track angles are not known " << endl; 
       //cout << "Default angle estimation which assumes track from PV (0,0,0) does not work." << endl;
@@ -708,7 +712,6 @@ PixelCPEGeneric::localError(DetParam const & theDetParam,  ClusterParam & theClu
 	  }
 	  
 	} else { // EndCap
-	  
 	  if ( !edgex ) {
 	    if ( sizex<=xerr_endcap_.size() ) xerr=xerr_endcap_[sizex-1];
 	    else xerr=xerr_endcap_def_;
@@ -740,7 +743,7 @@ PixelCPEGeneric::localError(DetParam const & theDetParam,  ClusterParam & theClu
     }
   } else {
     // phase2: just pitch/sqrt(12)
-    if ( GeomDetEnumerators::isTrackerPixel(theDetParam.thePart) ) { // EM 2016.07 check if GeomDetEnumerator is ok for phase2
+    if ( GeomDetEnumerators::isTrackerPixel(theDetParam.thePart) ) { // EM 2016.07 check if GeomDetEnumerator is ok for phase2 also on post TP geometries (e.g. v111 or later)
     
       xerr = theDetParam.thePitchX / std::sqrt( 12.0f );
       if ( theDetParam.theRecTopol->isItBigPixelInX( theClusterParam.theCluster->minPixelRow() ) )
