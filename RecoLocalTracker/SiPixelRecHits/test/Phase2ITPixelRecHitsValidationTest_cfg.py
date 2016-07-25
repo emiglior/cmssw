@@ -47,18 +47,6 @@ process.PixelCPEGenericESProducer.TruncatePixelCharge = cms.bool(False)
 # Analyzer
 process.hitmap_analysis = cms.EDAnalyzer('Phase2ITPixelRecHitsValidation',
    phase2ITPixelRecHitSrc = cms.InputTag("siPixelRecHits"),
-   ### for using track hit association
-   associateStrip = cms.bool(False),
-   #                                              
-   associatePixel = cms.bool(True),       
-   pixelSimLinkSrc = cms.InputTag("simSiPixelDigis","Pixel"),
-   #
-   associateRecoTracks = cms.bool(False),
-   #
-   ROUList = cms.vstring('TrackerHitsPixelBarrelLowTof',
-                         'TrackerHitsPixelBarrelHighTof',
-                         'TrackerHitsPixelEndcapLowTof',
-                         'TrackerHitsPixelEndcapHighTof')
 )
 
 
@@ -69,4 +57,3 @@ process.validation_step = cms.Path(process.hitmap_analysis)
 
 process.schedule = cms.Schedule(process.rechits_step, process.validation_step)
 
-#print process.dumpPython()
