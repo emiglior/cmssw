@@ -2,14 +2,17 @@
   <library   file="StdHitNtuplizer.cc" name="StdHitNtuplizerExample">
     <flags   EDM_PLUGIN="1"/>
     <use   name="FWCore/Framework"/>
+    <use   name="FWCore/ParameterSet"/>
+    <use   name="FWCore/ServiceRegistry"/>
+    <use   name="CommonTools/UtilAlgos"/>
     <use   name="DataFormats/Common"/>
     <use   name="DataFormats/TrackReco"/>
     <use   name="DataFormats/StdDictionaries"/>
-    <use   name="FWCore/ParameterSet"/>
     <use   name="SimTracker/Common"/>
     <use   name="SimTracker/TrackerHitAssociation"/>
     <use   name="RecoLocalTracker/SiPixelRecHits"/>
   </library>
+
   <library file="ModuleInfo_Phase2.cc" name="ModuleInfo_Phase2">
     <flags EDM_PLUGIN="1"/>
     <use name="FWCore/Framework"/>
@@ -22,6 +25,7 @@
 
   <library   file="Phase2PixelNtuple.cc" name="Phase2PixelNtuple">
     <flags   EDM_PLUGIN="1"/>
+    <use   name="clhep"/>
     <use   name="FWCore/Framework"/>
     <use   name="FWCore/ParameterSet"/>
     <use   name="FWCore/ServiceRegistry"/>
