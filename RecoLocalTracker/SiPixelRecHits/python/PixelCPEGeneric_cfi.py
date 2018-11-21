@@ -1,5 +1,71 @@
 import FWCore.ParameterSet.Config as cms
 
+# customize the CPE errors
+# Pixel CPE for default pixel cell (all modules: 100x150 um2)
+pixelCPE_100x150_default = cms.PSet(
+    xerr_barrel_small_     = cms.untracked.vdouble(0.00115, 0.00120, 0.00088),
+    xerr_barrel_large_     = cms.untracked.vdouble(0.00115, 0.00120, 0.00088),
+    xerr_barrel_small_def_ = cms.untracked.double(0.01030),
+    xerr_barrel_large_def_ = cms.untracked.double(0.01030),
+    yerr_barrel_small_     = cms.untracked.vdouble(0.00375,0.00230,0.00250,0.00250,0.00230,0.00230,0.00210,0.00210,0.00240),
+    yerr_barrel_large_     = cms.untracked.vdouble(0.00375,0.00230,0.00250,0.00250,0.00230,0.00230,0.00210,0.00210,0.00240),
+    yerr_barrel_small_def_ = cms.untracked.double(0.00210),
+    yerr_barrel_large_def_ = cms.untracked.double(0.00210),
+    xerr_endcap_small_     = cms.untracked.vdouble(0.0020, 0.0020),
+    xerr_endcap_large_     = cms.untracked.vdouble(0.0020, 0.0020),
+    xerr_endcap_small_def_ = cms.untracked.double(0.0020),
+    xerr_endcap_large_def_ = cms.untracked.double(0.0020),
+    yerr_endcap_small_     = cms.untracked.vdouble(0.00210),
+    yerr_endcap_large_     = cms.untracked.vdouble(0.00210),
+    yerr_endcap_small_def_ = cms.untracked.double(0.00075),
+    yerr_endcap_large_def_ = cms.untracked.double(0.00075)
+    )
+
+# Pixel CPE for phase2 pixel cell (modules 1x2: 25x100 um2; modules 2x2: 25x100 um2) 
+pixelCPE_25x100_phase2 = cms.PSet(
+    xerr_barrel_small_     = cms.untracked.vdouble(0.00025, 0.00030, 0.00035, 0.00035),
+    xerr_barrel_large_     = cms.untracked.vdouble(0.00025, 0.00030, 0.00035, 0.00035),
+    xerr_barrel_small_def_ = cms.untracked.double(0.00035),
+    xerr_barrel_large_def_ = cms.untracked.double(0.00035),
+    yerr_barrel_small_     = cms.untracked.vdouble(0.00210, 0.00115, 0.00125),
+    yerr_barrel_large_     = cms.untracked.vdouble(0.00210, 0.00115, 0.00125),
+    yerr_barrel_small_def_ = cms.untracked.double(0.00125),
+    yerr_barrel_large_def_ = cms.untracked.double(0.00125),
+    xerr_endcap_small_     = cms.untracked.vdouble(0.00072, 0.00025),
+    xerr_endcap_large_     = cms.untracked.vdouble(0.00072, 0.00025),
+    xerr_endcap_small_def_ = cms.untracked.double(0.00060),
+    xerr_endcap_large_def_ = cms.untracked.double(0.00060),
+    yerr_endcap_small_     = cms.untracked.vdouble(0.00289, 0.00025),
+    yerr_endcap_large_     = cms.untracked.vdouble(0.00289, 0.00025),
+    yerr_endcap_small_def_ = cms.untracked.double(0.00180),
+    yerr_endcap_large_def_ = cms.untracked.double(0.00180)
+    )
+
+# Pixel CPE for phase2 pixel cell (modules 1x2: 50x50 um2; modules 2x2: 50x50 um2) 
+pixelCPE_50x50_phase2 = cms.PSet(
+    xerr_barrel_small_     = cms.untracked.vdouble(0.00060, 0.00045, 0.00075),
+    xerr_barrel_large_     = cms.untracked.vdouble(0.00060, 0.00045, 0.00075),
+    xerr_barrel_small_def_ = cms.untracked.double(0.00150),
+    xerr_barrel_large_def_ = cms.untracked.double(0.00150),
+    yerr_barrel_small_     = cms.untracked.vdouble(0.00100, 0.00045, 0.00075, 0.00075, 0.00080, 0.00080, 0.00080),
+    yerr_barrel_large_     = cms.untracked.vdouble(0.00100, 0.00045, 0.00075, 0.00075, 0.00080, 0.00080, 0.00080),
+    yerr_barrel_small_def_ = cms.untracked.double(0.00090),
+    yerr_barrel_large_def_ = cms.untracked.double(0.00090),
+    xerr_endcap_small_     = cms.untracked.vdouble(0.00145, 0.00025),
+    xerr_endcap_large_     = cms.untracked.vdouble(0.00145, 0.00025),
+    xerr_endcap_small_def_ = cms.untracked.double(0.00085),
+    xerr_endcap_large_def_ = cms.untracked.double(0.00085),
+    yerr_endcap_small_     = cms.untracked.vdouble(0.00145, 0.00020),
+    yerr_endcap_large_     = cms.untracked.vdouble(0.00145, 0.00020),
+    yerr_endcap_small_def_ = cms.untracked.double(0.00080),
+    yerr_endcap_large_def_ = cms.untracked.double(0.00080)
+    )
+
+PixelCPE_dict = { 'pixelCPE_100x150_default' : pixelCPE_100x150_default,
+                  'pixelCPE_25x100_phase2'   : pixelCPE_25x100_phase2, 
+                  'pixelCPE_50x50_phase2'    : pixelCPE_50x50_phase2 
+                  }
+
 PixelCPEGenericESProducer = cms.ESProducer("PixelCPEGenericESProducer",
 
     ComponentName = cms.string('PixelCPEGeneric'),
@@ -57,7 +123,11 @@ PixelCPEGenericESProducer = cms.ESProducer("PixelCPEGenericESProducer",
                                            
     #MagneticFieldRecord: e.g. "" or "ParabolicMF"
     MagneticFieldRecord = cms.ESInputTag(""),
+
+    # 
+    PixelCPEList = PixelCPE_dict['pixelCPE_100x150_default']
 )
+
 
 # This customization will be removed once we get the templates for phase2 pixel
 # FIXME::Is the Upgrade variable actually used?
@@ -69,6 +139,7 @@ phase2_tracker.toModify(PixelCPEGenericESProducer,
   TruncatePixelCharge = False,
   IrradiationBiasCorrection = False,
   DoCosmics = False,
-  Upgrade = cms.bool(True)
+  Upgrade = cms.bool(True),
+  PixelCPEList = PixelCPE_dict['pixelCPE_50x50_phase2']
 )
 

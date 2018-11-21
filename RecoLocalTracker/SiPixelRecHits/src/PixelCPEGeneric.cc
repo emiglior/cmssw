@@ -60,7 +60,35 @@ PixelCPEGeneric::PixelCPEGeneric(edm::ParameterSet const & conf,
    DoCosmics_                 = conf.getParameter<bool>("DoCosmics");
    //LoadTemplatesFromDB_       = conf.getParameter<bool>("LoadTemplatesFromDB");
    
-   // no clear what upgrade means, is it phase1, phase2? Probably delete.
+   // getting Pixel CPE from configuration file
+   if ( conf.exists("PixelCPEList") ) {
+     edm::ParameterSet pset = conf.getParameter<edm::ParameterSet>("PixelCPEList");
+     xerr_barrel_small_     = pset.getUntrackedParameter<std::vector<double> >("xerr_barrel_small_");
+     xerr_barrel_small_def_ = pset.getUntrackedParameter<double>("xerr_barrel_small_def_");
+     yerr_barrel_small_     = pset.getUntrackedParameter<std::vector<double> >("yerr_barrel_small_");
+     yerr_barrel_small_def_ = pset.getUntrackedParameter<double>("yerr_barrel_small_def_");
+     xerr_barrel_large_     = pset.getUntrackedParameter<std::vector<double> >("xerr_barrel_large_");
+     xerr_barrel_large_def_ = pset.getUntrackedParameter<double>("xerr_barrel_large_def_");
+     yerr_barrel_large_     = pset.getUntrackedParameter<std::vector<double> >("yerr_barrel_large_");
+     yerr_barrel_large_def_ = pset.getUntrackedParameter<double>("yerr_barrel_large_def_");
+     xerr_endcap_small_     = pset.getUntrackedParameter<std::vector<double> >("xerr_endcap_small_");
+     xerr_endcap_small_def_ = pset.getUntrackedParameter<double>("xerr_endcap_small_def_");
+     xerr_endcap_large_     = pset.getUntrackedParameter<std::vector<double> >("xerr_endcap_large_");
+     xerr_endcap_large_def_ = pset.getUntrackedParameter<double>("xerr_endcap_large_def_");
+     yerr_endcap_small_     = pset.getUntrackedParameter<std::vector<double> >("yerr_endcap_small_");
+     yerr_endcap_small_def_ = pset.getUntrackedParameter<double>("yerr_endcap_small_def_"); 
+     yerr_endcap_large_     = pset.getUntrackedParameter<std::vector<double> >("yerr_endcap_large_");
+     yerr_endcap_large_def_ = pset.getUntrackedParameter<double>("yerr_endcap_large_def_"); 
+     // TO DO implement some default
+
+     for (auto & element : xerr_barrel_small_ ) {
+       std::cout << "xerr_barrel_small_: " << element << std::endl;
+     }
+
+
+   }
+
+   // isUpgrade -> phase2
    isUpgrade_= false;
    if ( conf.exists("Upgrade") && conf.getParameter<bool>("Upgrade")) isUpgrade_=true;
    
@@ -96,45 +124,7 @@ PixelCPEGeneric::PixelCPEGeneric(edm::ParameterSet const & conf,
    }  else {
       if(MYDEBUG) cout<<" Use simple parametrised errors "<<endl;
    } // if ( UseErrorsFromTemplates_ )
-   
-   
-   // Rechit errors in case other, more correct, errors are not vailable
-   // This are constants. Maybe there is a more efficienct way to store them.
-   if(!isUpgrade_) {  // normal case
-      xerr_barrel_l1_= {0.00115, 0.00120, 0.00088};
-      xerr_barrel_l1_def_=0.01030;
-      yerr_barrel_l1_= {0.00375,0.00230,0.00250,0.00250,0.00230,0.00230,0.00210,0.00210,0.00240};
-      yerr_barrel_l1_def_=0.00210;
-      xerr_barrel_ln_= {0.00115, 0.00120, 0.00088};
-      xerr_barrel_ln_def_=0.01030;
-      yerr_barrel_ln_= {0.00375,0.00230,0.00250,0.00250,0.00230,0.00230,0.00210,0.00210,0.00240};
-      yerr_barrel_ln_def_=0.00210;
-      xerr_endcap_= {0.0020, 0.0020};
-      xerr_endcap_def_=0.0020;
-      yerr_endcap_= {0.00210};
-      yerr_endcap_def_=0.00075;
-   } else { // isUpgrade=true
-      xerr_barrel_ln_= {0.00025, 0.00030, 0.00035, 0.00035};
-      xerr_barrel_ln_def_=0.00035;
-      yerr_barrel_ln_= {0.00210, 0.00115, 0.00125};
-      yerr_barrel_ln_def_=0.00125;
-      xerr_endcap_= {0.00072, 0.00025};
-      xerr_endcap_def_=0.00060;
-      yerr_endcap_= {0.00289, 0.00025};
-      yerr_endcap_def_=0.00180;
       
-      if ( conf.exists("SmallPitch") && conf.getParameter<bool>("SmallPitch")) {
-         xerr_barrel_l1_= {0.00104, 0.000691, 0.00122};
-         xerr_barrel_l1_def_=0.00321;
-         yerr_barrel_l1_= {0.00199,0.00136,0.0015,0.00153,0.00152,0.00171,0.00154,0.00157,0.00154};
-         yerr_barrel_l1_def_=0.00164;
-      } else {
-         xerr_barrel_l1_= {0.00025, 0.00030, 0.00035, 0.00035};
-         xerr_barrel_l1_def_=0.00035;
-         yerr_barrel_l1_= {0.00210, 0.00115, 0.00125};
-         yerr_barrel_l1_def_=0.00125;
-      }
-   } // if isUpgrade
    
    if(MYDEBUG) {
       cout << "From PixelCPEGeneric::PixelCPEGeneric(...)" << endl;
@@ -639,54 +629,109 @@ PixelCPEGeneric::localError(DetParam const & theDetParam,  ClusterParam & theClu
          cout<<" errors  "<<xerr<<" "<<yerr<<" "<<theClusterParam.sx1<<" "<<theClusterParam.sx2<<" "<<theClusterParam.sigmax<<endl;  //dk
       }
       
-   } else  { // simple errors
+     } else { // simple errors
       
       // This are the simple errors, hardcoded in the code
       //cout << "Track angles are not known " << endl;
       //cout << "Default angle estimation which assumes track from PV (0,0,0) does not work." << endl;
       
-      if ( GeomDetEnumerators::isTrackerPixel(theDetParam.thePart) ) {
-         if(GeomDetEnumerators::isBarrel(theDetParam.thePart)) {
-            
-            DetId id = (theDetParam.theDet->geographicalId());
-            int layer=ttopo_.layer(id);
-            if ( layer==1 ) {
-               if ( !edgex ) {
-                  if ( sizex<=xerr_barrel_l1_.size() ) xerr=xerr_barrel_l1_[sizex-1];
-                  else xerr=xerr_barrel_l1_def_;
-               }
-               
-               if ( !edgey ) {
-                  if ( sizey<=yerr_barrel_l1_.size() ) yerr=yerr_barrel_l1_[sizey-1];
-                  else yerr=yerr_barrel_l1_def_;
-               }
-            } else{  // layer 2,3
-               if ( !edgex ) {
-                  if ( sizex<=xerr_barrel_ln_.size() ) xerr=xerr_barrel_ln_[sizex-1];
-                  else xerr=xerr_barrel_ln_def_;
-               }
-               
-               if ( !edgey ) {
-                  if ( sizey<=yerr_barrel_ln_.size() ) yerr=yerr_barrel_ln_[sizey-1];
-                  else yerr=yerr_barrel_ln_def_;
-               }
-            }
-            
-         } else { // EndCap
-            
-            if ( !edgex ) {
-               if ( sizex<=xerr_endcap_.size() ) xerr=xerr_endcap_[sizex-1];
-               else xerr=xerr_endcap_def_;
-            }
-            
-            if ( !edgey ) {
-               if ( sizey<=yerr_endcap_.size() ) yerr=yerr_endcap_[sizey-1];
-               else yerr=yerr_endcap_def_;
-            }
-         } // end endcap
-      }
-      
-      if(inflate_errors) {
+     if ( GeomDetEnumerators::isTrackerPixel(theDetParam.thePart) ) {
+       
+
+       //       DetId id = (theDetParam.theDet->geographicalId());  // used for debug
+       //       int layer=ttopo_.layer(id);                         // used for debug
+       
+       if(GeomDetEnumerators::isBarrel(theDetParam.thePart)) { //  Barrel
+	 	 
+	 if( !isUpgrade_ ) {  // phase0/phase1 case: 100x150 um2 pixels in all layers
+	   
+	   if ( !edgex ) {
+	     if ( sizex<=xerr_barrel_large_.size() ) xerr=xerr_barrel_large_[sizex-1];
+	     else xerr=xerr_barrel_large_def_;
+	   }               
+	   
+	   if ( !edgey ) {
+	     if ( sizey<=yerr_barrel_large_.size() ) yerr=yerr_barrel_large_[sizey-1];
+	     else yerr=yerr_barrel_large_def_;
+	   }	    
+	     
+	 } else { // phase2 case: layer1/2 (1x2 modules) may be different from layer 3/4 (2x2 modules)
+	   
+	   if ( theDetParam.theRecTopol->rocsX() == 1 ) { // layer 1/2
+	     // cout << " PixelCPEGeneric::localError() BARREL 1x2, layer " << layer << endl;
+	     if ( !edgex ) {
+	       if ( sizex<=xerr_barrel_small_.size() ) xerr=xerr_barrel_small_[sizex-1];
+	       else xerr=xerr_barrel_small_def_;
+	     }               
+	     
+	     if ( !edgey ) {
+	       if ( sizey<=yerr_barrel_small_.size() ) yerr=yerr_barrel_small_[sizey-1];
+	       else yerr=yerr_barrel_small_def_;
+	     }
+	     
+	   } else {  // layer 3/4   
+	     // cout << " PixelCPEGeneric::localError() BARREL 2x2, layer " << layer << endl;
+	     if ( !edgex ) {
+	       if ( sizex<=xerr_barrel_large_.size() ) xerr=xerr_barrel_large_[sizex-1];
+	       else xerr=xerr_barrel_large_def_;
+	     }               
+	     
+	     if ( !edgey ) {
+	       if ( sizey<=yerr_barrel_large_.size() ) yerr=yerr_barrel_large_[sizey-1];
+	       else yerr=yerr_barrel_large_def_;
+	     }
+	   
+	   } // end if 1x2 modules
+	   
+	 } // end of if ( !isUpgrade_  ) 
+	   	 
+       } else { // EndCap
+	 
+	 if( !isUpgrade_ ) {  // phase0/phase1 case: 100x150 um2 pixels in all rings
+	   
+	   if ( !edgex ) {
+	     if ( sizex<=xerr_endcap_large_.size() ) xerr=xerr_endcap_large_[sizex-1];
+	     else xerr=xerr_endcap_large_def_;
+	   }
+	   
+	   if ( !edgey ) {
+	     if ( sizey<=yerr_endcap_large_.size() ) yerr=yerr_endcap_large_[sizey-1];
+	     else yerr=yerr_endcap_large_def_;
+	   }
+
+	 } else { // phase2 case: layer1/2 (1x2 modules) may be different from layer 3/4 (2x2 modules)          
+
+	   if ( theDetParam.theRecTopol->rocsX() == 1 ) { // layer 1/2
+	     // cout << " PixelCPEGeneric::localError() ENDCAP 1x2, layer " << layer << endl;
+	     if ( !edgex ) {
+	       if ( sizex<=xerr_endcap_small_.size() ) xerr=xerr_endcap_small_[sizex-1];
+	       else xerr=xerr_endcap_small_def_;
+	     }               
+	     
+	     if ( !edgey ) {
+	       if ( sizey<=yerr_endcap_small_.size() ) yerr=yerr_endcap_small_[sizey-1];
+	       else yerr=yerr_endcap_small_def_;
+	     }
+	     
+	   } else {  // layer 3/4   
+	     // cout << " PixelCPEGeneric::localError() ENDCAP 2x2, layer " << layer << endl;
+	     if ( !edgex ) {
+	       if ( sizex<=xerr_endcap_large_.size() ) xerr=xerr_endcap_large_[sizex-1];
+	       else xerr=xerr_endcap_large_def_;
+	     }               
+	     
+	     if ( !edgey ) {
+	       if ( sizey<=yerr_endcap_large_.size() ) yerr=yerr_endcap_large_[sizey-1];
+	       else yerr=yerr_endcap_large_def_;
+	     }
+	   
+	   } // end if 1x2 modules
+	 }
+	 
+       } // end EndCap
+     }
+   
+     if(inflate_errors) {
          int n_bigx = 0;
          int n_bigy = 0;
          
@@ -715,10 +760,10 @@ PixelCPEGeneric::localError(DetParam const & theDetParam,  ClusterParam & theClu
       << "\nERROR: Negative pixel error yerr = " << yerr << "\n\n";
 #endif
    
-   //if(localPrint) {
-   //cout<<" errors  "<<xerr<<" "<<yerr<<endl;  //dk
-   //if(theClusterParam.qBin_ == 0) cout<<" qbin 0 "<<xerr<<" "<<yerr<<endl;
-   //}
+   if(localPrint) {
+     cout<<" errors  "<<xerr<<" "<<yerr<<endl;  //dk
+     if(theClusterParam.qBin_ == 0) cout<<" qbin 0 "<<xerr<<" "<<yerr<<endl;
+   }
    
    auto xerr_sq = xerr*xerr; 
    auto yerr_sq = yerr*yerr;
