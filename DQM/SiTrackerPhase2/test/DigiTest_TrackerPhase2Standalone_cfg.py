@@ -3,7 +3,7 @@ import FWCore.ParameterSet.Config as cms
 from Configuration.Eras.Era_Phase2_cff import Phase2
 process = cms.Process('digiTest',Phase2)
 process.maxEvents = cms.untracked.PSet(
-    input = cms.untracked.int32(-1)
+    input = cms.untracked.int32(10)
 )
 #process.MessageLogger = cms.Service("MessageLogger",
 #    debugModules = cms.untracked.vstring('siPixelRawData'),
@@ -15,7 +15,7 @@ process.maxEvents = cms.untracked.PSet(
 process.load('Configuration.StandardSequences.Services_cff')
 process.load('FWCore.MessageService.MessageLogger_cfi')
 process.load('Configuration.EventContent.EventContent_cff')
-process.load('Configuration.Geometry.GeometryExtended2023D17Reco_cff')
+process.load('Configuration.Geometry.GeometryTrackerOnly_cff')
 process.load('Configuration.StandardSequences.MagneticField_cff')
 process.load('Configuration.StandardSequences.FrontierConditions_GlobalTag_cff')
 process.load('Configuration.StandardSequences.EndOfProcess_cff')
@@ -27,7 +27,7 @@ process.GlobalTag = GlobalTag(process.GlobalTag, 'auto:phase2_realistic', '')
 
 process.source = cms.Source("PoolSource",
     fileNames =  cms.untracked.vstring(
-        'file:step2_DIGI.root'
+        '/store/relval/CMSSW_10_4_0/RelValTTbar_14TeV/GEN-SIM-DIGI-RAW/PU25ns_103X_upgrade2023_realistic_v2_2023D21PU200-v1/20000/0131EB32-5AEA-B445-906D-7A8639AFA24E.root'
       )
 )
 # Production Info
