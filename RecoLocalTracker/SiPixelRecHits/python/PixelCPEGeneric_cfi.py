@@ -38,10 +38,11 @@ phase2_tracker.toModify(PixelCPEGenericESProducer,
   yerr_barrel_l1_def = 0.00125
 )
 
+
 # customize the Pixel CPE generic producer for phase2 3D pixels
 # Will remove any usage of template / genError payloads from the reconstruction
-from Configuration.Eras.Modifier_phase2_3DPixels_cff import phase2_3DPixels
 from Configuration.ProcessModifiers.PixelCPEGeneric_cff import PixelCPEGeneric
+from Configuration.Eras.Modifier_phase2_3DPixels_cff import phase2_3DPixels
 (phase2_tracker & (phase2_3DPixels & PixelCPEGeneric)).toModify(PixelCPEGenericESProducer,
                                                                 UseErrorsFromTemplates = False,    # no GenErrors
                                                                 LoadTemplatesFromDB = False        # do not load templates
@@ -54,7 +55,7 @@ from Configuration.Eras.Modifier_phase2_squarePixels_cff import phase2_squarePix
 (phase2_tracker & (phase2_squarePixels | phase2_3DPixels)).toModify(PixelCPEGenericESProducer,
                                                                     NoTemplateErrorsWhenNoTrkAngles = False # use genErrors in the seeding step (when no track angles are available)
                                                                     )
-# customize phase2 CPE generic for bricked pixels
+# Customize phase2 CPE generic for bricked pixels
 from Configuration.Eras.Modifier_phase2_brickedPixels_cff import phase2_brickedPixels
 (phase2_tracker & phase2_brickedPixels ).toModify(PixelCPEGenericESProducer, 
   ComponentName = 'PixelCPEGenericForBricked', # PixelCPEGenericForBricked is derived from PixelCPEGeneric with changes in some of the methods to deal with bricked pixel topology
@@ -62,3 +63,10 @@ from Configuration.Eras.Modifier_phase2_brickedPixels_cff import phase2_brickedP
   LoadTemplatesFromDB = False,                 # do not load template
                                                   )
 
+# customize phase2 CPE generic for mixed bricked and square pixels
+(phase2_tracker & (phase2_brickedPixels & phase2_squarePixels) ).toModify(PixelCPEGenericESProducer, 
+  ComponentName = 'PixelCPEGenericForBricked', # PixelCPEGenericForBricked is derived from PixelCPEGeneric with changes in some of the methods to deal with bricked pixel topology
+  UseErrorsFromTemplates = True,              # GenErrors
+  LoadTemplatesFromDB = True,                 # load template
+  NoTemplateErrorsWhenNoTrkAngles = True      # DON'T use genErrors in the seeding step (when no track angles are available)
+                                                  )
