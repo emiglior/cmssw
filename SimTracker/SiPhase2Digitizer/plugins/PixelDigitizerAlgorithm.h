@@ -8,6 +8,8 @@
 #include "FWCore/Utilities/interface/ESGetToken.h"
 #include "Geometry/Records/interface/TrackerDigiGeometryRecord.h"
 #include "SimTracker/SiPhase2Digitizer/plugins/Phase2TrackerDigitizerAlgorithm.h"
+#include "TH1F.h"
+#include "TH2F.h"
 
 class PixelDigitizerAlgorithm : public Phase2TrackerDigitizerAlgorithm {
 private:
@@ -66,5 +68,11 @@ public:
   edm::ESGetToken<SiPixelLorentzAngle, SiPixelLorentzAngleSimRcd> siPixelLorentzAngleToken_;
   const edm::ESGetToken<SiPixelFedCablingMap, SiPixelFedCablingMapRcd> fedCablingMapToken_;
   const edm::ESGetToken<TrackerGeometry, TrackerDigiGeometryRecord> geomToken_;
+
+  TH1F * h1AllH_q;
+  TH1F * h1SH_q;
+  TH1F * h1SH_time;
+  TH2F * h2SH_q_vs_time;
+
 };
 #endif

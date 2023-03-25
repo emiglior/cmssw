@@ -3,6 +3,7 @@
 
 #include "SimTracker/SiPhase2Digitizer/plugins/PixelDigitizerAlgorithm.h"
 #include "SimDataFormats/TrackingHit/interface/PSimHitContainer.h"
+#include "SimDataFormats/EncodedEventId/interface/EncodedEventId.h"
 
 #include "FWCore/Framework/interface/ConsumesCollector.h"
 #include "FWCore/MessageLogger/interface/MessageLogger.h"
@@ -18,6 +19,9 @@
 #include "CondFormats/SiPixelObjects/interface/PixelROC.h"
 #include "CondFormats/SiPixelObjects/interface/LocalPixel.h"
 #include "CondFormats/SiPixelObjects/interface/CablingPathToDetUnit.h"
+
+#include "FWCore/ServiceRegistry/interface/Service.h"
+#include "CommonTools/UtilAlgos/interface/TFileService.h"
 
 using namespace edm;
 using namespace sipixelobjects;
@@ -35,6 +39,14 @@ void PixelDigitizerAlgorithm::init(const edm::EventSetup& es) {
   // gets the map and geometry from the DB (to kill ROCs)
   fedCablingMap_ = &es.getData(fedCablingMapToken_);
   geom_ = &es.getData(geomToken_);
+
+
+  edm::Service<TFileService> fs;
+  h1AllH_q       = fs->make<TH1F>("h1AllH_q",       "h1AllH_q"      ,40,0.,40000.);
+  h1SH_q         = fs->make<TH1F>("h1SH_q",         "h1SH_q"        ,40,0.,40000.);
+  h1SH_time      = fs->make<TH1F>("h1SH_time",      "h1SH_time"     ,121,-151.25,+151.25);
+  h2SH_q_vs_time = fs->make<TH2F>("h2SH_q_vs_time", "h2SH_q_vs_time",121,-151.25,+151.25,40,0.,40000.);
+
 }
 
 PixelDigitizerAlgorithm::PixelDigitizerAlgorithm(const edm::ParameterSet& conf, edm::ConsumesCollector iC)
@@ -237,11 +249,29 @@ std::size_t PixelDigitizerAlgorithm::TimewalkModel::find_closest_index(const std
 bool PixelDigitizerAlgorithm::isAboveThreshold(const DigitizerUtility::SimHitInfo* hitInfo,
                                                float charge,
                                                float thr) const {
+
+
+  h1AllH_q->Fill(charge);
+  if (hitInfo) {
+
+    std::cout << " Hit " // << count << " has tof " << cfi->timeOfFlight() << " trackid " << cfi->trackId()
+      // << " bunchcr " << cfi.bunch() << " trigger " << cfi.getTrigger()
+	      << "EncodedEventId (bx, evt): " << hitInfo->eventId().bunchCrossing() << " " << hitInfo->eventId().event() << " time: " << hitInfo->time() 
+      // << " bcr from MixCol " << cfi.bunch() 
+	      << std::endl;
+
+    h1SH_q->Fill(charge);
+    float corrected_time = hitInfo->time();
+    h1SH_time->Fill(corrected_time);
+    h2SH_q_vs_time->Fill(corrected_time, charge);
+  }
+
   if (charge < thr)
     return false;
   if (apply_timewalk_ && hitInfo) {
     float corrected_time = hitInfo->time();
     double time = corrected_time + timewalk_model_(charge, thr);
+    //std::cout << "PDA: "<< hitInfo->time() << " " << charge << " " << timewalk_model_(charge, thr) << std::endl;
     return (time >= theTofLowerCut_ && time < theTofUpperCut_);
   } else
     return true;

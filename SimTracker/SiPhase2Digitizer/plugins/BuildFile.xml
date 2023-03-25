@@ -11,6 +11,9 @@
   <use name="Geometry/TrackerGeometryBuilder"/>
   <use name="MagneticField/Engine"/>
   <use name="MagneticField/Records"/>
+  <use name="PhysicsTools/UtilAlgos"/>
+  <use name="FWCore/ServiceRegistry"/>
   <use name="clhep"/>
+  <use name="root"/>
   <flags EDM_PLUGIN="1"/>
 </library>
