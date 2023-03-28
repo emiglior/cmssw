@@ -41,11 +41,13 @@ void PixelDigitizerAlgorithm::init(const edm::EventSetup& es) {
   geom_ = &es.getData(geomToken_);
 
   edm::Service<TFileService> fs;
-  h1SH_q           = fs->make<TH1F>("h1SH_q",           "h1SH_q"          ,40,0.,40000.);
+  h1SH_tof         = fs->make<TH1F>("h1SH_tof",         "h1SH_tof"        ,121,-151.25,+151.25);
+  h1SH_q           = fs->make<TH1F>("h1SH_q",           "h1SH_q"          ,120, 0.,30000.);
   h1SH_time        = fs->make<TH1F>("h1SH_time",        "h1SH_time"       ,121,-151.25,+151.25);
-  h2SH_q_vs_time   = fs->make<TH2F>("h2SH_q_vs_time",   "h2SH_q_vs_time"  ,121,-151.25,+151.25,40,0.,40000.);
+  h2SH_q_vs_time   = fs->make<TH2F>("h2SH_q_vs_time",   "h2SH_q_vs_time"  ,121,-151.25,+151.25,120,0.,30000.);
   h1SH_timeTW      = fs->make<TH1F>("h1SH_timeTW",      "h1SH_timeTW"     ,121,-151.25,+151.25);
-  h2SH_q_vs_timeTW = fs->make<TH2F>("h2SH_q_vs_timeTW", "h2SH_q_vs_timeTW",121,-151.25,+151.25,40,0.,40000.);
+  h2SH_q_vs_timeTW = fs->make<TH2F>("h2SH_q_vs_timeTW", "h2SH_q_vs_timeTW",121,-151.25,+151.25,120,0.,30000.);
+  h2SH_q_vs_TW     = fs->make<TH2F>("h2SH_q_vs_TW",     "h2SH_q_vs_TW"    ,121,-151.25,+151.25,120,0.,30000.);
 
 }
 
@@ -88,6 +90,7 @@ PixelDigitizerAlgorithm::~PixelDigitizerAlgorithm() { LogDebug("PixelDigitizerAl
 //
 bool PixelDigitizerAlgorithm::select_hit(const PSimHit& hit, double tCorr, double& sigScale) const {
   double time = hit.tof() - tCorr;
+  h1SH_tof->Fill(hit.tof());
   return true; //(time >= theTofLowerCut_ && time < theTofUpperCut_);
 }
 
@@ -251,12 +254,13 @@ bool PixelDigitizerAlgorithm::isAboveThreshold(const DigitizerUtility::SimHitInf
                                                float thr) const {
   if (hitInfo) {
     float SH_time_corrected = hitInfo->time();
-    h1SH_q->Fill(charge);
+    h1SH_q->Fill(fmin(charge,29999.));
     h1SH_time->Fill(SH_time_corrected);
-    h2SH_q_vs_time->Fill(SH_time_corrected, charge);
+    h2SH_q_vs_time->Fill(SH_time_corrected, fmin(charge,29999.));
+    h2SH_q_vs_TW->Fill(timewalk_model_(charge, thr), fmin(charge,29999.));
     double SH_timeTW_corrected = SH_time_corrected + timewalk_model_(charge, thr);
     h1SH_timeTW->Fill(SH_timeTW_corrected);
-    h2SH_q_vs_timeTW->Fill(SH_timeTW_corrected, charge);
+    h2SH_q_vs_timeTW->Fill(SH_timeTW_corrected, fmin(charge,29999.));
   }
 
 

@@ -38,16 +38,16 @@ def customizeSiPhase2ITSignalShape37p5ns(process):
 def customizeSiPhase2ITSignalShape87p5ns(process):
     _commonCustomizeSiPhase2ITSignalShape(process)
 
-    process.mix.minBunch = cms.int32(-1)
-    process.mix.maxBunch = cms.int32(3)
+    process.mix.minBunch = cms.int32(-3)
+    process.mix.maxBunch = cms.int32(1)
 
     return process
 
 def customizeSiPhase2ITSignalShape137p5ns(process):
     _commonCustomizeSiPhase2ITSignalShape(process)
 
-    process.mix.minBunch = cms.int32(-1)
-    process.mix.maxBunch = cms.int32(5)
+    process.mix.minBunch = cms.int32(-5)
+    process.mix.maxBunch = cms.int32(1)
 
     return process
 
