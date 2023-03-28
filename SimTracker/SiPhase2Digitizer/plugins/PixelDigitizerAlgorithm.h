@@ -69,10 +69,10 @@ public:
   const edm::ESGetToken<SiPixelFedCablingMap, SiPixelFedCablingMapRcd> fedCablingMapToken_;
   const edm::ESGetToken<TrackerGeometry, TrackerDigiGeometryRecord> geomToken_;
 
-  TH1F * h1AllH_q;
   TH1F * h1SH_q;
   TH1F * h1SH_time;
   TH2F * h2SH_q_vs_time;
-
+  TH1F * h1SH_timeTW;
+  TH2F * h2SH_q_vs_timeTW;
 };
 #endif
