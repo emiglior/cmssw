@@ -10,6 +10,7 @@
 #include "SimTracker/SiPhase2Digitizer/plugins/Phase2TrackerDigitizerAlgorithm.h"
 #include "TH1F.h"
 #include "TH2F.h"
+#include <map>
 
 class PixelDigitizerAlgorithm : public Phase2TrackerDigitizerAlgorithm {
 private:
@@ -76,5 +77,11 @@ public:
   TH1F * h1SH_timeTW;
   TH2F * h2SH_q_vs_timeTW;
   TH2F * h2SH_q_vs_TW;
+
+  std::map<uint32_t, TH1F*> h1SH_q_m;
+  std::map<uint32_t, TH1F*> h1SH_time_m;
+  std::map<uint32_t, TH1F*> h1SH_timeTW_m;
+  std::map<uint32_t, TH2F*> h2SH_q_vs_timeTW_m;
+
 };
 #endif

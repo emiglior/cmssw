@@ -1,5 +1,6 @@
 #include <iostream>
 #include <cmath>
+#include <string>
 
 #include "SimTracker/SiPhase2Digitizer/plugins/PixelDigitizerAlgorithm.h"
 #include "SimDataFormats/TrackingHit/interface/PSimHitContainer.h"
@@ -19,6 +20,8 @@
 #include "CondFormats/SiPixelObjects/interface/PixelROC.h"
 #include "CondFormats/SiPixelObjects/interface/LocalPixel.h"
 #include "CondFormats/SiPixelObjects/interface/CablingPathToDetUnit.h"
+
+#include "DataFormats/TrackerCommon/interface/TrackerTopology.h"
 
 #include "FWCore/ServiceRegistry/interface/Service.h"
 #include "CommonTools/UtilAlgos/interface/TFileService.h"
@@ -48,6 +51,30 @@ void PixelDigitizerAlgorithm::init(const edm::EventSetup& es) {
   h1SH_timeTW      = fs->make<TH1F>("h1SH_timeTW",      "h1SH_timeTW"     ,121,-151.25,+151.25);
   h2SH_q_vs_timeTW = fs->make<TH2F>("h2SH_q_vs_timeTW", "h2SH_q_vs_timeTW",121,-151.25,+151.25,120,0.,30000.);
   h2SH_q_vs_TW     = fs->make<TH2F>("h2SH_q_vs_TW",     "h2SH_q_vs_TW"    ,121,-151.25,+151.25,120,0.,30000.);
+
+  char name[25];  
+  uint32_t subdet;
+
+  subdet = PixelSubdetector::PixelBarrel;
+  sprintf(name, "h1SH_q_subdet%d", subdet);
+  h1SH_q_m[subdet]           = fs->make<TH1F>(name, name, 120, 0.,30000.); 
+  sprintf(name, "h1SH_time_subdet%d", subdet);
+  h1SH_time_m[subdet]      = fs->make<TH1F>(name, name, 121,-151.25,+151.25); 
+  sprintf(name, "h1SH_timeTW_subdet%d", subdet);
+  h1SH_timeTW_m[subdet]      = fs->make<TH1F>(name, name, 121,-151.25,+151.25); 
+  sprintf(name, "h2SH_q_vs_timeTW_subdet%d", subdet);
+  h2SH_q_vs_timeTW_m[subdet] = fs->make<TH2F>(name, name, 121,-151.25,+151.25,120,0.,30000.);
+
+  subdet = PixelSubdetector::PixelEndcap;
+  sprintf(name, "h1SH_q_subdet%d", subdet);
+  h1SH_q_m[subdet]           = fs->make<TH1F>(name, name, 120, 0.,30000.); 
+  sprintf(name, "h1SH_time_subdet%d", subdet);
+  h1SH_time_m[subdet]      = fs->make<TH1F>(name, name, 121,-151.25,+151.25); 
+  sprintf(name, "h1SH_timeTW_subdet%d", subdet);
+  h1SH_timeTW_m[subdet]      = fs->make<TH1F>(name, name, 121,-151.25,+151.25); 
+  sprintf(name, "h2SH_q_vs_timeTW_subdet%d", subdet);
+  h2SH_q_vs_timeTW_m[subdet] = fs->make<TH2F>(name, name, 121,-151.25,+151.25,120,0.,30000.);
+
 
 }
 
@@ -253,6 +280,7 @@ bool PixelDigitizerAlgorithm::isAboveThreshold(const DigitizerUtility::SimHitInf
                                                float charge,
                                                float thr) const {
   if (hitInfo) {
+    //    std::cout << " PDA:isAboveThreshold(): "<<  (hitInfo->detId()).rawId() << " " << (hitInfo->detId()).subdetId() <<std::endl;
     float SH_time_corrected = hitInfo->time();
     h1SH_q->Fill(fmin(charge,29999.));
     h1SH_time->Fill(SH_time_corrected);
@@ -261,10 +289,15 @@ bool PixelDigitizerAlgorithm::isAboveThreshold(const DigitizerUtility::SimHitInf
     double SH_timeTW_corrected = SH_time_corrected + timewalk_model_(charge, thr);
     h1SH_timeTW->Fill(SH_timeTW_corrected);
     h2SH_q_vs_timeTW->Fill(SH_timeTW_corrected, fmin(charge,29999.));
+
+    uint32_t subdet = (uint32_t)((hitInfo->detId()).subdetId());
+    h1SH_q_m.at(subdet)->Fill(fmin(charge,29999.));
+    h1SH_time_m.at(subdet)->Fill(SH_time_corrected);
+    h1SH_timeTW_m.at(subdet)->Fill(SH_timeTW_corrected);
+    h2SH_q_vs_timeTW_m.at(subdet)->Fill(SH_timeTW_corrected, fmin(charge,29999.));
+    
   }
 
-
-  //  if ( hitInfo ) std::cout << " Hit " 	    << "EncodedEventId (bx, evt): " << hitInfo->eventId().bunchCrossing() << " " << hitInfo->eventId().event() << " time: " << hitInfo->time() 	    << std::endl;
   if (charge < thr)
     return false;
   if (apply_timewalk_ && hitInfo) {

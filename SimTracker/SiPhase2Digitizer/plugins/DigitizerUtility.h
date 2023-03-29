@@ -8,21 +8,24 @@
 
 #include "SimDataFormats/TrackingHit/interface/PSimHit.h"
 #include "SimDataFormats/EncodedEventId/interface/EncodedEventId.h"
+#include "DataFormats/DetId/interface/DetId.h"
 
 namespace DigitizerUtility {
 
   class SimHitInfo {
   public:
     SimHitInfo(const PSimHit* hitp, float corrTime, size_t hitIndex, uint32_t tofBin)
-        : eventId_(hitp->eventId()), trackId_(hitp->trackId()), hitIndex_(hitIndex), tofBin_(tofBin), time_(corrTime) {}
+    : detId_(hitp->detUnitId()), eventId_(hitp->eventId()), trackId_(hitp->trackId()), hitIndex_(hitIndex), tofBin_(tofBin), time_(corrTime) {}
 
     uint32_t hitIndex() const { return hitIndex_; };
     uint32_t tofBin() const { return tofBin_; };
     EncodedEventId eventId() const { return eventId_; };
+    DetId detId() const { return detId_; } ;
     uint32_t trackId() const { return trackId_; };
     float time() const { return time_; };
 
   private:
+    DetId detId_;
     EncodedEventId eventId_;
     uint32_t trackId_;
     uint32_t hitIndex_;
