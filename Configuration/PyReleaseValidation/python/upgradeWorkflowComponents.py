@@ -1870,6 +1870,25 @@ upgradeWFs['ITSignalShape'] = UpgradeWorkflow_ITSignalShape(
     suffix = '_ITSignalShape',
     offset = 0.141
 )
+class UpgradeWorkflow_ITSignalShapeTOF(UpgradeWorkflow):
+    def setup_(self, step, stepName, stepDict, k, properties):
+        if 'Digi' in step:
+            stepDict[stepName][k] = merge([{'--customise': 'SimTracker/SiPhase2Digitizer/customizeForPhase2TrackerSignalShape.customizeSiPhase2ITSignalShapeTOF'}, stepDict[step][k]])
+    def condition(self, fragment, stepList, key, hasHarvest):
+        return '2026' in key
+# define several of them
+upgradeWFs['ITSignalShapeTOF'] = UpgradeWorkflow_ITSignalShapeTOF(
+    steps =  [
+        'Digi',
+        'DigiTrigger',
+    ],
+    PU =  [
+        'Digi',
+        'DigiTrigger',
+    ],
+    suffix = '_ITSignalShapeTOF',
+    offset = 0.142
+)
 
 
 # Specifying explicitly the --filein is not nice but that was the
