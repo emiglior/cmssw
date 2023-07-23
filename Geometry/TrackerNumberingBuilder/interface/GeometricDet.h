@@ -135,12 +135,14 @@ public:
   double pixROCCols() const { return pixROCCols_; }
   double pixROCx() const { return pixROCx_; }
   double pixROCy() const { return pixROCy_; }
+  bool bigPixelsx() const { return bigPixelsx_ ;}
+  bool bigPixelsy() const { return bigPixelsy_ ;}
+  bool isFirstSensor() const { return isFirstSensor_; }
+  bool isSecondSensor() const { return isSecondSensor_; }
   // Only return meaningful results for Outer Trackers.
   bool stereo() const { return stereo_; }
   bool isLowerSensor() const { return isLowerSensor_; }
   bool isUpperSensor() const { return isUpperSensor_; }
-  bool isFirstSensor() const { return isFirstSensor_; }
-  bool isSecondSensor() const { return isSecondSensor_; }
   double siliconAPVNum() const { return siliconAPVNum_; }
 
   // DETECTOR DESCRIPTION ORIGIN INFO
@@ -195,11 +197,13 @@ private:
   double pixROCCols_ = 0.;
   double pixROCx_ = 0.;
   double pixROCy_ = 0.;
+  bool bigPixelsx_ = false;
+  bool bigPixelsy_ = false;
+  bool isFirstSensor_ = false;
+  bool isSecondSensor_ = false;
   bool stereo_ = false;
   bool isLowerSensor_ = false;
   bool isUpperSensor_ = false;
-  bool isFirstSensor_ = false;
-  bool isSecondSensor_ = false;
   double siliconAPVNum_ = 0.;
 
   bool isFromDD4hep_ = false;

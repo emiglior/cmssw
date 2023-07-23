@@ -52,6 +52,8 @@ TrackerGeometry* TrackerGeomBuilderFromGeometricDet::build(const GeometricDet* g
         << " entrie(s).";
   }
 
+  // phase-0, phase-1; BIG_PIX_PER_ROC from trackerParameters.xml
+  // phase-2: BIG_PIX_PER_ROC from pixelStructureTopology.xml (redefined later in buildPixel() )
   const int BIG_PIX_PER_ROC_X = ptp.vpars[2];
   const int BIG_PIX_PER_ROC_Y = ptp.vpars[3];
 
@@ -103,46 +105,23 @@ TrackerGeometry* TrackerGeomBuilderFromGeometricDet::build(const GeometricDet* g
   // now building the Pixel-like subdetectors
   for (unsigned int i = 0; i < 6; ++i) {
     if (gdsubdetmap[i] == GeometricDet::PixelBarrel)
-      buildPixel(dets[i],
-                 ptitpx,
-                 tracker,
-                 GeomDetEnumerators::SubDetector::PixelBarrel,
-                 false,
-                 BIG_PIX_PER_ROC_X,
-                 BIG_PIX_PER_ROC_Y);
+      buildPixel(dets[i], ptitpx, tracker, GeomDetEnumerators::SubDetector::PixelBarrel, false, BIG_PIX_PER_ROC_X, BIG_PIX_PER_ROC_Y);
     if (gdsubdetmap[i] == GeometricDet::PixelPhase1Barrel)
-      buildPixel(
-          dets[i], ptitpx, tracker, GeomDetEnumerators::SubDetector::P1PXB, false, BIG_PIX_PER_ROC_X, BIG_PIX_PER_ROC_Y);
+      buildPixel(dets[i], ptitpx, tracker, GeomDetEnumerators::SubDetector::P1PXB, false, BIG_PIX_PER_ROC_X, BIG_PIX_PER_ROC_Y);
     // Phase2 case
     if (gdsubdetmap[i] == GeometricDet::PixelPhase2Barrel)
-      buildPixel(
-          dets[i], ptitpx, tracker, GeomDetEnumerators::SubDetector::P2PXB, true, BIG_PIX_PER_ROC_X, BIG_PIX_PER_ROC_Y);
+      buildPixel(dets[i], ptitpx, tracker, GeomDetEnumerators::SubDetector::P2PXB, true, BIG_PIX_PER_ROC_X, BIG_PIX_PER_ROC_Y);
     //
     if (gdsubdetmap[i] == GeometricDet::PixelEndCap)
-      buildPixel(dets[i],
-                 ptitpx,
-                 tracker,
-                 GeomDetEnumerators::SubDetector::PixelEndcap,
-                 false,
-                 BIG_PIX_PER_ROC_X,
-                 BIG_PIX_PER_ROC_Y);
+      buildPixel(dets[i], ptitpx, tracker, GeomDetEnumerators::SubDetector::PixelEndcap, false, BIG_PIX_PER_ROC_X, BIG_PIX_PER_ROC_Y);
     if (gdsubdetmap[i] == GeometricDet::PixelPhase1EndCap)
-      buildPixel(dets[i],
-                 ptitpx,
-                 tracker,
-                 GeomDetEnumerators::SubDetector::P1PXEC,
-                 false,
-                 BIG_PIX_PER_ROC_X,
-                 BIG_PIX_PER_ROC_Y);
+      buildPixel(dets[i], ptitpx, tracker, GeomDetEnumerators::SubDetector::P1PXEC, false, BIG_PIX_PER_ROC_X, BIG_PIX_PER_ROC_Y);
     if (gdsubdetmap[i] == GeometricDet::PixelPhase2EndCap)
-      buildPixel(
-          dets[i], ptitpx, tracker, GeomDetEnumerators::SubDetector::P2PXEC, true, BIG_PIX_PER_ROC_X, BIG_PIX_PER_ROC_Y);
+      buildPixel(dets[i], ptitpx, tracker, GeomDetEnumerators::SubDetector::P2PXEC, true, BIG_PIX_PER_ROC_X, BIG_PIX_PER_ROC_Y);
     if (gdsubdetmap[i] == GeometricDet::OTPhase2Barrel)
-      buildPixel(
-          dets[i], ptitpx, tracker, GeomDetEnumerators::SubDetector::P2OTB, true, BIG_PIX_PER_ROC_X, BIG_PIX_PER_ROC_Y);
+      buildPixel(dets[i], ptitpx, tracker, GeomDetEnumerators::SubDetector::P2OTB, true, BIG_PIX_PER_ROC_X, BIG_PIX_PER_ROC_Y);
     if (gdsubdetmap[i] == GeometricDet::OTPhase2EndCap)
-      buildPixel(
-          dets[i], ptitpx, tracker, GeomDetEnumerators::SubDetector::P2OTEC, true, BIG_PIX_PER_ROC_X, BIG_PIX_PER_ROC_Y);
+      buildPixel(dets[i], ptitpx, tracker, GeomDetEnumerators::SubDetector::P2OTEC, true, BIG_PIX_PER_ROC_X, BIG_PIX_PER_ROC_Y);
   }
   //now building Strips
   for (unsigned int i = 0; i < 6; ++i) {
@@ -193,6 +172,11 @@ void TrackerGeomBuilderFromGeometricDet::buildPixel(
     std::string const& detName = i->name();
     if (thePixelDetTypeMap.find(detName) == thePixelDetTypeMap.end()) {
       std::unique_ptr<const Bounds> bounds(i->bounds());
+      if  (upgradeGeometry) {
+	if (i->bigPixelsx()) BIG_PIX_PER_ROC_X = 2; 
+	if (i->bigPixelsy()) BIG_PIX_PER_ROC_Y = 1;
+      }
+      std::cout << "TrackerGeomBuildFromGeometricDet: "<< i->geographicalId() << " " << BIG_PIX_PER_ROC_X << " " << BIG_PIX_PER_ROC_Y << std::endl;
       PixelTopology* t = PixelTopologyBuilder().build(bounds.get(),
                                                       upgradeGeometry,
                                                       (int)i->pixROCRows(),

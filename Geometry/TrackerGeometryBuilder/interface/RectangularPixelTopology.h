@@ -137,6 +137,14 @@ public:
                              : (isItBigPixelInY(iymin) || isItBigPixelInY(iymax) || (iymin / 52) != (iymax / 52));
   }
 
+  // @EM this is a dummy implementation ... 
+  // big pixels in X e Y vengono letti dalla topologia
+  // bisogna trovare dove viene fatto il parsing del file XML e costruita la topologia per passare i valori di questi bool
+  // fare anche per MTD ???
+  bool bigpixelsX() const override { return false; }
+  bool bigpixelsY() const override { return false; }
+
+
   //-------------------------------------------------------------
   // Check whether the pixel is at the edge of the module
   //

@@ -57,6 +57,8 @@ TrackerAdditionalParametersPerDetESModule::ReturnType TrackerAdditionalParameter
 
   for (auto& i : comp) {
     ptitp->setGeographicalId(i->geographicalId());
+    ptitp->setBigPixelsX(i->bigPixelsx());
+    ptitp->setBigPixelsY(i->bigPixelsy());
   }
 
   return ptitp;

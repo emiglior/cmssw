@@ -221,6 +221,7 @@ note: see OT800_IT711_2023_05_25.cfg for full config files
 <Parameter name="PixelROCCols" eval="true" value="217"/>
 <Parameter name="PixelROC_X" eval="true" value="1"/>
 <Parameter name="PixelROC_Y" eval="true" value="2"/>
+<Parameter name="BigPixels_Y" value="true"/>
 </SpecPar>
 <SpecPar name="ITLayer2R2BModuleInnerPixelActiveReadoutPar">
 <PartSelector path="//ITLayer2R2BModuleInnerPixelActive"/>
@@ -229,6 +230,7 @@ note: see OT800_IT711_2023_05_25.cfg for full config files
 <Parameter name="PixelROCCols" eval="true" value="217"/>
 <Parameter name="PixelROC_X" eval="true" value="1"/>
 <Parameter name="PixelROC_Y" eval="true" value="2"/>
+<Parameter name="BigPixels_Y" value="true"/>
 </SpecPar>
 <SpecPar name="ITLayer2R3BModuleInnerPixelActiveReadoutPar">
 <PartSelector path="//ITLayer2R3BModuleInnerPixelActive"/>
@@ -237,6 +239,7 @@ note: see OT800_IT711_2023_05_25.cfg for full config files
 <Parameter name="PixelROCCols" eval="true" value="217"/>
 <Parameter name="PixelROC_X" eval="true" value="1"/>
 <Parameter name="PixelROC_Y" eval="true" value="2"/>
+<Parameter name="BigPixels_Y" value="true"/>
 </SpecPar>
 <SpecPar name="ITLayer2R4BModuleInnerPixelActiveReadoutPar">
 <PartSelector path="//ITLayer2R4BModuleInnerPixelActive"/>
@@ -245,6 +248,7 @@ note: see OT800_IT711_2023_05_25.cfg for full config files
 <Parameter name="PixelROCCols" eval="true" value="217"/>
 <Parameter name="PixelROC_X" eval="true" value="1"/>
 <Parameter name="PixelROC_Y" eval="true" value="2"/>
+<Parameter name="BigPixels_Y" value="true"/>
 </SpecPar>
 <SpecPar name="ITLayer2R5BModuleInnerPixelActiveReadoutPar">
 <PartSelector path="//ITLayer2R5BModuleInnerPixelActive"/>
@@ -253,6 +257,7 @@ note: see OT800_IT711_2023_05_25.cfg for full config files
 <Parameter name="PixelROCCols" eval="true" value="217"/>
 <Parameter name="PixelROC_X" eval="true" value="1"/>
 <Parameter name="PixelROC_Y" eval="true" value="2"/>
+<Parameter name="BigPixels_Y" value="true"/>
 </SpecPar>
 <SpecPar name="ITLayer3R1BModuleInnerPixelActiveReadoutPar">
 <PartSelector path="//ITLayer3R1BModuleInnerPixelActive"/>
@@ -261,6 +266,8 @@ note: see OT800_IT711_2023_05_25.cfg for full config files
 <Parameter name="PixelROCCols" eval="true" value="217"/>
 <Parameter name="PixelROC_X" eval="true" value="2"/>
 <Parameter name="PixelROC_Y" eval="true" value="2"/>
+<Parameter name="BigPixels_X" value="true"/>
+<Parameter name="BigPixels_Y" value="true"/>
 </SpecPar>
 <SpecPar name="ITLayer3R2BModuleInnerPixelActiveReadoutPar">
 <PartSelector path="//ITLayer3R2BModuleInnerPixelActive"/>
@@ -269,6 +276,8 @@ note: see OT800_IT711_2023_05_25.cfg for full config files
 <Parameter name="PixelROCCols" eval="true" value="217"/>
 <Parameter name="PixelROC_X" eval="true" value="2"/>
 <Parameter name="PixelROC_Y" eval="true" value="2"/>
+<Parameter name="BigPixels_X" value="true"/>
+<Parameter name="BigPixels_Y" value="true"/>
 </SpecPar>
 <SpecPar name="ITLayer3R3BModuleInnerPixelActiveReadoutPar">
 <PartSelector path="//ITLayer3R3BModuleInnerPixelActive"/>
@@ -277,6 +286,8 @@ note: see OT800_IT711_2023_05_25.cfg for full config files
 <Parameter name="PixelROCCols" eval="true" value="217"/>
 <Parameter name="PixelROC_X" eval="true" value="2"/>
 <Parameter name="PixelROC_Y" eval="true" value="2"/>
+<Parameter name="BigPixels_X" value="true"/>
+<Parameter name="BigPixels_Y" value="true"/>
 </SpecPar>
 <SpecPar name="ITLayer3R4BModuleInnerPixelActiveReadoutPar">
 <PartSelector path="//ITLayer3R4BModuleInnerPixelActive"/>
@@ -285,6 +296,8 @@ note: see OT800_IT711_2023_05_25.cfg for full config files
 <Parameter name="PixelROCCols" eval="true" value="217"/>
 <Parameter name="PixelROC_X" eval="true" value="2"/>
 <Parameter name="PixelROC_Y" eval="true" value="2"/>
+<Parameter name="BigPixels_X" value="true"/>
+<Parameter name="BigPixels_Y" value="true"/>
 </SpecPar>
 <SpecPar name="ITLayer3R5BModuleInnerPixelActiveReadoutPar">
 <PartSelector path="//ITLayer3R5BModuleInnerPixelActive"/>
@@ -293,6 +306,8 @@ note: see OT800_IT711_2023_05_25.cfg for full config files
 <Parameter name="PixelROCCols" eval="true" value="217"/>
 <Parameter name="PixelROC_X" eval="true" value="2"/>
 <Parameter name="PixelROC_Y" eval="true" value="2"/>
+<Parameter name="BigPixels_X" value="true"/>
+<Parameter name="BigPixels_Y" value="true"/>
 </SpecPar>
 <SpecPar name="ITLayer4R1BModuleInnerPixelActiveReadoutPar">
 <PartSelector path="//ITLayer4R1BModuleInnerPixelActive"/>
