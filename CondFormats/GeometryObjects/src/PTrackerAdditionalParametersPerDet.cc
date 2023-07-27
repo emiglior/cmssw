@@ -26,7 +26,6 @@ namespace {
   }
 
 }  // namespace
-
 int PTrackerAdditionalParametersPerDet::getGeographicalId(int theIndex) const {
   return getThisParam(intParams_, GEOGRAPHICAL_ID, theIndex);
 }
@@ -38,5 +37,31 @@ std::vector<int> PTrackerAdditionalParametersPerDet::getAllGeographicalIds() con
 void PTrackerAdditionalParametersPerDet::setGeographicalId(int geographicalId) {
   setThisParam(intParams_, GEOGRAPHICAL_ID, geographicalId);
 }
+//
+bool PTrackerAdditionalParametersPerDet::getBigPixelsX(int theIndex) const {
+  return getThisParam(boolParams_, BIGPIXELS_X, theIndex);
+}
+
+std::vector<bool> PTrackerAdditionalParametersPerDet::getAllBigPixelsXs() const {
+  return getAllParams(boolParams_, BIGPIXELS_X);
+}
+
+void PTrackerAdditionalParametersPerDet::setBigPixelsX(bool bigpixelsX) {
+  setThisParam(boolParams_, BIGPIXELS_X, bigpixelsX);
+}
+//
+bool PTrackerAdditionalParametersPerDet::getBigPixelsY(int theIndex) const {
+  return getThisParam(boolParams_, BIGPIXELS_Y, theIndex);
+}
+
+std::vector<bool> PTrackerAdditionalParametersPerDet::getAllBigPixelsYs() const {
+  return getAllParams(boolParams_, BIGPIXELS_Y);
+}
+
+void PTrackerAdditionalParametersPerDet::setBigPixelsY(bool bigpixelsY) {
+  setThisParam(boolParams_, BIGPIXELS_Y, bigpixelsY);
+}
+
+//
 
 //This doesn't work properly because intParams_ and boolParams_ are vectors of vecotrs - the outer vector should be the number of parameters and the inner vector the number of geometricDets.

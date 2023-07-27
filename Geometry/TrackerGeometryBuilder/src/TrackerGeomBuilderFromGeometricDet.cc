@@ -52,6 +52,8 @@ TrackerGeometry* TrackerGeomBuilderFromGeometricDet::build(const GeometricDet* g
         << " entrie(s).";
   }
 
+  // phase-0, phase-1; BIG_PIX_PER_ROC from trackerParameters.xml
+  // phase-2: BIG_PIX_PER_ROC from pixelStructureTopology.xml (redefined later in buildPixel() )
   const int BIG_PIX_PER_ROC_X = ptp.vpars[2];
   const int BIG_PIX_PER_ROC_Y = ptp.vpars[3];
 
@@ -170,6 +172,11 @@ void TrackerGeomBuilderFromGeometricDet::buildPixel(
     std::string const& detName = i->name();
     if (thePixelDetTypeMap.find(detName) == thePixelDetTypeMap.end()) {
       std::unique_ptr<const Bounds> bounds(i->bounds());
+      if  (upgradeGeometry) {
+	if (i->bigPixelsx()) BIG_PIX_PER_ROC_X = 2; 
+	if (i->bigPixelsy()) BIG_PIX_PER_ROC_Y = 1;
+      }
+      std::cout << "TrackerGeomBuildFromGeometricDet: "<< i->geographicalId() << " " << BIG_PIX_PER_ROC_X << " " << BIG_PIX_PER_ROC_Y << std::endl;
       PixelTopology* t = PixelTopologyBuilder().build(bounds.get(),
                                                       upgradeGeometry,
                                                       (int)i->pixROCRows(),

@@ -39,6 +39,8 @@ void PTrackerAdditionalParametersPerDetDBBuilder::beginRun(const edm::Run&, edm:
 
   for (auto& i : comp) {
     ptitp.setGeographicalId(i->geographicalId());
+    ptitp.setBigPixelsX(i->bigPixelsx());
+    ptitp.setBigPixelsY(i->bigPixelsy());
   }
 
   if (mydbservice->isNewTagRequest("PTrackerAdditionalParametersPerDetRcd")) {
