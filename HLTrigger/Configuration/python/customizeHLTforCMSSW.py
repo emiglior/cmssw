@@ -260,7 +260,5 @@ def customizeHLTforCMSSW(process, menuType="GRun"):
     # process = customiseFor12718(process)
 
     process = checkHLTfor43774(process)
-    if menuType in ["GRun","HIon","PIon","PRef"]:
-        process = customizeHLTFor42454(process)
 
     return process
