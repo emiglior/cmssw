@@ -158,23 +158,11 @@ public:
   // Return BIG pixel flag in a given pixel range (assuming they are always at the edge between two CROCs)
   //
   bool containsBigPixelInX(int ixmin, int ixmax) const override {
-    bool no_big_pixel = (m_BIG_PIX_PER_ROC_X == 0);
-    if (!no_big_pixel)
-      no_big_pixel =
-          (ixmin < std::clamp(ixmin, m_nrows / 2 - m_BIG_PIX_PER_ROC_X, m_nrows / 2 + m_BIG_PIX_PER_ROC_X - 1)) |
-          (ixmax > std::clamp(ixmax, m_nrows / 2 - m_BIG_PIX_PER_ROC_X, m_nrows / 2 + m_BIG_PIX_PER_ROC_X - 1));
-
-    return !no_big_pixel;
+    return containsBigPixel(ixmin, ixmax, m_nrows, m_BIG_PIX_PER_ROC_X);
   }
 
   bool containsBigPixelInY(int iymin, int iymax) const override {
-    bool no_big_pixel = (m_BIG_PIX_PER_ROC_Y == 0);
-    if (!no_big_pixel)
-      no_big_pixel =
-          (iymin < std::clamp(iymin, m_ncols / 2 - m_BIG_PIX_PER_ROC_Y, m_ncols / 2 + m_BIG_PIX_PER_ROC_Y - 1)) |
-          (iymax > std::clamp(iymax, m_ncols / 2 - m_BIG_PIX_PER_ROC_Y, m_ncols / 2 + m_BIG_PIX_PER_ROC_Y - 1));
-
-    return !no_big_pixel;
+    return containsBigPixel(iymin, iymax, m_ncols, m_BIG_PIX_PER_ROC_Y);
   }
 
   // @EM this is a dummy implementation ...
@@ -230,6 +218,20 @@ private:
   float m_BIG_PIX_PITCH_Y;
   int m_ROCS_X;
   int m_ROCS_Y;
+
+  bool containsBigPixel(int iMin, int iMax, int nPxTot, int nPxBigPerROC) const {
+    // nPxTot/2 should lie in the upper half of the dimension
+    auto firstBigPixel = nPxTot/2 - nPxBigPerROC;
+    auto lastBigPixel = nPxTot/2 - 1 + nPxBigPerROC;
+
+    // the interval contains no big pixel when either of the following is met:
+    // - there are no big pixels
+    // - the whole interval lies to the right of the big pixel chunk
+    // - the whole interval lies to the left of the big pixel chunk
+    bool noBigPixel = (nPxBigPerROC == 0) || (iMin > lastBigPixel) || (iMax < firstBigPixel);
+
+    return !noBigPixel;
+  }
 };
 
 #endif
