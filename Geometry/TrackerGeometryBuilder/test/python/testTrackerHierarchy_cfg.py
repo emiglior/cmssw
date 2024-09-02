@@ -1,10 +1,14 @@
 import FWCore.ParameterSet.Config as cms
 
-process = cms.Process("GeometryTest")
+from Configuration.Eras.Era_Phase2C17I13M9_cff import Phase2C17I13M9
+
+process = cms.Process('GeometryTest',Phase2C17I13M9)
+
 process.load("FWCore.MessageLogger.MessageLogger_cfi")
 
 # Choose Tracker Geometry
-process.load("Configuration.Geometry.GeometryExtended2021Reco_cff")
+process.load('Configuration.Geometry.GeometryExtended2026D110Reco_cff')
+process.load('Configuration.Geometry.GeometryExtended2026D110_cff')
 
 process.source = cms.Source("EmptySource")
 
