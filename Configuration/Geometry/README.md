@@ -116,6 +116,8 @@ Tracker:
 * T37: OT (v8.0.6): increased (smallDelta +300 micron) inter-ladder radial spacing TB2S. IT (v7.4.2): TBPX as in T35 with 0.7+0.4+0.7 mm gap between Z+ and Z-
 * T38: OT (v8.0.6): increased (smallDelta +300 micron) inter-ladder radial spacing TB2S. IT (v7.4.4): TBPX as in T35 with 1.3+0.4+1.3 mm gap between Z+ and Z-
 * T39: Same as T35 but introducing BigPixels in InnerTracker (1x2 planar and 2x2 planar modules)
+* T40: Same as T36 but introducing BigPixels in InnerTracker (1x2 planar and 2x2 planar modules) and OuterTracker (PS-p modules)
+
 
 Calorimeters:
 * C9: HGCal (v11 post TDR HGCal Geometry w/ corner centering for HE part) + Phase2 HCAL and EB + Tracker cables (used in Run4D49)
@@ -216,3 +218,5 @@ Several detector combinations have been generated:
 * D123 = T35+C28+M16+I18+O10+F9 
 * D124 = T35+C25+M16+I21+O10+F9
 * D125 = T35+C25+M16+I22+O10+F9
+* D126 = T40+C25+M16+I18+O10+F9
+

@@ -34,8 +34,8 @@
     <Include ref='Geometry/TrackerCommonData/data/PhaseII/Tracker_DD4hep_compatible_IT711_2023_05/pixel.xml'/>
     <Include ref='Geometry/TrackerCommonData/data/PhaseII/TiltedTracker404/trackerbar.xml'/>
     <Include ref='Geometry/TrackerCommonData/data/PhaseII/TiltedTracker404/trackerfwd.xml'/>
-    <Include ref='Geometry/TrackerCommonData/data/PhaseII/Tracker_DD4hep_compatible_2021_02/trackerStructureTopology.xml'/>
-    <Include ref='Geometry/TrackerCommonData/data/PhaseII/Tracker_DD4hep_compatible_IT711_2023_05/pixelStructureTopology.xml'/>
+    <Include ref='Geometry/TrackerCommonData/data/PhaseII/Tracker_DD4hep_compatible_2025_12/trackerStructureTopology.xml'/>
+    <Include ref='Geometry/TrackerCommonData/data/PhaseII/Tracker_DD4hep_compatible_IT711_2024_02/pixelStructureTopology.xml'/>
     <Include ref='Geometry/TrackerSimData/data/PhaseII/Tracker_DD4hep_compatible_2021_02/trackersens.xml'/>
     <Include ref='Geometry/TrackerSimData/data/PhaseII/Tracker_DD4hep_compatible_IT711_2023_05/pixelsens.xml'/>
     <Include ref='Geometry/TrackerRecoData/data/PhaseII/Tracker_DD4hep_compatible_IT711_2023_05/trackerRecoMaterial.xml'/>
@@ -90,11 +90,11 @@
     <Include ref='Geometry/ForwardCommonData/data/zdc/2030/v1/zdc.xml'/>
     <Include ref='Geometry/ForwardCommonData/data/zdclumi/2021/v2/zdclumi.xml'/>
     <Include ref='Geometry/ForwardCommonData/data/cmszdc.xml'/>
-    <Include ref='Geometry/MTDCommonData/data/mtdMaterial/v4/mtdMaterial.xml'/>
+    <Include ref='Geometry/MTDCommonData/data/mtdMaterial/v3/mtdMaterial.xml'/>
     <Include ref='Geometry/MTDCommonData/data/btl/v4/btl.xml'/>
-    <Include ref='Geometry/MTDCommonData/data/etl/v11/etl.xml'/>
-    <Include ref='Geometry/MTDCommonData/data/mtdParameters/v9/mtdStructureTopology.xml'/>
-    <Include ref='Geometry/MTDCommonData/data/mtdParameters/v9/mtdParameters.xml'/>
+    <Include ref='Geometry/MTDCommonData/data/etl/v8/etl.xml'/>
+    <Include ref='Geometry/MTDCommonData/data/mtdParameters/v6/mtdStructureTopology.xml'/>
+    <Include ref='Geometry/MTDCommonData/data/mtdParameters/v6/mtdParameters.xml'/>
     <Include ref='Geometry/MuonCommonData/data/muonNumbering/TDR_DeV/v5/muonNumbering.xml'/>
     <Include ref='Geometry/EcalSimData/data/PhaseII/ecalsens.xml'/>
     <Include ref='Geometry/HcalCommonData/data/hcalsens/NoHE/v1/hcalsenspmf.xml'/>
